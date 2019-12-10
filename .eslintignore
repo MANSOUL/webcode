@@ -1,0 +1,5 @@
+/scripts
+/.eslintrc.js
+/.prettierrc.js
+/postcss.config.js
+/build
