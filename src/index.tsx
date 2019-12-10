@@ -1,4 +1,6 @@
+import './index.less'
 import React from 'react'
 import { render } from 'react-dom'
+import Layout from './layout'
 
-render(<p>Hello Web IDE</p>, document.getElementById('app'))
+render(<Layout />, document.getElementById('app'))

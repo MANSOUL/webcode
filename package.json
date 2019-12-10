@@ -66,6 +66,7 @@
   "dependencies": {
     "@types/react": "^16.9.11",
     "@types/react-dom": "^16.9.3",
+    "ace-builds": "^1.4.7",
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.9.2",
     "clsx": "^1.0.4",

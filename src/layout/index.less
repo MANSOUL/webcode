@@ -1,0 +1,40 @@
+.webcode-layout {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &__toolbar {
+    flex-shrink: 0;
+    height: 40px;
+    background-color: #272822;
+  }
+
+  &__container {
+    flex-grow: 1;
+    display: flex;
+  }
+
+  &__extensions {
+    flex-shrink: 0;
+    width: 60px;
+    background-color: lighten(#272822, 5%);
+  }
+
+  &__filetree {
+    flex-shrink: 0;
+    width: 260px;
+    background-color: #272822;
+  }
+
+  &__content {
+    flex-grow: 1;
+  }
+
+  &__footbar {
+    flex-shrink: 0;
+    height: 40px;
+    background-color: #272822;
+  }
+}
