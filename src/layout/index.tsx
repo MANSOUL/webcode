@@ -10,7 +10,7 @@ export default function Layout() {
   const refTreeElement = React.useRef<HTMLDivElement | null>(null)
   const refTerminalElementHeight = React.useRef(0)
   const refTerminalElement = React.useRef<HTMLDivElement | null>(null)
-  const refEditor = React.useRef(null)
+  const refEditor = React.useRef<Editor | null>(null)
 
   React.useEffect(() => {
     if (refTreeElement.current) {
@@ -21,11 +21,18 @@ export default function Layout() {
     }
   }, [])
 
+  const resizeEditor = () => {
+    if (refEditor && refEditor.current && refEditor.current.aceEditor) {
+      refEditor.current.aceEditor.resize()
+    }
+  }
+
   const handleResizerChange = (offset: number) => {
     if (refTreeElement.current) {
       const nextWidth = refTreeElementWidth.current + offset
       refTreeElement.current.style.width = `${nextWidth}px`
       refTreeElementWidth.current = nextWidth
+      resizeEditor()
     }
   }
 
@@ -34,6 +41,7 @@ export default function Layout() {
       const nextHeight = refTerminalElementHeight.current - offset
       refTerminalElement.current.style.height = `${nextHeight}px`
       refTerminalElementHeight.current = nextHeight
+      resizeEditor()
     }
   }
 
