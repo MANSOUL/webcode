@@ -42,7 +42,7 @@
   &__terminal {
     flex-shrink: 0;
     height: 300px;
-    background: #000;
+    background: #272822;
   }
 
   &__footbar {
@@ -64,6 +64,23 @@
     &:hover {
       border-left: 5px solid rgba(0, 0, 0, 0.5);
       border-right: 5px solid rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  &__resizer--horizontal {
+    position: relative;
+    z-index: 11;
+    flex-shrink: 0;
+    height: 12px;
+    margin: -5px 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    cursor: row-resize;
+    background: padding-box rgb(17, 21, 24);
+
+    &:hover {
+      border-top: 5px solid rgba(0, 0, 0, 0.5);
+      border-bottom: 5px solid rgba(0, 0, 0, 0.5);
     }
   }
 }
