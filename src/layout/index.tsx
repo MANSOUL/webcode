@@ -34,7 +34,10 @@ export default function Layout() {
         </div>
         <VerticalResizer onChange={handleResizerChange} />
         <div className="webcode-layout__content">
-          <Editor ref={refEditor} />
+          <div className="webcode-layout__code">
+            <Editor ref={refEditor} />
+          </div>
+          <div className="webcode-layout__terminal"></div>
         </div>
       </div>
       <div className="webcode-layout__footbar"></div>

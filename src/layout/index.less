@@ -28,8 +28,21 @@
     background-color: #272822;
   }
 
+  // code & terminal
   &__content {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__code {
+    flex-grow: 1;
+  }
+
+  &__terminal {
+    flex-shrink: 0;
+    height: 300px;
+    background: #000;
   }
 
   &__footbar {
