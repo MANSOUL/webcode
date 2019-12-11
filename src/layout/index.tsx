@@ -13,7 +13,6 @@ export default function Layout() {
   const refEditor = React.useRef(null)
 
   React.useEffect(() => {
-    console.log(refEditor)
     if (refTreeElement.current) {
       refTreeElementWidth.current = refTreeElement.current.clientWidth
     }

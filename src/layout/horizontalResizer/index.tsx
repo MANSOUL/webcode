@@ -27,7 +27,6 @@ export default function VerticalResizer({ onChange }: VerticalResizerProps) {
   }
   const handleMouseMove = (event: MouseEvent) => {
     if (refMouse.current.down) {
-      console.log(event.clientY - refMouse.current.prevY)
       onChange && onChange(event.clientY - refMouse.current.prevY)
       refMouse.current.prevY = event.clientY
     }
