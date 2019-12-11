@@ -44,9 +44,9 @@ export default function File({
       onClick={handleClick}
       onContextMenu={handleContextMenu}
     >
-      <img
+      <i
         className="webcode-filetree-file__icon"
-        src={ICON_BASE_PATH + iconPath}
+        style={{ backgroundImage: `url(${ICON_BASE_PATH + iconPath})` }}
       />
       <span className="webcode-filetree-file__name">{name}</span>
     </div>
