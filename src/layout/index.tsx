@@ -1,5 +1,6 @@
 import React from 'react'
-import Editor from '../editor'
+import Editor from '@src/components/editor'
+import FileTree from '@src/components/fileTree'
 import './index.less'
 
 export default function Layout() {
@@ -14,7 +15,9 @@ export default function Layout() {
       <div className="webcode-layout__toolbar"></div>
       <div className="webcode-layout__container">
         <div className="webcode-layout__extensions"></div>
-        <div className="webcode-layout__filetree"></div>
+        <div className="webcode-layout__filetree">
+          <FileTree />
+        </div>
         <div className="webcode-layout__content">
           <Editor ref={refEditor} />
         </div>
