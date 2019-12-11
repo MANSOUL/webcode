@@ -30,6 +30,11 @@ export default function File({
     onClick && onClick()
   }
 
+  const handleContextMenu = (event: React.MouseEvent) => {
+    event.preventDefault()
+    return false
+  }
+
   return (
     <div
       className={clsx('webcode-filetree-file', {
@@ -37,6 +42,7 @@ export default function File({
       })}
       style={{ paddingLeft: level * PADDING_LEFT }}
       onClick={handleClick}
+      onContextMenu={handleContextMenu}
     >
       <img
         className="webcode-filetree-file__icon"
