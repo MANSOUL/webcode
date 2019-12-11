@@ -37,4 +37,20 @@
     height: 40px;
     background-color: #272822;
   }
+
+  &__resizer {}
+
+  &__resizer--vertical {
+    width: 12px;
+    margin: 0 -5px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    cursor: col-resize;
+    background: padding-box rgb(17, 21, 24);
+
+    &:hover {
+      border-left: 5px solid rgba(0, 0, 0, 0.5);
+      border-right: 5px solid rgba(0, 0, 0, 0.5);
+    }
+  }
 }
