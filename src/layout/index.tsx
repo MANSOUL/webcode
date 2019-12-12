@@ -6,6 +6,7 @@ import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
 import Extension from '@src/components/extension'
 import EditorPosition from '@src/components/editorPosition'
+import ace from 'ace-builds'
 
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
@@ -13,6 +14,11 @@ export default function Layout() {
   const refTerminalElementHeight = React.useRef(0)
   const refTerminalElement = React.useRef<HTMLDivElement | null>(null)
   const refEditor = React.useRef<Editor | null>(null)
+  const [editorSlection, setEditorSelection] = React.useState({
+    row: 0,
+    col: 0,
+    selectedColCount: 0
+  })
 
   React.useEffect(() => {
     if (refTreeElement.current) {
@@ -20,6 +26,20 @@ export default function Layout() {
     }
     if (refTerminalElement.current) {
       refTerminalElementHeight.current = refTerminalElement.current.clientHeight
+    }
+    if (refEditor && refEditor.current && refEditor.current.aceEditor) {
+      console.log(refEditor.current.aceEditor.selection)
+      refEditor.current.aceEditor.selection.on(
+        'changeCursor',
+        (...args: Array<ace.Ace.Selection>) => {
+          const range = args[1].getRange()
+          setEditorSelection({
+            row: range.start.row + 1,
+            col: range.start.column + 1,
+            selectedColCount: range.end.column - range.start.column
+          })
+        }
+      )
     }
   }, [])
 
@@ -72,7 +92,11 @@ export default function Layout() {
       <div className="webcode-layout__footbar">
         <div></div>
         <div>
-          <EditorPosition row={1} col={2} />
+          <EditorPosition
+            row={editorSlection.row}
+            col={editorSlection.col}
+            selected={editorSlection.selectedColCount}
+          />
         </div>
       </div>
     </div>
