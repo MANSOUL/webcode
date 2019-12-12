@@ -1,5 +1,8 @@
+@import '../style/vars.less';
+
 .webcode-filetree-file {
-  padding: 8px;
+  padding: 6px 0;
+  padding-right: 10px;
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
@@ -15,11 +18,15 @@
 
   &__name {
     font-size: 14px;
-    color: rgba(255, 255, 255, .6);
+    color: @fileColor;
     margin-left: 8px;
   }
 
   &&--active {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: @fileBackgroundColorActive;
+  }
+
+  &&--active &__name {
+    color: @fileColorActive;
   }
 }
