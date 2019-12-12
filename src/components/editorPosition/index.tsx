@@ -1,5 +1,6 @@
 import './index.less'
 import React from 'react'
+import FootbarItem from '../footbarItem'
 
 export interface Props {
   row: number
@@ -9,12 +10,12 @@ export interface Props {
 
 export default function EditorPosition({ row, col, selected = 0 }: Props) {
   return (
-    <div className="webcode-editor-pos">
+    <FootbarItem className="webcode-editor-pos">
       <span className="webcode-editor-pos__item">行 {row}</span>,&nbsp;
       <span className="webcode-editor-pos__item">列 {col}</span>
       {selected > 0 ? (
         <span className="webcode-editor-pos__item">(已选择 {selected})</span>
       ) : null}
-    </div>
+    </FootbarItem>
   )
 }
