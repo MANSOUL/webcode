@@ -1,0 +1,36 @@
+.webcode-extension-bar {
+  @iconSize: 30px;
+
+  &__item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+  }
+
+  &__item--active {
+    color: rgba(255, 255, 255, 0.8);
+    &::before {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      content: '';
+      border-left: 2px solid rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &__icon {
+    display: inline-block;
+    width: @iconSize;
+    height: @iconSize;
+    font-size: @iconSize;
+    line-height: 1;
+    .iconfont {
+      font-size: inherit;
+    }
+  }
+}

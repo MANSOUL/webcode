@@ -4,6 +4,7 @@ import FileTree from '@src/components/fileTree'
 import './index.less'
 import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
+import Extension from '@src/components/extension'
 
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
@@ -49,7 +50,9 @@ export default function Layout() {
     <div className="webcode-layout">
       <div className="webcode-layout__toolbar"></div>
       <div className="webcode-layout__container">
-        <div className="webcode-layout__extensions"></div>
+        <div className="webcode-layout__extensions">
+          <Extension />
+        </div>
         <div className="webcode-layout__filetree" ref={refTreeElement}>
           <FileTree />
         </div>
