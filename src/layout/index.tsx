@@ -1,12 +1,11 @@
+import './index.less'
 import React from 'react'
 import Editor from '@src/components/editor'
 import FileTree from '@src/components/fileTree'
-import './index.less'
 import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
 import Extension from '@src/components/extension'
 import EditorPosition from '@src/components/editorPosition'
-import ace from 'ace-builds'
 
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
@@ -27,25 +26,16 @@ export default function Layout() {
     if (refTerminalElement.current) {
       refTerminalElementHeight.current = refTerminalElement.current.clientHeight
     }
-    if (refEditor && refEditor.current && refEditor.current.aceEditor) {
-      console.log(refEditor.current.aceEditor.selection)
-      refEditor.current.aceEditor.selection.on(
-        'changeCursor',
-        (...args: Array<ace.Ace.Selection>) => {
-          const range = args[1].getRange()
-          setEditorSelection({
-            row: range.start.row + 1,
-            col: range.start.column + 1,
-            selectedColCount: range.end.column - range.start.column
-          })
-        }
-      )
+    if (refEditor.current) {
+      refEditor.current.onCursorChange(cursor => {
+        setEditorSelection(cursor)
+      })
     }
   }, [])
 
   const resizeEditor = () => {
-    if (refEditor && refEditor.current && refEditor.current.aceEditor) {
-      refEditor.current.aceEditor.resize()
+    if (refEditor.current) {
+      refEditor.current.resize()
     }
   }
 

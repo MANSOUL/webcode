@@ -24,6 +24,31 @@ export default class Editor extends React.Component<Props> {
     }
   }
 
+  onCursorChange(
+    callback: (cursor: {
+      row: number
+      col: number
+      selectedColCount: number
+    }) => void
+  ) {
+    this.aceEditor &&
+      this.aceEditor.selection.on(
+        'changeCursor',
+        (...args: Array<ace.Ace.Selection>) => {
+          const range = args[1].getRange()
+          callback({
+            row: range.start.row + 1,
+            col: range.start.column + 1,
+            selectedColCount: range.end.column - range.start.column
+          })
+        }
+      )
+  }
+
+  resize() {
+    this.aceEditor && this.aceEditor.resize()
+  }
+
   render() {
     return (
       <div style={{ width: '100%', height: '100%' }} ref={this.refEditor}></div>
