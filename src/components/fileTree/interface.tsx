@@ -19,3 +19,7 @@ export interface FileTreeFileProps {
   active?: boolean
   onClick?: () => void
 }
+
+export interface FileTreeProjectProps {
+  project: FileTreeFile
+}
