@@ -6,6 +6,7 @@ import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
 import Extension from '@src/components/extension'
 import EditorPosition from '@src/components/editorPosition'
+import FootbarTerminal from '@src/components/footbarTerminal'
 
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
@@ -80,7 +81,9 @@ export default function Layout() {
         </div>
       </div>
       <div className="webcode-layout__footbar">
-        <div></div>
+        <div>
+          <FootbarTerminal />
+        </div>
         <div>
           <EditorPosition
             row={editorSlection.row}
