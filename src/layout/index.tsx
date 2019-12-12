@@ -8,10 +8,12 @@ import Extension from '@src/components/extension'
 import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
 
+const INITIAL_TERMINAL_HEIGHT = 300
+
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
   const refTreeElement = React.useRef<HTMLDivElement | null>(null)
-  const refTerminalElementHeight = React.useRef(0)
+  const refTerminalElementHeight = React.useRef(INITIAL_TERMINAL_HEIGHT)
   const refTerminalElement = React.useRef<HTMLDivElement | null>(null)
   const refEditor = React.useRef<Editor | null>(null)
   const [editorSlection, setEditorSelection] = React.useState({
@@ -19,6 +21,7 @@ export default function Layout() {
     col: 0,
     selectedColCount: 0
   })
+  const [terminalOpen, setTerminalOpen] = React.useState(false)
 
   React.useEffect(() => {
     if (refTreeElement.current) {
@@ -52,10 +55,22 @@ export default function Layout() {
   const handleTerminalReisizerChange = (offset: number) => {
     if (refTerminalElement.current) {
       const nextHeight = refTerminalElementHeight.current - offset
+      if (nextHeight < 1) {
+        handleToggleTerminal()
+        return
+      }
       refTerminalElement.current.style.height = `${nextHeight}px`
       refTerminalElementHeight.current = nextHeight
       resizeEditor()
     }
+  }
+
+  const handleToggleTerminal = () => {
+    const nextTerminalOpen = !terminalOpen
+    if (!nextTerminalOpen) {
+      refTerminalElementHeight.current = INITIAL_TERMINAL_HEIGHT
+    }
+    setTerminalOpen(nextTerminalOpen)
   }
 
   return (
@@ -73,16 +88,21 @@ export default function Layout() {
           <div className="webcode-layout__code">
             <Editor ref={refEditor} />
           </div>
-          <HorizontalResizer onChange={handleTerminalReisizerChange} />
-          <div
-            ref={refTerminalElement}
-            className="webcode-layout__terminal"
-          ></div>
+          {terminalOpen ? (
+            <HorizontalResizer onChange={handleTerminalReisizerChange} />
+          ) : null}
+          {terminalOpen ? (
+            <div
+              style={{ height: INITIAL_TERMINAL_HEIGHT }}
+              ref={refTerminalElement}
+              className="webcode-layout__terminal"
+            ></div>
+          ) : null}
         </div>
       </div>
       <div className="webcode-layout__footbar">
         <div>
-          <FootbarTerminal />
+          <FootbarTerminal onClick={handleToggleTerminal} />
         </div>
         <div>
           <EditorPosition
