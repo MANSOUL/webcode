@@ -12,15 +12,15 @@ export default class MySocket {
   options: MySocketOptions
   ws: WebSocket | null = null
   url: string
-  protocol: string
+  protocol: string | undefined
   reconnectTimes: number
   retryDuration: number
   reconnectTimer: any
   messageCallback: Function[] = []
   constructor(
     url: string,
-    protocol: string = '',
-    options: MySocketOptions = initOptions
+    options: MySocketOptions = initOptions,
+    protocol: string | undefined
   ) {
     this.url = url
     this.protocol = protocol
@@ -32,10 +32,7 @@ export default class MySocket {
 
   connect() {
     try {
-      this.ws = new WebSocket(
-        this.url,
-        this.protocol === '' ? undefined : this.protocol
-      )
+      this.ws = new WebSocket(this.url, this.protocol)
       this.bindEvent()
     } catch (error) {
       console.log('init error.', error)
