@@ -20,7 +20,7 @@ export default class MySocket {
   constructor(
     url: string,
     options: MySocketOptions = initOptions,
-    protocol: string | undefined
+    protocol?: string | undefined
   ) {
     this.url = url
     this.protocol = protocol
