@@ -7,6 +7,7 @@ import HorizontalResizer from './horizontalResizer'
 import Extension from '@src/components/extension'
 import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
+import XTerminal from '@src/components/terminal'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -21,7 +22,7 @@ export default function Layout() {
     col: 0,
     selectedColCount: 0
   })
-  const [terminalOpen, setTerminalOpen] = React.useState(false)
+  const [terminalOpen, setTerminalOpen] = React.useState(true)
 
   React.useEffect(() => {
     if (refTreeElement.current) {
@@ -96,7 +97,9 @@ export default function Layout() {
               style={{ height: INITIAL_TERMINAL_HEIGHT }}
               ref={refTerminalElement}
               className="webcode-layout__terminal"
-            ></div>
+            >
+              <XTerminal />
+            </div>
           ) : null}
         </div>
       </div>
