@@ -1,13 +1,13 @@
 import './index.less'
 import React from 'react'
 import Editor from '@src/components/editor'
-import FileTree from '@src/components/fileTree'
 import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
 import Extension from '@src/components/extension'
 import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
 import XTerminal from '@src/components/terminal'
+import MyFileTree from '@src/containers/fileTree'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -82,7 +82,7 @@ export default function Layout() {
           <Extension />
         </div>
         <div className="webcode-layout__filetree" ref={refTreeElement}>
-          <FileTree />
+          <MyFileTree />
         </div>
         <VerticalResizer onChange={handleResizerChange} />
         <div className="webcode-layout__content">
