@@ -27,8 +27,16 @@ export default function XTerminal({}: Props) {
     if (refTerminal.current) {
       const term = new Terminal({
         lineHeight: 1,
+        cols: 200,
         fontSize: 15,
         rows: 20
+      })
+      window.addEventListener('resize', () => {
+        if (refTerminal.current) {
+          const cols = Math.floor(refTerminal.current.clientWidth / 15)
+          console.log('cols:', cols)
+          term.resize(cols, 30)
+        }
       })
       refTerm.current = term
       term.open(refTerminal.current)

@@ -1,12 +1,16 @@
 import './index.less'
 import React from 'react'
-import data from './data'
 import FileTreeProject from './project'
+import { FileTreeFile } from './interface'
 
-export default function FileTree() {
+export interface Props {
+  data?: FileTreeFile | null
+}
+
+export default function FileTree({ data = null }: Props) {
   return (
     <div className="webcode-filetree">
-      <FileTreeProject project={data} />
+      {data ? <FileTreeProject project={data} /> : null}
     </div>
   )
 }
