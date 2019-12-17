@@ -49,6 +49,14 @@ export default class Editor extends React.Component<Props> {
     this.aceEditor && this.aceEditor.resize()
   }
 
+  setValue(val: string, cursorPos?: number) {
+    this.aceEditor && this.aceEditor.setValue(val, cursorPos)
+  }
+
+  focus() {
+    this.aceEditor && this.aceEditor.focus()
+  }
+
   render() {
     return (
       <div style={{ width: '100%', height: '100%' }} ref={this.refEditor}></div>

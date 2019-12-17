@@ -8,6 +8,7 @@ import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
 import XTerminal from '@src/components/terminal'
 import MyFileTree from '@src/containers/fileTree'
+import MyEditor from '@src/containers/editor'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -87,7 +88,7 @@ export default function Layout() {
         <VerticalResizer onChange={handleResizerChange} />
         <div className="webcode-layout__content">
           <div className="webcode-layout__code">
-            <Editor ref={refEditor} />
+            <MyEditor rref={refEditor} />
           </div>
           {terminalOpen ? (
             <HorizontalResizer onChange={handleTerminalReisizerChange} />
