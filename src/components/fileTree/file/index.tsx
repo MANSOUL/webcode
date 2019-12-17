@@ -1,10 +1,5 @@
 import './index.less'
 import React from 'react'
-import {
-  getIconForFile,
-  getIconForFolder,
-  getIconForOpenFolder
-} from 'vscode-icons-js'
 import { FileTreeFileProps } from '../interface'
 import clsx from 'clsx'
 import FileIcon from '@src/components/fileIcon'
@@ -20,13 +15,6 @@ export default function File({
   active = false,
   onClick
 }: FileTreeFileProps) {
-  const iconPath: string | undefined =
-    type === 'file'
-      ? getIconForFile(name)
-      : type === 'folder'
-      ? getIconForFolder(name)
-      : getIconForOpenFolder(name)
-
   const handleClick = () => {
     onClick && onClick(id, relative, type)
   }
