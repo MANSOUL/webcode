@@ -1,5 +1,6 @@
 export interface FileTreeFile {
   id: string
+  key: string
   name: string
   children: FileTreeFile[]
   type: 'folder' | 'file'
