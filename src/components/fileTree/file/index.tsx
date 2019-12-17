@@ -7,9 +7,8 @@ import {
 } from 'vscode-icons-js'
 import { FileTreeFileProps } from '../interface'
 import clsx from 'clsx'
+import FileIcon from '@src/components/fileIcon'
 
-const ICON_BASE_PATH =
-  'https://dderevjanik.github.io/vscode-icons-js-example/icons/'
 const PADDING_LEFT = 10
 
 export default function File({
@@ -46,10 +45,7 @@ export default function File({
       onClick={handleClick}
       onContextMenu={handleContextMenu}
     >
-      <i
-        className="webcode-filetree-file__icon"
-        style={{ backgroundImage: `url(${ICON_BASE_PATH + iconPath})` }}
-      />
+      <FileIcon type={type} fileName={name} />
       <span className="webcode-filetree-file__name">{name}</span>
     </div>
   )
