@@ -1,0 +1,57 @@
+@import '../style/vars.less';
+.webcode-tab {
+  height: 100%;
+  white-space: nowrap;
+}
+.webcode-tab-item {
+  position: relative;
+  height: 100%;
+  display: inline-block;
+  color: @fileColor;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  &__name {
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  &__op {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 10px;
+    line-height: 1;
+  }
+  &__dot {
+    display: block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    &::after {
+      content: '';
+      display: block;
+      position: relative;
+      top: 5px;
+      left: 5px;
+      width: 9px;
+      height: 9px;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+  }
+  &__close {
+    display: block;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 500;
+    color: @fileColorActive;
+  }
+  &&--active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(235, 37, 37, 0.664);
+  }
+}
