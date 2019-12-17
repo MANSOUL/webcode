@@ -13,6 +13,8 @@ const ICON_BASE_PATH =
 const PADDING_LEFT = 10
 
 export default function File({
+  id,
+  relative,
   name,
   type = 'file',
   level = 1,
@@ -27,7 +29,7 @@ export default function File({
       : getIconForOpenFolder(name)
 
   const handleClick = () => {
-    onClick && onClick()
+    onClick && onClick(id, relative, type)
   }
 
   const handleContextMenu = (event: React.MouseEvent) => {
