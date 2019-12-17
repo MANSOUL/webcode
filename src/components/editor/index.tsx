@@ -57,6 +57,13 @@ export default class Editor extends React.Component<Props> {
     this.aceEditor && this.aceEditor.focus()
   }
 
+  onValueChange() {
+    if (!this.aceEditor) return
+    this.aceEditor.on('change', (...args) => {
+      console.log(args)
+    })
+  }
+
   render() {
     return (
       <div style={{ width: '100%', height: '100%' }} ref={this.refEditor}></div>

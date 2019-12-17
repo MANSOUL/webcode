@@ -17,6 +17,7 @@ export default function MyEditor({ rref }: Props) {
 
   React.useEffect(() => {
     rref.current = refEditor.current
+    refEditor.current && refEditor.current.onValueChange()
   }, [refEditor.current])
 
   const projectChange = () => {
