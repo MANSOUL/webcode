@@ -1,7 +1,8 @@
 import React from 'react'
 import FileTree from '@src/components/fileTree'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProject, fetchFile } from '@src/store/project/actions'
+import { fetchProject } from '@src/store/project/actions'
+import { fetchFile } from '@src/store/files/actions'
 import { AppStore } from '@src/store'
 
 export default function MyFileTree() {
@@ -27,7 +28,7 @@ export default function MyFileTree() {
   const handleFileClick = (id: string, relative: string, type: string) => {
     console.log(id, relative, type)
     if (type === 'file') {
-      dispatch(fetchFile('demo', relative))
+      dispatch(fetchFile('demo', relative, id))
     }
   }
 
