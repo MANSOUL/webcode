@@ -8,6 +8,7 @@ export const FETCH_FILE_ERROR = 'FETCH_FILE_ERROR'
 export interface FilesAction extends Action {
   type: string
   payload?: {
+    id: string
     fileContent: string
     relative: string
     errorMessage: string
@@ -19,7 +20,7 @@ export interface FilesAction extends Action {
  * @param project
  * @param relative
  */
-export const fetchFile = (project: string, relative: string) => {
+export const fetchFile = (project: string, relative: string, id: string) => {
   return async (dispatch: Dispatch) => {
     dispatch({
       type: FETCH_FILE_START
@@ -29,7 +30,7 @@ export const fetchFile = (project: string, relative: string) => {
       if (res.status === 200) {
         dispatch({
           type: FETCH_FILE_DONE,
-          payload: { fileContent: res.data.content, relative }
+          payload: { fileContent: res.data.content, relative, id }
         })
       } else {
         dispatch({

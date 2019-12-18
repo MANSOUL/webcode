@@ -6,11 +6,18 @@ import {
   FilesAction
 } from './actions'
 
+export interface FileContent {
+  id: string
+  relative: string
+  content: string
+  modified: boolean
+}
+
 export interface FilesState {
   loading: boolean
   error: boolean
   errorMessage: string | undefined
-  fileContents: Record<string, string>
+  fileContents: FileContent[]
   currentFile: string
 }
 
@@ -18,7 +25,7 @@ const initialState: FilesState = {
   loading: false,
   error: false,
   errorMessage: '',
-  fileContents: {},
+  fileContents: [],
   currentFile: ''
 }
 
@@ -27,7 +34,8 @@ const getPayload = (action: FilesAction) => {
     action.payload || {
       errorMessage: '',
       relative: '',
-      fileContent: ''
+      fileContent: '',
+      id: ''
     }
   )
 }
@@ -44,10 +52,15 @@ const reducer: Reducer<FilesState> = (
         loading: false,
         error: false,
         errorMessage: '',
-        fileContents: {
+        fileContents: [
           ...state.fileContents,
-          [payload.relative]: payload.fileContent
-        },
+          {
+            id: payload.id,
+            content: payload.fileContent,
+            relative: payload.relative,
+            modified: false
+          }
+        ],
         currentFile: payload.relative
       }
     default:
