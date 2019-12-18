@@ -2,77 +2,41 @@ import './index.less'
 import React from 'react'
 import FileIcon from '../fileIcon'
 import clsx from 'clsx'
+import TabButton from './tabButton'
+import { TabProps } from './interface'
+import TabItem from './tabItem'
 
-export interface Props {
-  tabs?: []
-}
+export default function Tab({ tabs }: TabProps) {
+  const [tab, setTab] = React.useState(0)
 
-export interface TabItemProps {
-  fileName: string
-  modified: boolean
-  filePath: string
-  active?: boolean
-}
+  const handleButtonClick = (index: number) => () => setTab(index)
 
-export interface DotProps {
-  modified?: boolean
-  onClick?: () => void
-}
-
-function Dot({ modified = true, onClick }: DotProps) {
-  const [hover, setHover] = React.useState(false)
-
-  const handleMouseOver = () => {
-    console.log('over')
-    setHover(true)
-  }
-
-  const handleMouseOut = () => {
-    console.log('out')
-    setHover(false)
-  }
-
-  return (
-    <a
-      className="webcode-tab-item__op"
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-    >
-      {!modified || hover ? (
-        <i
-          className="iconfont icon-close webcode-tab-item__close"
-          onClick={onClick}
-        />
-      ) : (
-        <i className="webcode-tab-item__dot" />
-      )}
-    </a>
-  )
-}
-
-export function TabItem({
-  fileName,
-  modified,
-  filePath,
-  active = true
-}: TabItemProps) {
-  return (
-    <div
-      className={clsx('webcode-tab-item', {
-        'webcode-tab-item--active': active
-      })}
-    >
-      <FileIcon type="file" fileName={fileName} />
-      <span className="webcode-tab-item__name">{fileName}</span>
-      <Dot modified={modified} />
-    </div>
-  )
-}
-
-export default function Tab({ tabs }: Props) {
   return (
     <div className="webcode-tab">
-      <TabItem fileName="a.js" modified={true} filePath="a.js" />
+      <div className="webcode-tab-switcher">
+        <TabButton
+          onClick={handleButtonClick(0)}
+          fileName="a.js"
+          modified={true}
+          filePath="a.js"
+          active={tab === 0}
+        />
+        <TabButton
+          onClick={handleButtonClick(1)}
+          fileName="a.js"
+          modified={true}
+          filePath="a.js"
+          active={tab === 1}
+        />
+      </div>
+      <div className="webcode-tab-container">
+        <TabItem tab={0} activeTab={tab}>
+          0
+        </TabItem>
+        <TabItem tab={1} activeTab={tab}>
+          1
+        </TabItem>
+      </div>
     </div>
   )
 }
