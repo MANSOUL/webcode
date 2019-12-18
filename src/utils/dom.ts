@@ -28,3 +28,23 @@ export function isChildof(
 export function childIndex(child: HTMLElement, parent: HTMLElement) {
   return Array.prototype.slice.call(parent.children).indexOf(child)
 }
+
+/**
+ * 获取目标元素的父元素
+ * @param target
+ * @param className
+ * @param until
+ */
+export function getTargetParent(
+  target: HTMLElement,
+  className: string,
+  until: HTMLElement
+) {
+  let current: HTMLElement | null = target
+  until = until || document.documentElement
+  while (current && current !== until.parentElement) {
+    if (current.classList.contains(className)) return current
+    current = current.parentElement
+  }
+  return null
+}
