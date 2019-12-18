@@ -12,6 +12,7 @@ export interface FileContent {
   relative: string
   content: string
   modified: boolean
+  fileName: string
 }
 
 export interface FilesState {
@@ -36,7 +37,8 @@ const getPayload = (action: FilesAction) => {
       errorMessage: '',
       relative: '',
       fileContent: '',
-      id: ''
+      id: '',
+      fileName: ''
     }
   )
 }
@@ -59,6 +61,7 @@ const reducer: Reducer<FilesState> = (
             id: payload.id,
             content: payload.fileContent,
             relative: payload.relative,
+            fileName: payload.fileName,
             modified: false
           }
         ],

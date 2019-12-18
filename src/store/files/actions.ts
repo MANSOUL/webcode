@@ -15,6 +15,7 @@ export interface FilesAction extends Action {
     fileContent: string
     relative: string
     errorMessage: string
+    fileName: string
   }
 }
 
@@ -43,7 +44,15 @@ export const fetchFile = (project: string, relative: string, id: string) => {
       if (res.status === 200) {
         dispatch({
           type: FETCH_FILE_DONE,
-          payload: { fileContent: res.data.content, relative, id }
+          payload: {
+            fileContent: res.data.content,
+            relative,
+            id,
+            fileName: relative
+              .split('/')
+              .slice(-1)
+              .toString()
+          }
         })
       } else {
         dispatch({
