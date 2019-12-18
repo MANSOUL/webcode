@@ -24,7 +24,7 @@ export default function Layout() {
     col: 0,
     selectedColCount: 0
   })
-  const [terminalOpen, setTerminalOpen] = React.useState(true)
+  const [terminalOpen, setTerminalOpen] = React.useState(false)
 
   React.useEffect(() => {
     if (refTreeElement.current) {

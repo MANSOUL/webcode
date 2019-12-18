@@ -32,7 +32,7 @@ export default function MyTab() {
         {files.fileContents.map((item, index: number) => (
           <TabButton
             key={item.id}
-            fileName={item.relative}
+            fileName={item.fileName}
             modified={item.modified}
             filePath={item.relative}
             active={tab === index}
