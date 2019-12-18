@@ -3,9 +3,6 @@ import {
   FETCH_PROJECT_DONE,
   FETCH_PROJECT_ERROR,
   FETCH_PROJECT_START,
-  FETCH_FILE_DONE,
-  FETCH_FILE_ERROR,
-  FETCH_FILE_START,
   ProjectAction
 } from './actions'
 
@@ -14,26 +11,20 @@ export interface ProjectState {
   error: boolean
   errorMessage: string | undefined
   fileStructure: any
-  fileContents: Record<string, string>
-  currentFile: string
 }
 
 const initialState: ProjectState = {
   loading: false,
   error: false,
   errorMessage: '',
-  fileStructure: null,
-  fileContents: {},
-  currentFile: ''
+  fileStructure: null
 }
 
 const getPayload = (action: ProjectAction) => {
   return (
     action.payload || {
       errorMessage: '',
-      fileStructure: {},
-      relative: '',
-      fileContent: ''
+      fileStructure: {}
     }
   )
 }
@@ -65,18 +56,6 @@ const reducer: Reducer<ProjectState> = (
         error: false,
         errorMessage: '',
         fileStructure: payload.fileStructure
-      }
-    case FETCH_FILE_DONE:
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        errorMessage: '',
-        fileContents: {
-          ...state.fileContents,
-          [payload.relative]: payload.fileContent
-        },
-        currentFile: payload.relative
       }
     default:
       return state
