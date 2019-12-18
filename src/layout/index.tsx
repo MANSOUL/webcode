@@ -9,6 +9,7 @@ import FootbarTerminal from '@src/components/footbarTerminal'
 import XTerminal from '@src/components/terminal'
 import MyFileTree from '@src/containers/fileTree'
 import MyEditor from '@src/containers/editor'
+import MyTab from '@src/containers/tab'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -77,7 +78,7 @@ export default function Layout() {
 
   return (
     <div className="webcode-layout">
-      <div className="webcode-layout__toolbar"></div>
+      {/* <div className="webcode-layout__toolbar"></div> */}
       <div className="webcode-layout__container">
         <div className="webcode-layout__extensions">
           <Extension />
@@ -87,9 +88,12 @@ export default function Layout() {
         </div>
         <VerticalResizer onChange={handleResizerChange} />
         <div className="webcode-layout__content">
-          <div className="webcode-layout__code">
-            <MyEditor rref={refEditor} />
+          <div className="webcode-layout__tab">
+            <MyTab />
           </div>
+          {/* <div className="webcode-layout__code">
+            <MyEditor rref={refEditor} />
+          </div> */}
           {terminalOpen ? (
             <HorizontalResizer onChange={handleTerminalReisizerChange} />
           ) : null}
