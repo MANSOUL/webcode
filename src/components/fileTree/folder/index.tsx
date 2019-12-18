@@ -1,8 +1,9 @@
 import './index.less'
 import React from 'react'
-import { FileTreeFolderProps, FileTreeFile } from '../interface'
+import { FileTreeFolderProps } from '../interface'
 import clsx from 'clsx'
 import File from '../file'
+import RecursionFile from '../recursionFile'
 
 export default function Folder({
   id,
@@ -11,7 +12,8 @@ export default function Folder({
   name,
   initalOpen = true,
   level = 1,
-  onFileClick
+  onFileClick,
+  activeFileId
 }: FileTreeFolderProps) {
   const [open, setOpen] = React.useState<boolean>(false)
   const type = open ? 'folderOpen' : 'folder'
@@ -36,28 +38,12 @@ export default function Folder({
           'webcode-filetree-folder__sub--open': open
         })}
       >
-        {files.map((file: FileTreeFile) =>
-          file.type === 'file' ? (
-            <File
-              key={file.id}
-              id={file.id}
-              relative={file.relative}
-              name={file.name}
-              level={level + 1}
-              onClick={onFileClick}
-            />
-          ) : (
-            <Folder
-              id={file.id}
-              relative={file.relative}
-              key={file.id}
-              name={file.name}
-              files={file.children}
-              level={level + 1}
-              onFileClick={onFileClick}
-            />
-          )
-        )}
+        <RecursionFile
+          files={files}
+          onFileClick={onFileClick}
+          level={level}
+          activeFileId={activeFileId}
+        />
       </div>
     </div>
   )

@@ -13,6 +13,7 @@ export interface FileTreeFolderProps {
   name: string
   level?: number
   files: FileTreeFile[]
+  activeFileId: string
   onFileClick?: (id: string, relative: string, type: string) => void
 }
 
@@ -26,7 +27,15 @@ export interface FileTreeFileProps {
   onClick?: (id: string, relative: string, type: string) => void
 }
 
+export interface RecursionFileProps {
+  files: FileTreeFile[]
+  level: number
+  activeFileId: string
+  onFileClick?: (id: string, relative: string, type: string) => void
+}
+
 export interface FileTreeProjectProps {
   project: FileTreeFile
+  activeFileId: string
   onFileClick?: (id: string, relative: string, type: string) => void
 }
