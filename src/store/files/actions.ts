@@ -1,9 +1,12 @@
 import { Action, Dispatch } from 'redux'
 import mFetch from '@src/utils/mFetch'
+import { getFileById } from './util'
+import { AppStore } from '..'
 
 export const FETCH_FILE_START = 'FETCH_FILE_START'
 export const FETCH_FILE_DONE = 'FETCH_FILE_DONE'
 export const FETCH_FILE_ERROR = 'FETCH_FILE_ERROR'
+export const CHANGE_CURRENT_FILE = 'CHANGE_CURRENT_FILE'
 
 export interface FilesAction extends Action {
   type: string
@@ -15,13 +18,23 @@ export interface FilesAction extends Action {
   }
 }
 
+const createChangeFileAction = (id: string) => ({
+  type: CHANGE_CURRENT_FILE,
+  payload: { id }
+})
+
 /**
  * 获取文件内容
  * @param project
  * @param relative
  */
 export const fetchFile = (project: string, relative: string, id: string) => {
-  return async (dispatch: Dispatch) => {
+  return async (dispatch: Dispatch, getState: () => any) => {
+    const state: AppStore = getState()
+    if (getFileById(state.files.fileContents, id)) {
+      dispatch(createChangeFileAction(id))
+      return
+    }
     dispatch({
       type: FETCH_FILE_START
     })
@@ -48,5 +61,11 @@ export const fetchFile = (project: string, relative: string, id: string) => {
         }
       })
     }
+  }
+}
+
+export const changeCurrentFile = (id: string) => {
+  return (dispatch: Dispatch) => {
+    dispatch(createChangeFileAction(id))
   }
 }

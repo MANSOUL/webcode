@@ -5,15 +5,27 @@ import Tab, {
   TabSwicher,
   TabContainer
 } from '@src/components/tab'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { AppStore } from '@src/store'
 import MyEditor from '../editor'
+import { getFileIndex } from '@src/store/files/util'
+import { changeCurrentFile } from '@src/store/files/actions'
 
 export default function MyTab() {
   const [tab, setTab] = React.useState(0)
   const files = useSelector((store: AppStore) => store.files)
+  const dispatch = useDispatch()
 
-  const handleTabChange = (index: number) => setTab(index)
+  // change id by file store id
+  const nextTab = getFileIndex(files.fileContents, files.currentFileId)
+  if (tab !== nextTab) {
+    setTab(nextTab)
+  }
+
+  const handleTabChange = (index: number) => {
+    dispatch(changeCurrentFile(files.fileContents[index].id))
+  }
+
   return (
     <Tab onTabChange={handleTabChange}>
       <TabSwicher>

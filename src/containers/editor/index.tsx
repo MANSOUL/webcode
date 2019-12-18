@@ -2,11 +2,7 @@ import React from 'react'
 import Editor from '@src/components/editor'
 import { AppStore } from '@src/store'
 import { useSelector } from 'react-redux'
-import { FileContent } from '@src/store/files'
-
-const getFileById = (files: FileContent[], id: string) => {
-  return files.find(item => item.id === id)
-}
+import { getFileById } from '@src/store/files/util'
 
 export interface Props {
   rref?: React.MutableRefObject<Editor | null>

@@ -3,6 +3,7 @@ import {
   FETCH_FILE_DONE,
   FETCH_FILE_ERROR,
   FETCH_FILE_START,
+  CHANGE_CURRENT_FILE,
   FilesAction
 } from './actions'
 
@@ -18,7 +19,7 @@ export interface FilesState {
   error: boolean
   errorMessage: string | undefined
   fileContents: FileContent[]
-  currentFile: string
+  currentFileId: string
 }
 
 const initialState: FilesState = {
@@ -26,7 +27,7 @@ const initialState: FilesState = {
   error: false,
   errorMessage: '',
   fileContents: [],
-  currentFile: ''
+  currentFileId: ''
 }
 
 const getPayload = (action: FilesAction) => {
@@ -61,7 +62,12 @@ const reducer: Reducer<FilesState> = (
             modified: false
           }
         ],
-        currentFile: payload.relative
+        currentFileId: payload.id
+      }
+    case CHANGE_CURRENT_FILE:
+      return {
+        ...state,
+        currentFileId: payload.id
       }
     default:
       return state
