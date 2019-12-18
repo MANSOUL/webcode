@@ -9,10 +9,16 @@ export default function TabButton({
   modified,
   filePath,
   active = false,
-  onClick
+  onClick,
+  onClose
 }: TabButtonProps) {
   const handleClick = () => {
     onClick && onClick()
+  }
+
+  const handleCloseClick = (event: React.MouseEvent) => {
+    event.stopPropagation()
+    onClose && onClose()
   }
 
   return (
@@ -24,7 +30,7 @@ export default function TabButton({
     >
       <FileIcon type="file" fileName={fileName} />
       <span className="webcode-tab-button__name">{fileName}</span>
-      <TabDot modified={modified} />
+      <TabDot modified={modified} onClick={handleCloseClick} />
     </div>
   )
 }

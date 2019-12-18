@@ -5,12 +5,10 @@ export default function TabDot({ modified = true, onClick }: TabDotProps) {
   const [hover, setHover] = React.useState(false)
 
   const handleMouseOver = () => {
-    console.log('over')
     setHover(true)
   }
 
   const handleMouseOut = () => {
-    console.log('out')
     setHover(false)
   }
 

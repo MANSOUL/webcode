@@ -1,42 +1,33 @@
 import './index.less'
 import React from 'react'
-import FileIcon from '../fileIcon'
-import clsx from 'clsx'
-import TabButton from './tabButton'
-import { TabProps } from './interface'
-import TabItem from './tabItem'
+import { TabProps, TabSwicherProps, TabContainerProps } from './interface'
+import { getTargetParent, childIndex } from '@src/utils/dom'
+export { default as TabButton } from './tabButton'
+export { default as TabItem } from './tabItem'
 
-export default function Tab({ tabs }: TabProps) {
-  const [tab, setTab] = React.useState(0)
+export function TabSwicher({ children }: TabSwicherProps) {
+  return <div className="webcode-tab-switcher">{children}</div>
+}
 
-  const handleButtonClick = (index: number) => () => setTab(index)
+export function TabContainer({ children }: TabContainerProps) {
+  return <div className="webcode-tab-container">{children}</div>
+}
+
+export default function Tab({ children, onTabChange }: TabProps) {
+  const handleProxyClick = (event: React.MouseEvent) => {
+    const targetParent = getTargetParent(
+      event.target as HTMLElement,
+      'webcode-tab-button',
+      event.currentTarget as HTMLElement
+    )
+    if (targetParent && targetParent.parentElement) {
+      onTabChange(childIndex(targetParent, targetParent.parentElement))
+    }
+  }
 
   return (
-    <div className="webcode-tab">
-      <div className="webcode-tab-switcher">
-        <TabButton
-          onClick={handleButtonClick(0)}
-          fileName="a.js"
-          modified={true}
-          filePath="a.js"
-          active={tab === 0}
-        />
-        <TabButton
-          onClick={handleButtonClick(1)}
-          fileName="a.js"
-          modified={true}
-          filePath="a.js"
-          active={tab === 1}
-        />
-      </div>
-      <div className="webcode-tab-container">
-        <TabItem tab={0} activeTab={tab}>
-          0
-        </TabItem>
-        <TabItem tab={1} activeTab={tab}>
-          1
-        </TabItem>
-      </div>
+    <div className="webcode-tab" onClick={handleProxyClick}>
+      {children}
     </div>
   )
 }

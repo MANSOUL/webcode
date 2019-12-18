@@ -1,5 +1,14 @@
 export interface TabProps {
-  tabs?: []
+  children: any
+  onTabChange: (index: number) => void
+}
+
+export interface TabSwicherProps {
+  children: any
+}
+
+export interface TabContainerProps {
+  children: any
 }
 
 export interface TabButtonProps {
@@ -8,11 +17,12 @@ export interface TabButtonProps {
   filePath: string
   active?: boolean
   onClick?: () => void
+  onClose?: () => void
 }
 
 export interface TabDotProps {
   modified?: boolean
-  onClick?: () => void
+  onClick?: (event: React.MouseEvent) => void
 }
 
 export interface TabItemProps {
