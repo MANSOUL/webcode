@@ -1,0 +1,19 @@
+@import '../style/animation.less';
+
+.popover {
+  position: fixed;
+  z-index: 100;
+  pointer-events: all;
+  border-radius: 5px;
+  overflow: hidden;
+  animation-name: slide-back-up;
+  .animationConfig();
+}
+
+.popover--open {
+  display: block;
+  transform: translateY(10px);
+  opacity: 0.1;
+  animation-name: slide-up;
+  .animationConfig();
+}

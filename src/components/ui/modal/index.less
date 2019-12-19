@@ -1,0 +1,24 @@
+@import "../style/animation.less";
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  pointer-events: all;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation-name: fadeout;
+  .animationConfig();
+}
+
+.modal--open {
+  display: block;
+  opacity: 0.1;
+  animation-name: fadein;
+}
+
+.modal--transparent {
+  background-color: transparent;
+}
