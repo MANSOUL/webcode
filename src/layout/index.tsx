@@ -40,6 +40,9 @@ export default function Layout() {
     if (refTerminalElement.current) {
       refTerminalElementHeight.current = refTerminalElement.current.clientHeight
     }
+
+    window.addEventListener('resize', resizeEditor, false)
+    return () => window.removeEventListener('resize', resizeEditor, false)
   }, [])
 
   const resizeEditor = () => {
