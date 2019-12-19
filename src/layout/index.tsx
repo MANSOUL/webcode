@@ -1,6 +1,5 @@
 import './index.less'
 import React from 'react'
-import Editor from '@src/components/editor'
 import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
 import Extension from '@src/components/extension'
@@ -8,8 +7,11 @@ import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
 import XTerminal from '@src/components/terminal'
 import MyFileTree from '@src/containers/fileTree'
-import MyEditor from '@src/containers/editor'
 import MyTab from '@src/containers/tab'
+import { useDispatch, useSelector } from 'react-redux'
+import { createEditorResizeAction } from '@src/store/editor/actions'
+import { AppStore } from '@src/store'
+import { isEqual } from 'lodash'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -18,13 +20,18 @@ export default function Layout() {
   const refTreeElement = React.useRef<HTMLDivElement | null>(null)
   const refTerminalElementHeight = React.useRef(INITIAL_TERMINAL_HEIGHT)
   const refTerminalElement = React.useRef<HTMLDivElement | null>(null)
-  const refEditor = React.useRef<Editor | null>(null)
   const [editorSlection, setEditorSelection] = React.useState({
     row: 0,
     col: 0,
     selectedColCount: 0
   })
   const [terminalOpen, setTerminalOpen] = React.useState(false)
+  const dispatch = useDispatch()
+  const editor = useSelector((store: AppStore) => store.editor)
+
+  if (!isEqual(editorSlection, editor.editorSlection)) {
+    setEditorSelection(editor.editorSlection)
+  }
 
   React.useEffect(() => {
     if (refTreeElement.current) {
@@ -33,17 +40,10 @@ export default function Layout() {
     if (refTerminalElement.current) {
       refTerminalElementHeight.current = refTerminalElement.current.clientHeight
     }
-    if (refEditor.current) {
-      refEditor.current.onCursorChange(cursor => {
-        setEditorSelection(cursor)
-      })
-    }
   }, [])
 
   const resizeEditor = () => {
-    if (refEditor.current) {
-      refEditor.current.resize()
-    }
+    dispatch(createEditorResizeAction())
   }
 
   const handleResizerChange = (offset: number) => {
