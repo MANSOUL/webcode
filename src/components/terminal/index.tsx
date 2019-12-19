@@ -2,6 +2,7 @@ import './index.less'
 import 'xterm/css/xterm.css'
 import React from 'react'
 import { Terminal } from 'xterm'
+import { FitAddon } from 'xterm-addon-fit'
 import ansiEscapes from 'ansi-escapes'
 import MySocket from '@src/utils/MySocket'
 
@@ -26,21 +27,16 @@ export default function XTerminal({}: Props) {
   const createTerminal = () => {
     if (refTerminal.current) {
       const term = new Terminal({
-        lineHeight: 1,
-        cols: 200,
-        fontSize: 15,
-        rows: 20
+        fontSize: 14
       })
+      const fitAddon = new FitAddon()
+      term.loadAddon(fitAddon)
       window.addEventListener('resize', () => {
-        if (refTerminal.current) {
-          const cols = Math.floor(refTerminal.current.clientWidth / 15)
-          console.log('cols:', cols)
-          term.resize(cols, 30)
-        }
+        fitAddon.fit()
       })
       refTerm.current = term
       term.open(refTerminal.current)
-      // term.write(' $ ')
+      fitAddon.fit()
       term.onData(e => {
         if (refSocket.current) {
           refSocket.current.send(JSON.stringify(e))
