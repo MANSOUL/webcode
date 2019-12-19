@@ -74,6 +74,7 @@ export default function Layout() {
       refTerminalElementHeight.current = INITIAL_TERMINAL_HEIGHT
     }
     setTerminalOpen(nextTerminalOpen)
+    resizeEditor()
   }
 
   return (
