@@ -1,5 +1,6 @@
 import React from 'react'
 import ace from 'ace-builds'
+import { getModeForPath } from 'ace-builds/src-noconflict/ext-modelist'
 
 ace.config.set('basePath', 'http://ajaxorg.github.io/ace-builds/src-noconflict')
 ace.config.set('fontSize', 15)
@@ -19,7 +20,6 @@ export default class Editor extends React.Component<Props> {
     if (this.refEditor.current) {
       const editor = ace.edit(this.refEditor.current)
       editor.setTheme('ace/theme/monokai')
-      editor.session.setMode('ace/mode/javascript')
       this.aceEditor = editor
     }
   }
@@ -62,6 +62,11 @@ export default class Editor extends React.Component<Props> {
     this.aceEditor.on('change', (...args) => {
       console.log(args)
     })
+  }
+
+  setMode(fileName: string) {
+    this.aceEditor &&
+      this.aceEditor.session.setMode(getModeForPath(fileName).mode)
   }
 
   render() {

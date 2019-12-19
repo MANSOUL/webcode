@@ -37,6 +37,8 @@ export default function MyEditor({ fileKey }: Props) {
     const { loading, error, errorMessage, fileContents } = files
     const file = getFileById(fileContents, fileKey)
     if (refEditor.current && file) {
+      console.log(file.fileName)
+      refEditor.current.setMode(file.fileName)
       refEditor.current.setValue(file.content, 1)
       refEditor.current.focus()
     }
