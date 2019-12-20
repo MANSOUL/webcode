@@ -5,6 +5,10 @@ import clsx from 'clsx'
 import FileIcon from '@src/components/fileIcon'
 import Popover from '@src/components/ui/popover'
 import Menu, { MenuItem } from '../menu'
+import { trim } from 'lodash'
+import NewFile from './newFile'
+import { useDispatch } from 'react-redux'
+import { projectRenameFile } from '@src/store/project/actions'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
@@ -23,7 +27,7 @@ export default function File({
   const [menuOpen, setMenuOpen] = React.useState(false)
   const [menuPos, setMenuPos] = React.useState({})
   const [editable, setEditable] = React.useState(false)
-  const refName = React.useRef<HTMLInputElement | null>(null)
+  const dispatch = useDispatch()
 
   const handleClick = () => {
     onClick && onClick(id, relative, type)
@@ -43,13 +47,12 @@ export default function File({
     setMenuOpen(false)
   }
 
-  const handleNameBlur = () => {
+  const handleRenameFileDone = (name: string) => {
+    dispatch(projectRenameFile(id, name))
     setEditable(false)
   }
 
-  const handleNameChange = (e: React.FormEvent) => {
-    console.log((e.target as HTMLInputElement).value)
-  }
+  const handleRenameFileCancel = () => setEditable(false)
 
   const handleCreateFile = () => {
     onCreateFile && onCreateFile()
@@ -64,11 +67,20 @@ export default function File({
   const handleRenameFile = () => {
     setEditable(true)
     setMenuOpen(false)
-    setTimeout(() => refName.current && refName.current.focus())
   }
 
-  const handleRemoveFile = () => {
-    setMenuOpen(false)
+  const handleRemoveFile = () => setMenuOpen(false)
+
+  if (editable) {
+    return (
+      <NewFile
+        type="file"
+        initialValue={name}
+        level={level}
+        onDone={handleRenameFileDone}
+        onCancel={handleRenameFileCancel}
+      />
+    )
   }
 
   return (
@@ -81,16 +93,7 @@ export default function File({
       onContextMenu={handleContextMenu}
     >
       <FileIcon type={type} fileName={name} />
-      <span
-        className="webcode-filetree-file__name"
-        contentEditable={editable}
-        onChange={handleNameChange}
-        onBlur={handleNameBlur}
-        ref={refName}
-        suppressContentEditableWarning
-      >
-        {name}
-      </span>
+      <span className="webcode-filetree-file__name">{name}</span>
       <Popover
         open={menuOpen}
         onClose={handleMenuClose}

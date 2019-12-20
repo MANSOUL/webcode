@@ -68,3 +68,38 @@ const folderSort = (folder: any[]) => {
 
   return [...left, ...right]
 }
+
+export const renameNewFile = (fileStructure: any, renameFile: any) => {
+  const cloneFile = cloneDeep(fileStructure)
+  const { id, newName } = renameFile
+  const file = findFile(cloneFile, id)
+
+  if (file) {
+    file.relative = file.relative.replace(file.name, newName)
+    file.name = newName
+    file.id = hash
+      .sha256()
+      .update(file.relative)
+      .digest('hex')
+  }
+
+  return cloneFile
+}
+
+const findFile = (file: any, id: string): any => {
+  if (file.id === id) {
+    return file
+  }
+  for (let i = 0; i < file.children.length; i++) {
+    const element = file.children[i]
+    if (element.id === id) {
+      return element
+    } else {
+      const r = findFile(element, id)
+      if (r) {
+        return r
+      }
+    }
+  }
+  return null
+}

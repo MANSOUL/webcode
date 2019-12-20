@@ -6,6 +6,7 @@ export const FETCH_PROJECT_DONE = 'FETCH_PROJECT_DONE'
 export const FETCH_PROJECT_ERROR = 'FETCH_PROJECT_ERROR'
 export const PROJECT_CREATE_FILE = 'PROJECT_CREATE_FILE'
 export const PROJECT_CREATE_FOLDER = 'PROJECT_CREATE_FOLDER'
+export const PROJECT_RENAME_FILE = 'PROJECT_RENAME_FILE'
 
 export interface ProjectAction extends Action {
   type: string
@@ -16,6 +17,10 @@ export interface ProjectAction extends Action {
       relative: string
       fileName: string
       content: string
+    }
+    renameFile: {
+      id: string
+      newName: string
     }
   }
 }
@@ -84,6 +89,18 @@ export const projectCreateFolder = (
         relative,
         fileName,
         content
+      }
+    }
+  }
+}
+
+export const projectRenameFile = (id: string, newName: string) => {
+  return {
+    type: PROJECT_RENAME_FILE,
+    payload: {
+      renameFile: {
+        id,
+        newName
       }
     }
   }

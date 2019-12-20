@@ -9,6 +9,7 @@ const PADDING_LEFT = 10
 export interface NewFileProps {
   type: 'file' | 'folder'
   level: number
+  initialValue?: string
   onDone: (name: string) => void
   onCancel: () => void
 }
@@ -17,9 +18,10 @@ export default function NewFile({
   level = 1,
   onDone,
   onCancel,
-  type
+  type,
+  initialValue = ''
 }: NewFileProps) {
-  const [name, setName] = React.useState('')
+  const [name, setName] = React.useState(initialValue)
   const refName = React.useRef<HTMLInputElement | null>(null)
 
   React.useEffect(() => {
