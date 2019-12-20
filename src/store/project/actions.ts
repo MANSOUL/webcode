@@ -65,14 +65,42 @@ export const projectCreateFile = (
   fileName: string,
   content: string = ''
 ) => {
-  return {
-    type: PROJECT_CREATE_FILE,
-    payload: {
-      newFile: {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: FETCH_PROJECT_START
+    })
+    try {
+      const res = await mFetch(`/api/file/demo`, 'post', {
         relative,
         fileName,
-        content
+        type: 'file'
+      })
+      if (res.status === 200) {
+        dispatch({
+          type: PROJECT_CREATE_FILE,
+          payload: {
+            newFile: {
+              relative,
+              fileName,
+              content
+            }
+          }
+        })
+      } else {
+        dispatch({
+          type: FETCH_PROJECT_ERROR,
+          payload: {
+            errorMessage: res.errorMessage
+          }
+        })
       }
+    } catch (error) {
+      dispatch({
+        type: FETCH_PROJECT_ERROR,
+        payload: {
+          errorMessage: error.message
+        }
+      })
     }
   }
 }
@@ -82,14 +110,42 @@ export const projectCreateFolder = (
   fileName: string,
   content: string = ''
 ) => {
-  return {
-    type: PROJECT_CREATE_FOLDER,
-    payload: {
-      newFile: {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: FETCH_PROJECT_START
+    })
+    try {
+      const res = await mFetch(`/api/file/demo`, 'post', {
         relative,
         fileName,
-        content
+        type: 'folder'
+      })
+      if (res.status === 200) {
+        dispatch({
+          type: PROJECT_CREATE_FOLDER,
+          payload: {
+            newFile: {
+              relative,
+              fileName,
+              content
+            }
+          }
+        })
+      } else {
+        dispatch({
+          type: FETCH_PROJECT_ERROR,
+          payload: {
+            errorMessage: res.errorMessage
+          }
+        })
       }
+    } catch (error) {
+      dispatch({
+        type: FETCH_PROJECT_ERROR,
+        payload: {
+          errorMessage: error.message
+        }
+      })
     }
   }
 }

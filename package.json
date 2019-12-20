@@ -72,6 +72,7 @@
     "babel-polyfill": "^6.26.0",
     "chart.js": "^2.9.2",
     "clsx": "^1.0.4",
+    "hash.js": "^1.1.7",
     "lodash": "^4.17.15",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
