@@ -33,11 +33,5 @@ export default function MyFileTree() {
     }
   }
 
-  return (
-    <FileTree
-      data={data}
-      onFileClick={handleFileClick}
-      activeFileId={files.currentFileId}
-    />
-  )
+  return <FileTree data={data} onFileClick={handleFileClick} />
 }
