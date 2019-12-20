@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import FileIcon from '@src/components/fileIcon'
 import Popover from '@src/components/ui/popover'
 import Menu, { MenuItem } from '../menu'
+export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
 
@@ -15,7 +16,9 @@ export default function File({
   type = 'file',
   level = 1,
   active = false,
-  onClick
+  onClick,
+  onCreateFile,
+  onCreateFolder
 }: FileTreeFileProps) {
   const [menuOpen, setMenuOpen] = React.useState(false)
   const [menuPos, setMenuPos] = React.useState({})
@@ -48,14 +51,25 @@ export default function File({
     console.log((e.target as HTMLInputElement).value)
   }
 
-  const handleCreateFile = () => {}
-  const handleCreateFolder = () => {}
+  const handleCreateFile = () => {
+    onCreateFile && onCreateFile()
+    setMenuOpen(false)
+  }
+
+  const handleCreateFolder = () => {
+    onCreateFolder && onCreateFolder()
+    setMenuOpen(false)
+  }
+
   const handleRenameFile = () => {
     setEditable(true)
     setMenuOpen(false)
     setTimeout(() => refName.current && refName.current.focus())
   }
-  const handleRemoveFile = () => {}
+
+  const handleRemoveFile = () => {
+    setMenuOpen(false)
+  }
 
   return (
     <div

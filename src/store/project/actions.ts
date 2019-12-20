@@ -4,12 +4,19 @@ import mFetch from '@src/utils/mFetch'
 export const FETCH_PROJECT_START = 'FETCH_PROJECT_START'
 export const FETCH_PROJECT_DONE = 'FETCH_PROJECT_DONE'
 export const FETCH_PROJECT_ERROR = 'FETCH_PROJECT_ERROR'
+export const PROJECT_CREATE_FILE = 'PROJECT_CREATE_FILE'
+export const PROJECT_CREATE_FOLDER = 'PROJECT_CREATE_FOLDER'
 
 export interface ProjectAction extends Action {
   type: string
   payload?: {
     fileStructure: any
     errorMessage: string
+    newFile: {
+      relative: string
+      fileName: string
+      content: string
+    }
   }
 }
 
@@ -44,6 +51,40 @@ export const fetchProject = (project: string) => {
           errorMessage: error.message
         }
       })
+    }
+  }
+}
+
+export const projectCreateFile = (
+  relative: string,
+  fileName: string,
+  content: string = ''
+) => {
+  return {
+    type: PROJECT_CREATE_FILE,
+    payload: {
+      newFile: {
+        relative,
+        fileName,
+        content
+      }
+    }
+  }
+}
+
+export const projectCreateFolder = (
+  relative: string,
+  fileName: string,
+  content: string = ''
+) => {
+  return {
+    type: PROJECT_CREATE_FOLDER,
+    payload: {
+      newFile: {
+        relative,
+        fileName,
+        content
+      }
     }
   }
 }

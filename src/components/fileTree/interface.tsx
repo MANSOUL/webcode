@@ -24,6 +24,8 @@ export interface FileTreeFileProps {
   level?: number
   active?: boolean
   onClick?: (id: string, relative: string, type: string) => void
+  onCreateFile?: () => void
+  onCreateFolder?: () => void
 }
 
 export interface RecursionFileProps {
