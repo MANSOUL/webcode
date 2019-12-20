@@ -19,6 +19,8 @@ export default function File({
 }: FileTreeFileProps) {
   const [menuOpen, setMenuOpen] = React.useState(false)
   const [menuPos, setMenuPos] = React.useState({})
+  const [editable, setEditable] = React.useState(false)
+  const refName = React.useRef<HTMLInputElement | null>(null)
 
   const handleClick = () => {
     onClick && onClick(id, relative, type)
@@ -38,6 +40,23 @@ export default function File({
     setMenuOpen(false)
   }
 
+  const handleNameBlur = () => {
+    setEditable(false)
+  }
+
+  const handleNameChange = (e: React.FormEvent) => {
+    console.log((e.target as HTMLInputElement).value)
+  }
+
+  const handleCreateFile = () => {}
+  const handleCreateFolder = () => {}
+  const handleRenameFile = () => {
+    setEditable(true)
+    setMenuOpen(false)
+    setTimeout(() => refName.current && refName.current.focus())
+  }
+  const handleRemoveFile = () => {}
+
   return (
     <div
       className={clsx('webcode-filetree-file', {
@@ -48,7 +67,16 @@ export default function File({
       onContextMenu={handleContextMenu}
     >
       <FileIcon type={type} fileName={name} />
-      <span className="webcode-filetree-file__name">{name}</span>
+      <span
+        className="webcode-filetree-file__name"
+        contentEditable={editable}
+        onChange={handleNameChange}
+        onBlur={handleNameBlur}
+        ref={refName}
+        suppressContentEditableWarning
+      >
+        {name}
+      </span>
       <Popover
         open={menuOpen}
         onClose={handleMenuClose}
@@ -56,10 +84,14 @@ export default function File({
         pos={menuPos}
       >
         <Menu>
-          {type !== 'file' ? <MenuItem>新建文件</MenuItem> : null}
-          {type !== 'file' ? <MenuItem>新建文件夹</MenuItem> : null}
-          <MenuItem>重命名</MenuItem>
-          <MenuItem>删除</MenuItem>
+          {type !== 'file' ? (
+            <MenuItem onClick={handleCreateFile}>新建文件</MenuItem>
+          ) : null}
+          {type !== 'file' ? (
+            <MenuItem onClick={handleCreateFolder}>新建文件夹</MenuItem>
+          ) : null}
+          <MenuItem onClick={handleRenameFile}>重命名</MenuItem>
+          <MenuItem onClick={handleRemoveFile}>删除</MenuItem>
         </Menu>
       </Popover>
     </div>

@@ -2,13 +2,16 @@ import React from 'react'
 import { RecursionFileProps, FileTreeFile } from '../interface'
 import File from '../file'
 import Folder from '../folder'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@src/store'
 
 export default function RecursionFile({
   files,
   level,
-  onFileClick,
-  activeFileId
+  onFileClick
 }: RecursionFileProps) {
+  const storeFile = useSelector((store: AppStore) => store.files)
+
   return (
     <>
       {files.map((file: FileTreeFile) =>
@@ -20,7 +23,7 @@ export default function RecursionFile({
             name={file.name}
             level={level + 1}
             onClick={onFileClick}
-            active={file.id === activeFileId}
+            active={file.id === storeFile.currentFileId}
           />
         ) : (
           <Folder
@@ -31,7 +34,6 @@ export default function RecursionFile({
             files={file.children}
             level={level + 1}
             onFileClick={onFileClick}
-            activeFileId={activeFileId}
           />
         )
       )}

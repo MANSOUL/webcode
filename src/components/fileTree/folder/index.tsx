@@ -12,8 +12,7 @@ export default function Folder({
   name,
   initalOpen = true,
   level = 1,
-  onFileClick,
-  activeFileId
+  onFileClick
 }: FileTreeFolderProps) {
   const [open, setOpen] = React.useState<boolean>(false)
   const type = open ? 'folderOpen' : 'folder'
@@ -38,12 +37,7 @@ export default function Folder({
           'webcode-filetree-folder__sub--open': open
         })}
       >
-        <RecursionFile
-          files={files}
-          onFileClick={onFileClick}
-          level={level}
-          activeFileId={activeFileId}
-        />
+        <RecursionFile files={files} onFileClick={onFileClick} level={level} />
       </div>
     </div>
   )

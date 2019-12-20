@@ -5,8 +5,7 @@ import RecursionFile from '../recursionFile'
 
 export default function FileTreeProject({
   project,
-  onFileClick,
-  activeFileId
+  onFileClick
 }: FileTreeProjectProps) {
   return (
     <div className="webcode-filetree-project">
@@ -17,7 +16,6 @@ export default function FileTreeProject({
         files={project.children}
         onFileClick={onFileClick}
         level={0}
-        activeFileId={activeFileId}
       />
     </div>
   )

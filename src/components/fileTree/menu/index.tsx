@@ -1,16 +1,12 @@
 import React from 'react'
-import List, { ListItem } from '@src/components/ui/list'
+import List, {
+  ListItem,
+  ListItemProps,
+  ListProps
+} from '@src/components/ui/list'
 import './index.less'
 
-export interface MenuProps {
-  children?: any
-}
-
-export interface MenuItemProps {
-  children?: any
-}
-
-export default function Menu({ children, ...props }: MenuProps) {
+export default function Menu({ children, ...props }: ListProps) {
   return (
     <List className="webcode-filetree-menu" {...props}>
       {children}
@@ -18,7 +14,7 @@ export default function Menu({ children, ...props }: MenuProps) {
   )
 }
 
-export function MenuItem({ children, ...props }: MenuItemProps) {
+export function MenuItem({ children, ...props }: ListItemProps) {
   return (
     <ListItem
       className="webcode-filetree-menu__item"

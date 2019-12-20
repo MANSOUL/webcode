@@ -17,9 +17,18 @@
   }
 
   &__name {
+    display: inline-block;
     font-size: 14px;
     color: @fileColor;
     margin-left: 8px;
+    appearance: none;
+    border: none;
+    background: none;
+    user-select: none;
+    &&--hidden {
+      width: 0;
+      visibility: hidden;
+    }
   }
 
   &&--active {
