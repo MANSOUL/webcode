@@ -10,23 +10,20 @@ export const createNewFile = (
   const { relative, fileName, content } = newFile
   const folder = findFolder(file, relative)
 
-  folder.children.push({
-    id: hash
-      .sha256()
-      .update(`${relative}/${fileName}`)
-      .digest('hex'),
-    relative: `${relative}/${fileName}`,
-    name: fileName,
-    children: [],
-    type
-  })
+  if (folder) {
+    folder.children.push({
+      id: hash
+        .sha256()
+        .update(`${relative}/${fileName}`)
+        .digest('hex'),
+      relative: `${relative}/${fileName}`,
+      name: fileName,
+      children: [],
+      type
+    })
 
-  folder.children.sort((a: any, b: any) => {
-    if (a.type !== b.type && (a.type === 'folder' || b.type === 'folder')) {
-      return 1
-    }
-    return 0
-  })
+    folder.children = folderSort(folder.children)
+  }
 
   return file
 }
@@ -40,7 +37,34 @@ const findFolder = (folder: any, relative: string): any => {
     if (element.type === 'folder' && element.relative === relative) {
       return element
     } else if (element.type === 'folder') {
-      return findFolder(element, relative)
+      const r = findFolder(element, relative)
+      if (r) {
+        return r
+      }
     }
   }
+  return null
+}
+
+const folderSort = (folder: any[]) => {
+  let fCount = 0
+  const newFolder = []
+  for (let i = 0; i < folder.length; i++) {
+    const el = folder[i]
+    if (el.type === 'folder') {
+      newFolder.unshift(el)
+      fCount++
+    } else {
+      newFolder.push(el)
+    }
+  }
+
+  const left = newFolder
+    .slice(0, fCount)
+    .sort((a, b) => a.name.localeCompare(b.name))
+  const right = newFolder
+    .slice(fCount)
+    .sort((a, b) => a.name.localeCompare(b.name))
+
+  return [...left, ...right]
 }
