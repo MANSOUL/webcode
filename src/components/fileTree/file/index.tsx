@@ -5,10 +5,11 @@ import clsx from 'clsx'
 import FileIcon from '@src/components/fileIcon'
 import Popover from '@src/components/ui/popover'
 import Menu, { MenuItem } from '../menu'
-import { trim } from 'lodash'
 import NewFile from './newFile'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { projectRenameFile } from '@src/store/project/actions'
+import { AppStore } from '@src/store'
+import { fileExist } from '@src/store/project/util'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
@@ -28,6 +29,11 @@ export default function File({
   const [menuPos, setMenuPos] = React.useState({})
   const [editable, setEditable] = React.useState(false)
   const dispatch = useDispatch()
+  const project = useSelector((store: AppStore) => store.project)
+  const [fileError, setFileError] = React.useState({
+    error: false,
+    errorMessage: ''
+  })
 
   const handleClick = () => {
     onClick && onClick(id, relative, type)
@@ -71,6 +77,22 @@ export default function File({
 
   const handleRemoveFile = () => setMenuOpen(false)
 
+  const handleNewFileNameChange = (fname: string) => {
+    const relatives = relative.split('/')
+    if (
+      fileExist(
+        project.fileStructure,
+        relatives.length === 0 ? '' : relatives.slice(0, -1).join('/'),
+        fname
+      ) &&
+      fname !== name
+    ) {
+      setFileError({ error: true, errorMessage: '此文件夹下已存在同名文件' })
+    } else {
+      setFileError({ error: false, errorMessage: '' })
+    }
+  }
+
   if (editable) {
     return (
       <NewFile
@@ -79,6 +101,9 @@ export default function File({
         level={level}
         onDone={handleRenameFileDone}
         onCancel={handleRenameFileCancel}
+        onNameChange={handleNewFileNameChange}
+        error={fileError.error}
+        errorMessage={fileError.errorMessage}
       />
     )
   }

@@ -62,7 +62,6 @@ export default function Folder({
 
   const handleNewFileNameChange = (name: string) => {
     if (fileExist(project.fileStructure, relative, name)) {
-      console.log('file exist')
       setFileError({ error: true, errorMessage: '此文件夹下已存在同名文件' })
     } else {
       setFileError({ error: false, errorMessage: '' })
