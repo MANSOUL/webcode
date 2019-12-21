@@ -34,6 +34,9 @@ export default function File({
     error: false,
     errorMessage: ''
   })
+  const relatives = relative.split('/')
+  const relativePath =
+    relatives.length === 0 ? '' : relatives.slice(0, -1).join('/')
 
   const handleClick = () => {
     onClick && onClick(id, relative, type)
@@ -53,8 +56,8 @@ export default function File({
     setMenuOpen(false)
   }
 
-  const handleRenameFileDone = (name: string) => {
-    dispatch(projectRenameFile(id, name))
+  const handleRenameFileDone = (fname: string) => {
+    dispatch(projectRenameFile(id, fname, name, relativePath))
     setEditable(false)
   }
 
@@ -81,13 +84,8 @@ export default function File({
   const handleRemoveFile = () => setMenuOpen(false)
 
   const handleNewFileNameChange = (fname: string) => {
-    const relatives = relative.split('/')
     if (
-      fileExist(
-        project.fileStructure,
-        relatives.length === 0 ? '' : relatives.slice(0, -1).join('/'),
-        fname
-      ) &&
+      fileExist(project.fileStructure, relativePath, fname) &&
       fname !== name
     ) {
       setFileError({ error: true, errorMessage: '此文件夹下已存在同名文件' })

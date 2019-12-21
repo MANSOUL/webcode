@@ -150,14 +150,47 @@ export const projectCreateFolder = (
   }
 }
 
-export const projectRenameFile = (id: string, newName: string) => {
-  return {
-    type: PROJECT_RENAME_FILE,
-    payload: {
-      renameFile: {
-        id,
-        newName
+export const projectRenameFile = (
+  id: string,
+  newName: string,
+  oldName: string,
+  relative: string
+) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({
+      type: FETCH_PROJECT_START
+    })
+    try {
+      const res = await mFetch(`/api/file/demo`, 'put', {
+        relative,
+        fileName: oldName,
+        newFileName: newName
+      })
+      if (res.status === 200) {
+        dispatch({
+          type: PROJECT_RENAME_FILE,
+          payload: {
+            renameFile: {
+              id,
+              newName
+            }
+          }
+        })
+      } else {
+        dispatch({
+          type: FETCH_PROJECT_ERROR,
+          payload: {
+            errorMessage: res.errorMessage
+          }
+        })
       }
+    } catch (error) {
+      dispatch({
+        type: FETCH_PROJECT_ERROR,
+        payload: {
+          errorMessage: error.message
+        }
+      })
     }
   }
 }
