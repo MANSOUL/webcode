@@ -58,7 +58,10 @@ export default function File({
     setEditable(false)
   }
 
-  const handleRenameFileCancel = () => setEditable(false)
+  const handleRenameFileCancel = () => {
+    setFileError({ error: false, errorMessage: '' })
+    setEditable(false)
+  }
 
   const handleCreateFile = () => {
     onCreateFile && onCreateFile()

@@ -58,7 +58,10 @@ export default function Folder({
     setNewFileOpen(false)
   }
 
-  const handleCreateFileCancel = () => setNewFileOpen(false)
+  const handleCreateFileCancel = () => {
+    setFileError({ error: false, errorMessage: '' })
+    setNewFileOpen(false)
+  }
 
   const handleNewFileNameChange = (name: string) => {
     if (fileExist(project.fileStructure, relative, name)) {
