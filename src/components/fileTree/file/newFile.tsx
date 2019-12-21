@@ -35,7 +35,6 @@ export default function NewFile({
   }, [])
 
   const createFile = () => {
-    if (error) return
     if (trim(name).length === 0) {
       onCancel()
       return
@@ -48,11 +47,18 @@ export default function NewFile({
     return false
   }
 
-  const handleNameBlur = () => createFile()
+  const handleNameBlur = () => {
+    if (error) {
+      onCancel()
+      return
+    }
+    createFile()
+  }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.keyCode === 13) {
       event.preventDefault()
+      if (error) return
       createFile()
     }
   }
