@@ -12,6 +12,9 @@ export interface NewFileProps {
   initialValue?: string
   onDone: (name: string) => void
   onCancel: () => void
+  onNameChange?: (name: string) => void
+  error?: boolean
+  errorMessage?: string
 }
 
 export default function NewFile({
@@ -19,7 +22,10 @@ export default function NewFile({
   onDone,
   onCancel,
   type,
-  initialValue = ''
+  initialValue = '',
+  onNameChange,
+  error = false,
+  errorMessage = ''
 }: NewFileProps) {
   const [name, setName] = React.useState(initialValue)
   const refName = React.useRef<HTMLInputElement | null>(null)
@@ -29,6 +35,7 @@ export default function NewFile({
   }, [])
 
   const createFile = () => {
+    if (error) return
     if (trim(name).length === 0) {
       onCancel()
       return
@@ -51,7 +58,9 @@ export default function NewFile({
   }
 
   const handleNameChange = (e: React.ChangeEvent) => {
-    setName((e.target as HTMLInputElement).value)
+    const value = (e.target as HTMLInputElement).value
+    setName(value)
+    onNameChange && onNameChange(value)
   }
 
   return (
@@ -71,6 +80,9 @@ export default function NewFile({
         ref={refName}
         value={name}
       />
+      {error ? (
+        <div className="webcode-filetree-file__error">{errorMessage}</div>
+      ) : null}
     </div>
   )
 }

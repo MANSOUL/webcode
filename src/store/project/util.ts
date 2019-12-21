@@ -81,6 +81,8 @@ export const renameNewFile = (fileStructure: any, renameFile: any) => {
       .sha256()
       .update(file.relative)
       .digest('hex')
+
+    // TODO reSort
   }
 
   return cloneFile
@@ -102,4 +104,30 @@ const findFile = (file: any, id: string): any => {
     }
   }
   return null
+}
+
+/**
+ * 检测文件是否已存在
+ * @param fileTree 文件树
+ * @param relative 当前目录
+ * @param fileName 文件名
+ */
+export const fileExist = (
+  fileTree: any,
+  relative: string,
+  fileName: string
+) => {
+  const folder = findFolder(fileTree, relative)
+  const relativeFileName = `${relative}/${fileName}`
+
+  if (folder) {
+    for (let i = 0; i < folder.children.length; i++) {
+      const ele = folder.children[i]
+      if (ele.relative === relativeFileName) {
+        return true
+      }
+    }
+  }
+
+  return false
 }
