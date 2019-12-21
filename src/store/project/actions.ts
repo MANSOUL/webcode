@@ -1,5 +1,6 @@
 import { Action, Dispatch } from 'redux'
 import mFetch from '@src/utils/mFetch'
+import { fileNewFile } from '../files/actions'
 
 export const FETCH_PROJECT_START = 'FETCH_PROJECT_START'
 export const FETCH_PROJECT_DONE = 'FETCH_PROJECT_DONE'
@@ -92,6 +93,10 @@ export const projectCreateFile = (
             }
           }
         })
+        {
+          const { relative, id, name, content } = res.data.file
+          dispatch(fileNewFile(relative, id, name, content))
+        }
       } else {
         dispatch({
           type: FETCH_PROJECT_ERROR,

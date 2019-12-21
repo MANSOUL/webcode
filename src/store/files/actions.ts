@@ -7,6 +7,7 @@ export const FETCH_FILE_START = 'FETCH_FILE_START'
 export const FETCH_FILE_DONE = 'FETCH_FILE_DONE'
 export const FETCH_FILE_ERROR = 'FETCH_FILE_ERROR'
 export const CHANGE_CURRENT_FILE = 'CHANGE_CURRENT_FILE'
+export const FILE_NEW_FILE = 'FILE_NEW_FILE'
 
 export interface FilesAction extends Action {
   type: string
@@ -16,6 +17,7 @@ export interface FilesAction extends Action {
     relative: string
     errorMessage: string
     fileName: string
+    newFile: any
   }
 }
 
@@ -26,8 +28,8 @@ const createChangeFileAction = (id: string) => ({
 
 /**
  * 获取文件内容
- * @param project
- * @param relative
+ * @param project 项目
+ * @param relative 文件相对项目的相对路径
  */
 export const fetchFile = (project: string, relative: string, id: string) => {
   return async (dispatch: Dispatch, getState: () => any) => {
@@ -78,3 +80,27 @@ export const changeCurrentFile = (id: string) => {
     dispatch(createChangeFileAction(id))
   }
 }
+
+/**
+ * 创建新文件action
+ * @param relative
+ * @param id
+ * @param fileName
+ * @param content
+ */
+export const fileNewFile = (
+  relative: string,
+  id: string,
+  fileName: string,
+  content: string = ''
+) => ({
+  type: FILE_NEW_FILE,
+  payload: {
+    newFile: {
+      relative,
+      id,
+      fileName,
+      content
+    }
+  }
+})

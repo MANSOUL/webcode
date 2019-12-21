@@ -4,7 +4,8 @@ import {
   FETCH_FILE_ERROR,
   FETCH_FILE_START,
   CHANGE_CURRENT_FILE,
-  FilesAction
+  FilesAction,
+  FILE_NEW_FILE
 } from './actions'
 
 export interface FileContent {
@@ -38,7 +39,8 @@ const getPayload = (action: FilesAction) => {
       relative: '',
       fileContent: '',
       id: '',
-      fileName: ''
+      fileName: '',
+      newFile: {}
     }
   )
 }
@@ -66,6 +68,22 @@ const reducer: Reducer<FilesState> = (
           }
         ],
         currentFileId: payload.id
+      }
+    case FILE_NEW_FILE:
+      const newFile = payload.newFile
+      return {
+        ...state,
+        fileContents: [
+          ...state.fileContents,
+          {
+            id: newFile.id,
+            content: newFile.content,
+            relative: newFile.relative,
+            fileName: newFile.fileName,
+            modified: false
+          }
+        ],
+        currentFileId: newFile.id
       }
     case CHANGE_CURRENT_FILE:
       return {
