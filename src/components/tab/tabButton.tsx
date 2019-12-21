@@ -12,6 +12,16 @@ export default function TabButton({
   onClick,
   onClose
 }: TabButtonProps) {
+  const [hover, setHover] = React.useState(false)
+
+  const handleMouseOver = () => {
+    setHover(true)
+  }
+
+  const handleMouseOut = () => {
+    setHover(false)
+  }
+
   const handleClick = () => {
     onClick && onClick()
   }
@@ -27,10 +37,17 @@ export default function TabButton({
         'webcode-tab-button--active': active
       })}
       onClick={handleClick}
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
     >
       <FileIcon type="file" fileName={fileName} />
       <span className="webcode-tab-button__name">{fileName}</span>
-      <TabDot modified={modified} onClick={handleCloseClick} />
+      <TabDot
+        modified={modified}
+        active={active}
+        buttonHover={hover}
+        onClick={handleCloseClick}
+      />
     </div>
   )
 }

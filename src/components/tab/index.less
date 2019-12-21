@@ -8,6 +8,8 @@
     flex-shrink: 0;
     height: 35px;
     white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
   }
 
   .webcode-tab-container {
@@ -58,6 +60,10 @@
     cursor: pointer;
     font-weight: 500;
     color: @fileColorActive;
+  }
+  &__placeholder {
+    display: block;
+    width: 18px;
   }
   &&--active::after {
     content: '';

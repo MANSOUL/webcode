@@ -22,6 +22,8 @@ export interface TabButtonProps {
 
 export interface TabDotProps {
   modified?: boolean
+  active?: boolean
+  buttonHover?: boolean
   onClick?: (event: React.MouseEvent) => void
 }
 
