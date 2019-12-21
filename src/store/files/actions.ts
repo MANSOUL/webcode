@@ -8,6 +8,7 @@ export const FETCH_FILE_DONE = 'FETCH_FILE_DONE'
 export const FETCH_FILE_ERROR = 'FETCH_FILE_ERROR'
 export const CHANGE_CURRENT_FILE = 'CHANGE_CURRENT_FILE'
 export const FILE_NEW_FILE = 'FILE_NEW_FILE'
+export const FILE_CLOSE_FILE = 'FILE_CLOSE_FILE'
 
 export interface FilesAction extends Action {
   type: string
@@ -102,5 +103,16 @@ export const fileNewFile = (
       fileName,
       content
     }
+  }
+})
+
+/**
+ * 创建新文件action
+ * @param id
+ */
+export const fileCloseFile = (id: string) => ({
+  type: FILE_CLOSE_FILE,
+  payload: {
+    id
   }
 })

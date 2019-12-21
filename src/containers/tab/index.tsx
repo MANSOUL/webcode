@@ -9,7 +9,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AppStore } from '@src/store'
 import MyEditor from '../editor'
 import { getFileIndex } from '@src/store/files/util'
-import { changeCurrentFile } from '@src/store/files/actions'
+import { changeCurrentFile, fileCloseFile } from '@src/store/files/actions'
+import { FileContent } from '@src/store/files'
 
 export default function MyTab() {
   const [tab, setTab] = React.useState(0)
@@ -26,6 +27,9 @@ export default function MyTab() {
     dispatch(changeCurrentFile(files.fileContents[index].id))
   }
 
+  const handleTabClose = (item: FileContent) => () =>
+    dispatch(fileCloseFile(item.id))
+
   return (
     <Tab onTabChange={handleTabChange}>
       <TabSwicher>
@@ -36,6 +40,7 @@ export default function MyTab() {
             modified={item.modified}
             filePath={item.relative}
             active={tab === index}
+            onClose={handleTabClose(item)}
           />
         ))}
       </TabSwicher>
