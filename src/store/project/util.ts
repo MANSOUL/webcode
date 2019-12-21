@@ -118,7 +118,8 @@ export const fileExist = (
   fileName: string
 ) => {
   const folder = findFolder(fileTree, relative)
-  const relativeFileName = `${relative}/${fileName}`
+  const relativeFileName =
+    relative === '' ? fileName : `${relative}/${fileName}`
 
   if (folder) {
     for (let i = 0; i < folder.children.length; i++) {
