@@ -7,6 +7,7 @@ export const FETCH_PROJECT_ERROR = 'FETCH_PROJECT_ERROR'
 export const PROJECT_CREATE_FILE = 'PROJECT_CREATE_FILE'
 export const PROJECT_CREATE_FOLDER = 'PROJECT_CREATE_FOLDER'
 export const PROJECT_RENAME_FILE = 'PROJECT_RENAME_FILE'
+export const PROJECT_REMOVE_FILE = 'PROJECT_REMOVE_FILE'
 
 export interface ProjectAction extends Action {
   type: string
@@ -21,6 +22,11 @@ export interface ProjectAction extends Action {
     renameFile: {
       id: string
       newName: string
+    }
+    removeFile: {
+      id: string
+      relative: string
+      fileName: string
     }
   }
 }
@@ -192,5 +198,50 @@ export const projectRenameFile = (
         }
       })
     }
+  }
+}
+
+export const projectRemoveFile = (
+  id: string,
+  relative: string,
+  fileName: string
+) => {
+  return async (dispatch: Dispatch) => {
+    // dispatch({
+    //   type: FETCH_PROJECT_START
+    // })
+    // try {
+    //   const res = await mFetch(`/api/file/demo`, 'post', {
+    //     relative,
+    //     fileName,
+    //     type: 'file'
+    //   })
+    //   if (res.status === 200) {
+    dispatch({
+      type: PROJECT_REMOVE_FILE,
+      payload: {
+        removeFile: {
+          id,
+          relative,
+          fileName
+        }
+      }
+    })
+    //   } else {
+    //     dispatch({
+    //       type: FETCH_PROJECT_ERROR,
+    //       payload: {
+    //         errorMessage: res.errorMessage
+    //       }
+    //     })
+    //   }
+    // } catch (error) {
+    //   dispatch({
+    //     type: FETCH_PROJECT_ERROR,
+    //     payload: {
+    //       errorMessage: error.message
+    //     }
+    //   })
+    // }
   }
 }

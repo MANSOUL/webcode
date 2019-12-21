@@ -6,9 +6,10 @@ import {
   PROJECT_CREATE_FILE,
   ProjectAction,
   PROJECT_CREATE_FOLDER,
-  PROJECT_RENAME_FILE
+  PROJECT_RENAME_FILE,
+  PROJECT_REMOVE_FILE
 } from './actions'
-import { createNewFile, renameNewFile } from './util'
+import { createNewFile, renameNewFile, removeFile } from './util'
 
 export interface ProjectState {
   loading: boolean
@@ -30,7 +31,8 @@ const getPayload = (action: ProjectAction) => {
       errorMessage: '',
       fileStructure: {},
       newFile: {},
-      renameFile: {}
+      renameFile: {},
+      removeFile: {}
     }
   )
 }
@@ -90,6 +92,14 @@ const reducer: Reducer<ProjectState> = (
         error: false,
         errorMessage: '',
         fileStructure: renameNewFile(state.fileStructure, payload.renameFile)
+      }
+    case PROJECT_REMOVE_FILE:
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        errorMessage: '',
+        fileStructure: removeFile(state.fileStructure, payload.removeFile)
       }
     default:
       return state

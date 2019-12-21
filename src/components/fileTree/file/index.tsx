@@ -7,7 +7,10 @@ import Popover from '@src/components/ui/popover'
 import Menu, { MenuItem } from '../menu'
 import NewFile from './newFile'
 import { useDispatch, useSelector } from 'react-redux'
-import { projectRenameFile } from '@src/store/project/actions'
+import {
+  projectRenameFile,
+  projectRemoveFile
+} from '@src/store/project/actions'
 import { AppStore } from '@src/store'
 import { fileExist } from '@src/store/project/util'
 export { default as NewFile } from './newFile'
@@ -81,7 +84,10 @@ export default function File({
     setMenuOpen(false)
   }
 
-  const handleRemoveFile = () => setMenuOpen(false)
+  const handleRemoveFile = () => {
+    dispatch(projectRemoveFile(id, relativePath, name))
+    setMenuOpen(false)
+  }
 
   const handleNewFileNameChange = (fname: string) => {
     if (

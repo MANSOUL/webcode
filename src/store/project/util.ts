@@ -132,3 +132,16 @@ export const fileExist = (
 
   return false
 }
+
+export const removeFile = (fileTree: any, removeFile: any) => {
+  const file = cloneDeep(fileTree)
+  const { relative, id } = removeFile
+  const folder = findFolder(file, relative)
+
+  if (folder) {
+    let index = folder.children.findIndex((ele: any) => ele.id === id)
+    folder.children.splice(index, 1)
+  }
+
+  return file
+}
