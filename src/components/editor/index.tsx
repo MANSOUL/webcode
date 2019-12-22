@@ -57,16 +57,26 @@ export default class Editor extends React.Component<Props> {
     this.aceEditor && this.aceEditor.focus()
   }
 
-  onValueChange() {
+  onValueChange(callback: (delta: ace.Ace.Delta) => void) {
     if (!this.aceEditor) return
-    this.aceEditor.on('change', (...args) => {
-      console.log(args)
-    })
+    this.aceEditor.on('change', callback)
+  }
+
+  onInput(callback: () => void) {
+    if (!this.aceEditor) return
+    this.aceEditor.on('input', callback)
   }
 
   setMode(fileName: string) {
     this.aceEditor &&
       this.aceEditor.session.setMode(getModeForPath(fileName).mode)
+  }
+
+  getValue() {
+    if (this.aceEditor) {
+      return this.aceEditor.getValue()
+    }
+    return ''
   }
 
   render() {
