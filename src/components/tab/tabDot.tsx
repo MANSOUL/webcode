@@ -2,7 +2,7 @@ import React from 'react'
 import { TabDotProps } from './interface'
 
 export default function TabDot({
-  modified = true,
+  modified = false,
   onClick,
   active = false,
   buttonHover = false
@@ -18,7 +18,14 @@ export default function TabDot({
   }
 
   const renderDot = () => {
-    if (hover || active || buttonHover) {
+    // 移动到点上
+    //或 当前不是编辑的tab但是鼠标在button上并且还是没有编辑过的tab
+    //或 当前是编辑tab但是没有编辑过
+    if (
+      hover ||
+      (!active && buttonHover && !modified) ||
+      (active && !modified)
+    ) {
       return (
         <i
           className="iconfont icon-close webcode-tab-button__close"
