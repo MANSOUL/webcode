@@ -6,7 +6,8 @@ import {
   CHANGE_CURRENT_FILE,
   FilesAction,
   FILE_NEW_FILE,
-  FILE_CLOSE_FILE
+  FILE_CLOSE_FILE,
+  FILE_MODIFY_FILE
 } from './actions'
 import { getFileIndex } from './util'
 
@@ -52,6 +53,8 @@ const reducer: Reducer<FilesState> = (
   action: FilesAction
 ) => {
   const payload = getPayload(action)
+  let index = -1
+  let currentFile = null
   switch (action.type) {
     case FETCH_FILE_DONE:
       return {
@@ -93,8 +96,8 @@ const reducer: Reducer<FilesState> = (
         currentFileId: payload.id
       }
     case FILE_CLOSE_FILE:
-      const index = getFileIndex(state.fileContents, payload.id)
-      const currentFile = state.fileContents[index]
+      index = getFileIndex(state.fileContents, payload.id)
+      currentFile = state.fileContents[index]
       let nextFile = null
       // 如果关闭的当前打开的文件则需要重新设置active
       if (state.currentFileId === currentFile.id) {
@@ -110,6 +113,23 @@ const reducer: Reducer<FilesState> = (
           ...state.fileContents.slice(index + 1)
         ],
         currentFileId: nextFile ? nextFile.id : state.currentFileId
+      }
+    case FILE_MODIFY_FILE:
+      index = getFileIndex(state.fileContents, payload.id)
+      currentFile = state.fileContents[index]
+      return {
+        ...state,
+        fileContents: [
+          ...state.fileContents.slice(0, index),
+          {
+            id: currentFile.id,
+            content: payload.fileContent,
+            relative: currentFile.relative,
+            fileName: currentFile.fileName,
+            modified: true
+          },
+          ...state.fileContents.slice(index + 1)
+        ]
       }
     default:
       return state

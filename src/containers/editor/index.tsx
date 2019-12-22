@@ -4,6 +4,8 @@ import { AppStore } from '@src/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
+import { Ace } from 'ace-builds'
+import { fileModifyFile } from '@src/store/files/actions'
 
 export interface Props {
   fileKey: string
@@ -20,13 +22,25 @@ export default function MyEditor({ fileKey }: Props) {
       refEditor.current.onCursorChange(cursor =>
         dispatch(createEditorSelectionAction(cursor))
       )
-    }
-  }, [])
 
-  // 取出编辑器对应的文件内容
-  React.useEffect(() => {
+      // refEditor.current.onValueChange((dealt: Ace.Delta) => {
+      //   // dealt 可以实现更加细腻度的控制，可用于实时在线编程直播
+      //   console.log(dealt)
+      //   console.log(refEditor.current?.getValue())
+      //   // TODO 触发细腻度更高的编辑事件
+      //   dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
+      // })
+
+      refEditor.current.onInput(() => {
+        const file = getFileById(files.fileContents, fileKey)
+        if (file && file.content !== refEditor.current?.getValue()) {
+          dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
+        }
+      })
+    }
+
     projectChange()
-  }, [files.fileContents])
+  }, [])
 
   // resize editor
   React.useEffect(() => {
