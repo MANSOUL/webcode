@@ -2,6 +2,7 @@ import { Action, Dispatch } from 'redux'
 import mFetch from '@src/utils/mFetch'
 import { getFileById } from './util'
 import { AppStore } from '..'
+import { getProject } from '@src/config/project'
 
 export const FETCH_FILE_START = 'FETCH_FILE_START'
 export const FETCH_FILE_DONE = 'FETCH_FILE_DONE'
@@ -11,8 +12,6 @@ export const FILE_NEW_FILE = 'FILE_NEW_FILE'
 export const FILE_CLOSE_FILE = 'FILE_CLOSE_FILE'
 export const FILE_MODIFY_FILE = 'FILE_MODIFY_FILE'
 export const FILE_SAVE_FILE = 'FILE_SAVE_FILE'
-
-const getProject = () => 'demo'
 
 export interface FilesAction extends Action {
   type: string
@@ -36,7 +35,7 @@ const createChangeFileAction = (id: string) => ({
  * @param project 项目
  * @param relative 文件相对项目的相对路径
  */
-export const fetchFile = (project: string, relative: string, id: string) => {
+export const fetchFile = (relative: string, id: string) => {
   return async (dispatch: Dispatch, getState: () => any) => {
     const state: AppStore = getState()
     if (getFileById(state.files.fileContents, id)) {
@@ -47,7 +46,7 @@ export const fetchFile = (project: string, relative: string, id: string) => {
       type: FETCH_FILE_START
     })
     try {
-      const res = await mFetch(`/api/file/${project}?relative=${relative}`)
+      const res = await mFetch(`/api/file/${getProject()}?relative=${relative}`)
       if (res.status === 200) {
         dispatch({
           type: FETCH_FILE_DONE,

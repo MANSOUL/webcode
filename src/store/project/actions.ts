@@ -1,6 +1,7 @@
 import { Action, Dispatch } from 'redux'
 import mFetch from '@src/utils/mFetch'
 import { fileNewFile } from '../files/actions'
+import { getProject } from '@src/config/project'
 
 export const FETCH_PROJECT_START = 'FETCH_PROJECT_START'
 export const FETCH_PROJECT_DONE = 'FETCH_PROJECT_DONE'
@@ -36,13 +37,13 @@ export interface ProjectAction extends Action {
  * 获取项目
  * @param project
  */
-export const fetchProject = (project: string) => {
+export const fetchProject = () => {
   return async (dispatch: Dispatch) => {
     dispatch({
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/project/${project}`)
+      const res = await mFetch(`/api/project/${getProject()}`)
       if (res.status === 200) {
         dispatch({
           type: FETCH_PROJECT_DONE,
@@ -77,7 +78,7 @@ export const projectCreateFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/projec/demo`, 'post', {
+      const res = await mFetch(`/api/project/${getProject()}`, 'post', {
         relative,
         fileName,
         type: 'file'
@@ -126,7 +127,7 @@ export const projectCreateFolder = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/projec/demo`, 'post', {
+      const res = await mFetch(`/api/project/${getProject()}`, 'post', {
         relative,
         fileName,
         type: 'folder'
@@ -172,7 +173,7 @@ export const projectRenameFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/projec/demo`, 'put', {
+      const res = await mFetch(`/api/project/${getProject()}`, 'put', {
         relative,
         fileName: oldName,
         newFileName: newName
@@ -217,7 +218,7 @@ export const projectRemoveFile = (
     })
     try {
       const res = await mFetch(
-        `/api/projec/demo?relative=${relative}&fileName=${fileName}`,
+        `/api/project/${getProject()}?relative=${relative}&fileName=${fileName}`,
         'delete'
       )
       if (res.status === 200) {

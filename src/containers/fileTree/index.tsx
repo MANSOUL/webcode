@@ -8,7 +8,6 @@ import { AppStore } from '@src/store'
 export default function MyFileTree() {
   const dispatch = useDispatch()
   const project = useSelector((store: AppStore) => store.project)
-  const files = useSelector((store: AppStore) => store.files)
   const [data, setData] = React.useState(null)
 
   React.useEffect(() => {
@@ -16,7 +15,7 @@ export default function MyFileTree() {
   }, [project])
 
   React.useEffect(() => {
-    dispatch(fetchProject('demo'))
+    dispatch(fetchProject())
   }, [])
 
   const projectChange = () => {
@@ -27,9 +26,8 @@ export default function MyFileTree() {
   }
 
   const handleFileClick = (id: string, relative: string, type: string) => {
-    console.log(id, relative, type)
     if (type === 'file') {
-      dispatch(fetchFile('demo', relative, id))
+      dispatch(fetchFile(relative, id))
     }
   }
 
