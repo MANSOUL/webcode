@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
 import { Ace } from 'ace-builds'
-import { fileModifyFile } from '@src/store/files/actions'
+import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
 
 export interface Props {
   fileKey: string
@@ -36,6 +36,11 @@ export default function MyEditor({ fileKey }: Props) {
         if (file && file.content !== refEditor.current?.getValue()) {
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
+      })
+
+      refEditor.current.onSave(() => {
+        console.log('file save')
+        dispatch(fileSaveFile(fileKey))
       })
     }
 

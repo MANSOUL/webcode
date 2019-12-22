@@ -7,7 +7,8 @@ import {
   FilesAction,
   FILE_NEW_FILE,
   FILE_CLOSE_FILE,
-  FILE_MODIFY_FILE
+  FILE_MODIFY_FILE,
+  FILE_SAVE_FILE
 } from './actions'
 import { getFileIndex } from './util'
 
@@ -127,6 +128,23 @@ const reducer: Reducer<FilesState> = (
             relative: currentFile.relative,
             fileName: currentFile.fileName,
             modified: true
+          },
+          ...state.fileContents.slice(index + 1)
+        ]
+      }
+    case FILE_SAVE_FILE:
+      index = getFileIndex(state.fileContents, payload.id)
+      currentFile = state.fileContents[index]
+      return {
+        ...state,
+        fileContents: [
+          ...state.fileContents.slice(0, index),
+          {
+            id: currentFile.id,
+            content: currentFile.content,
+            relative: currentFile.relative,
+            fileName: currentFile.fileName,
+            modified: false
           },
           ...state.fileContents.slice(index + 1)
         ]

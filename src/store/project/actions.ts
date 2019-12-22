@@ -77,7 +77,7 @@ export const projectCreateFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/file/demo`, 'post', {
+      const res = await mFetch(`/api/projec/demo`, 'post', {
         relative,
         fileName,
         type: 'file'
@@ -126,7 +126,7 @@ export const projectCreateFolder = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/file/demo`, 'post', {
+      const res = await mFetch(`/api/projec/demo`, 'post', {
         relative,
         fileName,
         type: 'folder'
@@ -172,7 +172,7 @@ export const projectRenameFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/file/demo`, 'put', {
+      const res = await mFetch(`/api/projec/demo`, 'put', {
         relative,
         fileName: oldName,
         newFileName: newName
@@ -217,7 +217,7 @@ export const projectRemoveFile = (
     })
     try {
       const res = await mFetch(
-        `/api/file/demo?relative=${relative}&fileName=${fileName}`,
+        `/api/projec/demo?relative=${relative}&fileName=${fileName}`,
         'delete'
       )
       if (res.status === 200) {

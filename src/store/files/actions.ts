@@ -10,6 +10,9 @@ export const CHANGE_CURRENT_FILE = 'CHANGE_CURRENT_FILE'
 export const FILE_NEW_FILE = 'FILE_NEW_FILE'
 export const FILE_CLOSE_FILE = 'FILE_CLOSE_FILE'
 export const FILE_MODIFY_FILE = 'FILE_MODIFY_FILE'
+export const FILE_SAVE_FILE = 'FILE_SAVE_FILE'
+
+const getProject = () => 'demo'
 
 export interface FilesAction extends Action {
   type: string
@@ -130,3 +133,49 @@ export const fileModifyFile = (id: string, fileContent: string) => ({
     fileContent
   }
 })
+
+/**
+ * 保存文件
+ * @param id
+ */
+export const fileSaveFile = (id: string) => {
+  return async (dispatch: Dispatch, getState: () => AppStore) => {
+    const state: AppStore = getState()
+    const file = getFileById(state.files.fileContents, id)
+    if (!file) return
+    dispatch({
+      type: FETCH_FILE_START
+    })
+    try {
+      const res = await mFetch(
+        `/api/file/${getProject()}?relative=${file.relative}`,
+        'put',
+        {
+          content: file.content
+        }
+      )
+      if (res.status === 200) {
+        dispatch({
+          type: FILE_SAVE_FILE,
+          payload: {
+            id
+          }
+        })
+      } else {
+        dispatch({
+          type: FETCH_FILE_ERROR,
+          payload: {
+            errorMessage: res.errorMessage
+          }
+        })
+      }
+    } catch (error) {
+      dispatch({
+        type: FETCH_FILE_ERROR,
+        payload: {
+          errorMessage: error.message
+        }
+      })
+    }
+  }
+}
