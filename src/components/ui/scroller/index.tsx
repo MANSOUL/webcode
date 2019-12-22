@@ -2,6 +2,14 @@ import './index.less'
 import React from 'react'
 import clsx from 'clsx'
 
+const getIndicatorMovement = (scrollerSize: number, containerSize: number) => {
+  const width = (scrollerSize / containerSize) * scrollerSize
+  return {
+    width,
+    movement: scrollerSize - width
+  }
+}
+
 const getIndicatorStyle = (
   direction: 'horizontal' | 'vertical',
   scrollerSize: number,
@@ -37,6 +45,7 @@ export default class Scroller extends React.Component<Props> {
   maxTranslate: number = 0
   scrollerWidth: number = 0
   containerWidth: number = 0
+  indicatorMovementSize = { width: 0, movement: 0 }
   refScroller: React.RefObject<HTMLDivElement> = React.createRef()
   refContainer: React.RefObject<HTMLDivElement> = React.createRef()
   state: {
@@ -68,18 +77,27 @@ export default class Scroller extends React.Component<Props> {
       if (this.refContainer.current)
         containerWidth = this.refContainer.current.clientWidth
       this.maxTranslate = containerWidth - scrollerWidth
+      this.indicatorMovementSize = getIndicatorMovement(
+        scrollerWidth,
+        containerWidth
+      )
       this.setState({
         scrollerWidth,
         containerWidth
       })
+      this.move(0)
     }
   }
 
   handleMouseWheel = (event: React.WheelEvent) => {
+    this.move(event.deltaY)
+  }
+
+  move(deltaY: number) {
     if (this.maxTranslate <= 0) {
       return
     }
-    this.translate -= event.deltaY
+    this.translate -= deltaY
     if (this.translate <= 0) {
       this.translate = 0
     }
@@ -88,7 +106,8 @@ export default class Scroller extends React.Component<Props> {
     }
     this.setState({
       indicatorMovementStyle: {
-        transform: `translate(${this.translate}px, 0px)`
+        transform: `translate(${(this.translate / this.maxTranslate) *
+          this.indicatorMovementSize.movement}px, 0px)`
       },
       movementStyle: {
         transform: `translate(${-this.translate}px, 0px)`
