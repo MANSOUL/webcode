@@ -1,0 +1,41 @@
+.spui-scroller {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  &__container {
+    display: inline-block;
+  }
+  &__bar {
+    position: absolute;
+  }
+  &__bar--hidden {
+    display: none;
+  }
+  &__indicator {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+  }
+
+  &&--horizontal &__container {
+    height: 100%;
+  }
+
+  &&--horizontal &__bar {
+    width: 100%;
+    height: 6px;
+    left: 0;
+    bottom: 0;
+  }
+
+  &&--vertical &__container {
+    width: 100%;
+  }
+
+  &&--vertical &__bar {
+    width: 6px;
+    height: 100%;
+    right: 0;
+    bottom: 0;
+  }
+}
