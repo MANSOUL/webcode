@@ -10,6 +10,7 @@ export interface Props {}
 export default class Editor extends React.Component<Props> {
   refEditor: React.RefObject<HTMLDivElement>
   aceEditor: ace.Ace.Editor | undefined
+  onSaveEvents: (() => void)[] = []
 
   constructor(props: Props) {
     super(props)
@@ -21,6 +22,7 @@ export default class Editor extends React.Component<Props> {
       const editor = ace.edit(this.refEditor.current)
       editor.setTheme('ace/theme/monokai')
       this.aceEditor = editor
+      this.addKeyBind()
     }
   }
 
@@ -67,6 +69,11 @@ export default class Editor extends React.Component<Props> {
     this.aceEditor.on('input', callback)
   }
 
+  onSave(callback: () => void) {
+    if (!this.aceEditor) return
+    this.onSaveEvents.push(callback)
+  }
+
   setMode(fileName: string) {
     this.aceEditor &&
       this.aceEditor.session.setMode(getModeForPath(fileName).mode)
@@ -77,6 +84,20 @@ export default class Editor extends React.Component<Props> {
       return this.aceEditor.getValue()
     }
     return ''
+  }
+
+  addKeyBind() {
+    if (!this.aceEditor) return
+    this.aceEditor.commands.addCommand({
+      name: 'saveFile',
+      bindKey: {
+        win: 'ctrl-s',
+        mac: 'cmd-s'
+      },
+      exec: (editor: ace.Ace.Editor) => {
+        this.onSaveEvents.forEach(cb => cb())
+      }
+    })
   }
 
   render() {
