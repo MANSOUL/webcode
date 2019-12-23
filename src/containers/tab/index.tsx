@@ -12,6 +12,16 @@ import { getFileIndex } from '@src/store/files/util'
 import { changeCurrentFile, fileCloseFile } from '@src/store/files/actions'
 import { FileContent } from '@src/store/files'
 import Scroller from '@src/components/ui/scroller'
+import { createStyles } from '@src/theme'
+
+const useStyles = createStyles(theme => ({
+  tabSwitcher: {
+    backgroundColor: theme.colors['tab.inactiveBackground']
+  },
+  tabContainer: {
+    backgroundColor: theme.colors['editor.background']
+  }
+}))
 
 export default function MyTab() {
   const [tab, setTab] = React.useState(0)
@@ -19,6 +29,8 @@ export default function MyTab() {
   const files = useSelector((store: AppStore) => store.files)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
+  const classes = useStyles()
+  console.log(classes)
 
   React.useEffect(() => {
     refScroller.current && refScroller.current.resize()
@@ -39,7 +51,7 @@ export default function MyTab() {
 
   return (
     <Tab onTabChange={handleTabChange}>
-      <TabSwicher>
+      <TabSwicher className={classes.tabSwitcher}>
         <Scroller ref={refScroller} activeIndex={tab}>
           {files.fileContents.map((item, index: number) => (
             <TabButton
@@ -53,7 +65,7 @@ export default function MyTab() {
           ))}
         </Scroller>
       </TabSwicher>
-      <TabContainer>
+      <TabContainer className={classes.tabContainer}>
         {files.fileContents.map((item, index: number) => (
           <TabItem key={item.id} tab={index} activeTab={tab}>
             <MyEditor fileKey={item.id} />
