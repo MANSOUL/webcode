@@ -5,11 +5,15 @@ import { render } from 'react-dom'
 import Layout from './layout'
 import { Provider } from 'react-redux'
 import store from './store'
+import { ThemeProvider } from './theme'
+import themeHorizon from './theme/assets/horizon.json'
 
 const App = () => {
   return (
     <Provider store={store}>
-      <Layout />
+      <ThemeProvider theme={themeHorizon}>
+        <Layout />
+      </ThemeProvider>
     </Provider>
   )
 }
