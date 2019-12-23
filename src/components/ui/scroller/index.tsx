@@ -56,6 +56,8 @@ export default class Scroller extends React.Component<Props> {
     indicatorMovementStyle: any
     scrollerWidth: number
     containerWidth: number
+    barActive: boolean
+    indicatorActive: boolean
   }
 
   constructor(props: Props) {
@@ -64,7 +66,9 @@ export default class Scroller extends React.Component<Props> {
       movementStyle: {},
       indicatorMovementStyle: {},
       scrollerWidth: 0,
-      containerWidth: 0
+      containerWidth: 0,
+      barActive: false,
+      indicatorActive: false
     }
   }
 
@@ -99,6 +103,61 @@ export default class Scroller extends React.Component<Props> {
     this.move(useX ? -event.deltaX : event.deltaY)
   }
 
+  handleIndicatorDown = (event: MouseEvent) => {
+    this.indicatorActive = true
+    this.indicatorPrevPos = event.clientX
+  }
+
+  handleIndicatorMove = (event: MouseEvent) => {
+    if (!this.indicatorActive) return
+    const movement = event.clientX - this.indicatorPrevPos
+    this.indicatorPrevPos = event.clientX
+    this.move(-movement)
+    this.setState({
+      indicatorActive: true
+    })
+  }
+
+  handleIndicatorUp = () => {
+    this.indicatorActive = false
+    this.setState({
+      indicatorActive: false
+    })
+  }
+
+  handleBarMouseOver = () => {
+    this.setState({
+      barActive: true
+    })
+  }
+  handleBarMouseOut = () => {
+    this.setState({
+      barActive: false
+    })
+  }
+
+  handleIndicatorMouseOver = () => {
+    this.setState({
+      indicatorActive: true
+    })
+  }
+  handleIndicatorMouseOut = () => {
+    this.setState({
+      indicatorActive: false
+    })
+  }
+
+  attachIndicatorEvent() {
+    if (this.refIndicator.current) {
+      this.refIndicator.current.addEventListener(
+        'mousedown',
+        this.handleIndicatorDown
+      )
+      document.addEventListener('mousemove', this.handleIndicatorMove)
+      document.addEventListener('mouseup', this.handleIndicatorUp)
+    }
+  }
+
   move(deltaY: number) {
     if (this.maxTranslate <= 0) {
       this.setState({
@@ -124,44 +183,23 @@ export default class Scroller extends React.Component<Props> {
     })
   }
 
-  attachIndicatorEvent() {
-    if (this.refIndicator.current) {
-      this.refIndicator.current.addEventListener(
-        'mousedown',
-        this.handleIndicatorDown
-      )
-      document.addEventListener('mousemove', this.handleIndicatorMove)
-      document.addEventListener('mouseup', this.handleIndicatorUp)
-    }
-  }
-
-  handleIndicatorDown = (event: MouseEvent) => {
-    this.indicatorActive = true
-    this.indicatorPrevPos = event.clientX
-  }
-  handleIndicatorMove = (event: MouseEvent) => {
-    if (!this.indicatorActive) return
-    const movement = event.clientX - this.indicatorPrevPos
-    this.indicatorPrevPos = event.clientX
-    this.move(-movement)
-  }
-  handleIndicatorUp = () => {
-    this.indicatorActive = false
-  }
-
   render() {
     const { direction, children } = this.props
     const {
       movementStyle,
       scrollerWidth,
       containerWidth,
-      indicatorMovementStyle
+      indicatorMovementStyle,
+      barActive,
+      indicatorActive
     } = this.state
     return (
       <div
         className={clsx('spui-scroller', `spui-scroller--${direction}`)}
         onWheel={this.handleMouseWheel}
         ref={this.refScroller}
+        onMouseOver={this.handleBarMouseOver}
+        onMouseOut={this.handleBarMouseOut}
       >
         <div
           className="spui-scroller__container"
@@ -172,16 +210,21 @@ export default class Scroller extends React.Component<Props> {
         </div>
         <div
           className={clsx('spui-scroller__bar', {
-            'spui-scroller__bar--hidden': scrollerWidth >= containerWidth
+            'spui-scroller__bar--active':
+              scrollerWidth < containerWidth && (barActive || indicatorActive)
           })}
         >
           <div
-            className="spui-scroller__indicator"
+            className={clsx('spui-scroller__indicator', {
+              'spui-scroller__indicator--active': indicatorActive
+            })}
             style={{
               ...getIndicatorStyle(direction, scrollerWidth, containerWidth),
               ...indicatorMovementStyle
             }}
             ref={this.refIndicator}
+            onMouseOver={this.handleIndicatorMouseOver}
+            onMouseOut={this.handleIndicatorMouseOut}
           ></div>
         </div>
       </div>

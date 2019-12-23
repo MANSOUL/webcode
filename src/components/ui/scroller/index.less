@@ -6,15 +6,24 @@
   &__container {
     display: inline-block;
   }
+
   &__bar {
     position: absolute;
-  }
-  &__bar--hidden {
     display: none;
   }
+
+  &__bar--active {
+    display: block;
+  }
+
   &__indicator {
     background-color: rgba(255, 255, 255, 0.4);
     border-radius: 6px;
+    cursor: pointer;
+  }
+
+  &__indicator--active {
+    background-color: rgba(255, 255, 255, 0.6);
   }
 
   &&--horizontal &__container {
