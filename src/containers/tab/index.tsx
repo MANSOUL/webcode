@@ -20,6 +20,11 @@ const useStyles = createStyles(theme => ({
   },
   tabContainer: {
     backgroundColor: theme.colors['editor.background']
+  },
+  tabButton: {
+    '&::after': {
+      backgroundColor: theme.colors['tab.activeBorder']
+    }
   }
 }))
 
@@ -61,6 +66,7 @@ export default function MyTab() {
               filePath={item.relative}
               active={tab === index}
               onClose={handleTabClose(item)}
+              className={classes.tabButton}
             />
           ))}
         </Scroller>
