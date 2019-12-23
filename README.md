@@ -48,12 +48,22 @@
 
 ### 主题
 
-主题还未进行开发，方案暂定为：`redux` 或 `hooks` 进行开发
+主题所使用的样式以 `css in js` 方式进行支持，其内部原理是对 React `context` 和 `hooks` 进行了封装。并且对 vscode 主题进行了兼容。
+
+使用方式如下：
 
 ```jsx
+import { createStyles } from '@src/theme'
+
+const useStyles = createStyles(theme => ({
+  tab: {
+    backgroundColor: theme.colors['tab.inactiveBackground']
+  }
+}))
+
 function ThemeDemo() {
-  const theme = useTheme()
-  return <div style={{ background: theme.bgColor }}>Hello Theme.</div>
+  const classes = useStyles()
+  return <div className={classes.tab}>Hello Theme.</div>
 }
 ```
 
