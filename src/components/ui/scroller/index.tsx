@@ -90,7 +90,8 @@ export default class Scroller extends React.Component<Props> {
   }
 
   handleMouseWheel = (event: React.WheelEvent) => {
-    this.move(event.deltaY)
+    const useX = Math.abs(event.deltaX) > Math.abs(event.deltaY)
+    this.move(useX ? -event.deltaX : event.deltaY)
   }
 
   move(deltaY: number) {
