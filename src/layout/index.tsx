@@ -20,6 +20,9 @@ const INITIAL_TERMINAL_HEIGHT = 300
 const useStyles = createStyles(theme => ({
   sideBar: {
     backgroundColor: theme.colors['sideBar.background']
+  },
+  activityBar: {
+    backgroundColor: theme.colors['activityBar.background']
   }
 }))
 
@@ -93,7 +96,9 @@ export default function Layout() {
     <div className="webcode-layout">
       {/* <div className="webcode-layout__toolbar"></div> */}
       <div className="webcode-layout__container">
-        <div className="webcode-layout__extensions">
+        <div
+          className={clsx('webcode-layout__activity-bar', classes.activityBar)}
+        >
           <Extension />
         </div>
         <div
