@@ -99,7 +99,9 @@ export default class Scroller extends React.Component<Props> {
     if (!this.indicatorActive) return
     const movement = event.clientX - this.indicatorPrevPos
     this.indicatorPrevPos = event.clientX
-    this.move(-movement)
+    this.move(
+      (-movement / this.indicatorMovementSize.movement) * this.maxTranslate
+    )
     this.setState({
       indicatorActive: true
     })
@@ -184,7 +186,7 @@ export default class Scroller extends React.Component<Props> {
     this.move(0)
   }
 
-  move(deltaY: number) {
+  move(delta: number) {
     if (this.maxTranslate <= 0) {
       this.setState({
         indicatorMovementStyle: { transform: `translate(0, 0)` },
@@ -192,7 +194,7 @@ export default class Scroller extends React.Component<Props> {
       })
       return
     }
-    this.translate -= deltaY
+    this.translate -= delta
     if (this.translate <= 0) {
       this.translate = 0
     } else if (this.translate > this.maxTranslate) {
