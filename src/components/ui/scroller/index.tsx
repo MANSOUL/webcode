@@ -45,9 +45,12 @@ export default class Scroller extends React.Component<Props> {
   maxTranslate: number = 0
   scrollerWidth: number = 0
   containerWidth: number = 0
+  indicatorActive: boolean = false
+  indicatorPrevPos: number = 0
   indicatorMovementSize = { width: 0, movement: 0 }
   refScroller: React.RefObject<HTMLDivElement> = React.createRef()
   refContainer: React.RefObject<HTMLDivElement> = React.createRef()
+  refIndicator: React.RefObject<HTMLDivElement> = React.createRef()
   state: {
     movementStyle: any
     indicatorMovementStyle: any
@@ -65,7 +68,9 @@ export default class Scroller extends React.Component<Props> {
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.attachIndicatorEvent()
+  }
 
   componentDidUpdate(prevProps: Props) {
     const { children } = this.props
@@ -119,6 +124,31 @@ export default class Scroller extends React.Component<Props> {
     })
   }
 
+  attachIndicatorEvent() {
+    if (this.refIndicator.current) {
+      this.refIndicator.current.addEventListener(
+        'mousedown',
+        this.handleIndicatorDown
+      )
+      document.addEventListener('mousemove', this.handleIndicatorMove)
+      document.addEventListener('mouseup', this.handleIndicatorUp)
+    }
+  }
+
+  handleIndicatorDown = (event: MouseEvent) => {
+    this.indicatorActive = true
+    this.indicatorPrevPos = event.clientX
+  }
+  handleIndicatorMove = (event: MouseEvent) => {
+    if (!this.indicatorActive) return
+    const movement = event.clientX - this.indicatorPrevPos
+    this.indicatorPrevPos = event.clientX
+    this.move(-movement)
+  }
+  handleIndicatorUp = () => {
+    this.indicatorActive = false
+  }
+
   render() {
     const { direction, children } = this.props
     const {
@@ -151,6 +181,7 @@ export default class Scroller extends React.Component<Props> {
               ...getIndicatorStyle(direction, scrollerWidth, containerWidth),
               ...indicatorMovementStyle
             }}
+            ref={this.refIndicator}
           ></div>
         </div>
       </div>
