@@ -40,7 +40,7 @@ export default function MyTab() {
   return (
     <Tab onTabChange={handleTabChange}>
       <TabSwicher>
-        <Scroller ref={refScroller}>
+        <Scroller ref={refScroller} activeIndex={tab}>
           {files.fileContents.map((item, index: number) => (
             <TabButton
               key={item.id}

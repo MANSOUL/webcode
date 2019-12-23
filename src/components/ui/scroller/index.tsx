@@ -34,6 +34,7 @@ const getIndicatorStyle = (
 export interface Props {
   children: any
   direction: 'horizontal' | 'vertical'
+  activeIndex: number
 }
 
 export default class Scroller extends React.Component<Props> {
@@ -43,8 +44,6 @@ export default class Scroller extends React.Component<Props> {
 
   translate: number = 0
   maxTranslate: number = 0
-  scrollerWidth: number = 0
-  containerWidth: number = 0
   indicatorActive: boolean = false
   indicatorPrevPos: number = 0
   indicatorMovementSize = { width: 0, movement: 0 }
@@ -77,9 +76,12 @@ export default class Scroller extends React.Component<Props> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    const { children } = this.props
+    const { children, activeIndex } = this.props
     if (prevProps.children.length !== children.length) {
       this.resize()
+      this.scrollToActive()
+    } else if (prevProps.activeIndex !== activeIndex) {
+      this.scrollToActive()
     }
   }
 
@@ -141,6 +143,26 @@ export default class Scroller extends React.Component<Props> {
       document.addEventListener('mousemove', this.handleIndicatorMove)
       document.addEventListener('mouseup', this.handleIndicatorUp)
     }
+  }
+
+  scrollToActive() {
+    if (!this.refContainer.current) return
+    const { activeIndex } = this.props
+    const { scrollerWidth } = this.state
+    const $children = this.refContainer.current.children
+    const $activeChild = $children[activeIndex] as HTMLElement
+    if (!$activeChild) return
+    let movement = -(
+      $activeChild.offsetLeft +
+      $activeChild.offsetWidth -
+      scrollerWidth
+    )
+    // 一开始就处于可见范围内的元素
+    if (movement > 0 && movement < scrollerWidth) {
+      movement = 0
+    }
+    this.translate = 0
+    this.move(movement)
   }
 
   resize() {
