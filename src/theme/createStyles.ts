@@ -8,7 +8,7 @@ jss.setup(preset())
  *
  * @param creator
  */
-const createStyles = (creator: (theme: any) => Record<string, string>) => {
+const createStyles = (creator: (theme: any) => Record<string, any>) => {
   const useStyles = () => {
     const theme = useTheme()
     const styles = creator(theme)
