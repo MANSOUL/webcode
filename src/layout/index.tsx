@@ -23,6 +23,9 @@ const useStyles = createStyles(theme => ({
   },
   activityBar: {
     backgroundColor: theme.colors['activityBar.background']
+  },
+  statusBar: {
+    backgroundColor: theme.colors['statusBar.background']
   }
 }))
 
@@ -129,7 +132,7 @@ export default function Layout() {
           ) : null}
         </div>
       </div>
-      <div className="webcode-layout__footbar">
+      <div className={clsx('webcode-layout__statusbar', classes.statusBar)}>
         <div>
           <FootbarTerminal onClick={handleToggleTerminal} />
         </div>
