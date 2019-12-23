@@ -95,13 +95,16 @@ export default class Scroller extends React.Component<Props> {
 
   move(deltaY: number) {
     if (this.maxTranslate <= 0) {
+      this.setState({
+        indicatorMovementStyle: { transform: `translate(0, 0)` },
+        movementStyle: { transform: `translate(0, 0)` }
+      })
       return
     }
     this.translate -= deltaY
     if (this.translate <= 0) {
       this.translate = 0
-    }
-    if (this.translate > this.maxTranslate) {
+    } else if (this.translate > this.maxTranslate) {
       this.translate = this.maxTranslate
     }
     this.setState({
