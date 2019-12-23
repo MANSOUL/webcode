@@ -18,6 +18,7 @@ export interface TabButtonProps {
   modified: boolean
   filePath: string
   active?: boolean
+  className?: string
   onClick?: () => void
   onClose?: () => void
 }

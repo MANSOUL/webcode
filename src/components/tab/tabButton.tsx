@@ -9,6 +9,7 @@ export default function TabButton({
   modified,
   filePath,
   active = false,
+  className,
   onClick,
   onClose
 }: TabButtonProps) {
@@ -33,9 +34,13 @@ export default function TabButton({
 
   return (
     <div
-      className={clsx('webcode-tab-button', {
-        'webcode-tab-button--active': active
-      })}
+      className={clsx(
+        'webcode-tab-button',
+        {
+          'webcode-tab-button--active': active
+        },
+        className
+      )}
       onClick={handleClick}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
