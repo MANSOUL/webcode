@@ -13,9 +13,23 @@ import {
 } from '@src/store/project/actions'
 import { AppStore } from '@src/store'
 import { fileExist } from '@src/store/project/util'
+import { createStyles } from '@src/theme'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
+
+const useStyles = createStyles(theme => ({
+  listItem: {
+    '&:hover': {
+      backgroundColor: theme.colors['list.hoverBackground'],
+      color: theme.colors['list.hoverForeground']
+    }
+  },
+  listItemFocus: {
+    backgroundColor: theme.colors['list.focusBackground'],
+    color: theme.colors['list.focusForeground']
+  }
+}))
 
 export default function File({
   id,
@@ -37,6 +51,8 @@ export default function File({
     error: false,
     errorMessage: ''
   })
+  const classes = useStyles()
+
   const relatives = relative.split('/')
   const relativePath =
     relatives.length === 0 ? '' : relatives.slice(0, -1).join('/')
@@ -117,8 +133,8 @@ export default function File({
 
   return (
     <div
-      className={clsx('webcode-filetree-file', {
-        'webcode-filetree-file--active': active
+      className={clsx('webcode-filetree-file', classes.listItem, {
+        [classes.listItemFocus]: active
       })}
       style={{ paddingLeft: level * PADDING_LEFT }}
       onClick={handleClick}
