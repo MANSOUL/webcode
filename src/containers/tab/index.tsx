@@ -11,11 +11,18 @@ import MyEditor from '../editor'
 import { getFileIndex } from '@src/store/files/util'
 import { changeCurrentFile, fileCloseFile } from '@src/store/files/actions'
 import { FileContent } from '@src/store/files'
+import Scroller from '@src/components/ui/scroller'
 
 export default function MyTab() {
   const [tab, setTab] = React.useState(0)
+  const refScroller = React.useRef<Scroller | null>(null)
   const files = useSelector((store: AppStore) => store.files)
+  const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
+
+  React.useEffect(() => {
+    refScroller.current && refScroller.current.resize()
+  }, [editor.resizeCount])
 
   // change id by file store id
   const nextTab = getFileIndex(files.fileContents, files.currentFileId)
@@ -33,16 +40,18 @@ export default function MyTab() {
   return (
     <Tab onTabChange={handleTabChange}>
       <TabSwicher>
-        {files.fileContents.map((item, index: number) => (
-          <TabButton
-            key={item.id}
-            fileName={item.fileName}
-            modified={item.modified}
-            filePath={item.relative}
-            active={tab === index}
-            onClose={handleTabClose(item)}
-          />
-        ))}
+        <Scroller ref={refScroller}>
+          {files.fileContents.map((item, index: number) => (
+            <TabButton
+              key={item.id}
+              fileName={item.fileName}
+              modified={item.modified}
+              filePath={item.relative}
+              active={tab === index}
+              onClose={handleTabClose(item)}
+            />
+          ))}
+        </Scroller>
       </TabSwicher>
       <TabContainer>
         {files.fileContents.map((item, index: number) => (

@@ -2,16 +2,11 @@ import './index.less'
 import React from 'react'
 import { TabProps, TabSwicherProps, TabContainerProps } from './interface'
 import { getTargetParent, childIndex } from '@src/utils/dom'
-import Scroller from '../ui/scroller'
 export { default as TabButton } from './tabButton'
 export { default as TabItem } from './tabItem'
 
 export function TabSwicher({ children }: TabSwicherProps) {
-  return (
-    <div className="webcode-tab-switcher">
-      <Scroller>{children}</Scroller>
-    </div>
-  )
+  return <div className="webcode-tab-switcher">{children}</div>
 }
 
 export function TabContainer({ children }: TabContainerProps) {

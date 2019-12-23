@@ -79,22 +79,7 @@ export default class Scroller extends React.Component<Props> {
   componentDidUpdate(prevProps: Props) {
     const { children } = this.props
     if (prevProps.children.length !== children.length) {
-      let scrollerWidth = 0
-      let containerWidth = 0
-      if (this.refScroller.current)
-        scrollerWidth = this.refScroller.current.clientWidth
-      if (this.refContainer.current)
-        containerWidth = this.refContainer.current.clientWidth
-      this.maxTranslate = containerWidth - scrollerWidth
-      this.indicatorMovementSize = getIndicatorMovement(
-        scrollerWidth,
-        containerWidth
-      )
-      this.setState({
-        scrollerWidth,
-        containerWidth
-      })
-      this.move(0)
+      this.resize()
     }
   }
 
@@ -156,6 +141,25 @@ export default class Scroller extends React.Component<Props> {
       document.addEventListener('mousemove', this.handleIndicatorMove)
       document.addEventListener('mouseup', this.handleIndicatorUp)
     }
+  }
+
+  resize() {
+    let scrollerWidth = 0
+    let containerWidth = 0
+    if (this.refScroller.current)
+      scrollerWidth = this.refScroller.current.clientWidth
+    if (this.refContainer.current)
+      containerWidth = this.refContainer.current.clientWidth
+    this.maxTranslate = containerWidth - scrollerWidth
+    this.indicatorMovementSize = getIndicatorMovement(
+      scrollerWidth,
+      containerWidth
+    )
+    this.setState({
+      scrollerWidth,
+      containerWidth
+    })
+    this.move(0)
   }
 
   move(deltaY: number) {
