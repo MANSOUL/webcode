@@ -5,10 +5,12 @@ export interface TabProps {
 
 export interface TabSwicherProps {
   children: any
+  className?: string
 }
 
 export interface TabContainerProps {
   children: any
+  className?: string
 }
 
 export interface TabButtonProps {

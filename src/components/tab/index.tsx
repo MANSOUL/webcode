@@ -2,15 +2,20 @@ import './index.less'
 import React from 'react'
 import { TabProps, TabSwicherProps, TabContainerProps } from './interface'
 import { getTargetParent, childIndex } from '@src/utils/dom'
+import clsx from 'clsx'
 export { default as TabButton } from './tabButton'
 export { default as TabItem } from './tabItem'
 
-export function TabSwicher({ children }: TabSwicherProps) {
-  return <div className="webcode-tab-switcher">{children}</div>
+export function TabSwicher({ children, className }: TabSwicherProps) {
+  return (
+    <div className={clsx('webcode-tab-switcher', className)}>{children}</div>
+  )
 }
 
-export function TabContainer({ children }: TabContainerProps) {
-  return <div className="webcode-tab-container">{children}</div>
+export function TabContainer({ children, className }: TabContainerProps) {
+  return (
+    <div className={clsx('webcode-tab-container', className)}>{children}</div>
+  )
 }
 
 export default function Tab({ children, onTabChange }: TabProps) {
