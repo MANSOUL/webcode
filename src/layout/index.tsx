@@ -12,8 +12,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createEditorResizeAction } from '@src/store/editor/actions'
 import { AppStore } from '@src/store'
 import { isEqual } from 'lodash'
+import { createStyles } from '@src/theme'
+import clsx from 'clsx'
 
 const INITIAL_TERMINAL_HEIGHT = 300
+
+const useStyles = createStyles(theme => ({
+  sideBar: {
+    backgroundColor: theme.colors['sideBar.background']
+  }
+}))
 
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
@@ -28,6 +36,7 @@ export default function Layout() {
   const [terminalOpen, setTerminalOpen] = React.useState(false)
   const dispatch = useDispatch()
   const editor = useSelector((store: AppStore) => store.editor)
+  const classes = useStyles()
 
   if (!isEqual(editorSlection, editor.editorSlection)) {
     setEditorSelection(editor.editorSlection)
@@ -87,7 +96,10 @@ export default function Layout() {
         <div className="webcode-layout__extensions">
           <Extension />
         </div>
-        <div className="webcode-layout__sidebar" ref={refTreeElement}>
+        <div
+          className={clsx('webcode-layout__sidebar', classes.sideBar)}
+          ref={refTreeElement}
+        >
           <MyFileTree />
         </div>
         <VerticalResizer onChange={handleResizerChange} />
