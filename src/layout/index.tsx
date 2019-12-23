@@ -87,7 +87,7 @@ export default function Layout() {
         <div className="webcode-layout__extensions">
           <Extension />
         </div>
-        <div className="webcode-layout__filetree" ref={refTreeElement}>
+        <div className="webcode-layout__sidebar" ref={refTreeElement}>
           <MyFileTree />
         </div>
         <VerticalResizer onChange={handleResizerChange} />
