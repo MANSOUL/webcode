@@ -2,7 +2,7 @@ import './index.less'
 import React from 'react'
 import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
-import Extension from '@src/components/extension'
+import ActivityBar from '@src/components/activityBar'
 import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
 import XTerminal from '@src/components/terminal'
@@ -102,7 +102,7 @@ export default function Layout() {
         <div
           className={clsx('webcode-layout__activity-bar', classes.activityBar)}
         >
-          <Extension />
+          <ActivityBar />
         </div>
         <div
           className={clsx('webcode-layout__sidebar', classes.sideBar)}
