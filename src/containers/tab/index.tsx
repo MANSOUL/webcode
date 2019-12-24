@@ -35,7 +35,6 @@ export default function MyTab() {
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
   const classes = useStyles()
-  console.log(classes)
 
   React.useEffect(() => {
     refScroller.current && refScroller.current.resize()

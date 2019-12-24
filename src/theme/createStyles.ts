@@ -2,6 +2,7 @@ import jss, { StyleSheet } from 'jss'
 import preset from 'jss-preset-default'
 import useTheme from './useTheme'
 import { Theme } from './interface'
+import { isEqual } from 'lodash'
 
 jss.setup(preset())
 
@@ -11,10 +12,16 @@ jss.setup(preset())
  */
 const createStyles = (creator: (theme: Theme) => Record<string, any>) => {
   let sheet: StyleSheet | null = null
+  let prevStyles: Record<string, any> | null = null
   const useStyles = () => {
-    if (sheet) sheet.detach()
     const theme = useTheme()
     const styles = creator(theme)
+    // 如果当前和上一个样式的值一样，则直接返回
+    if (isEqual(styles, prevStyles)) {
+      return sheet?.classes || {}
+    }
+    sheet?.detach()
+    prevStyles = styles
     sheet = jss.createStyleSheet(styles)
     const { classes } = sheet.attach()
     return classes
