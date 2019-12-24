@@ -8,6 +8,8 @@ import useTheme from '@src/theme/useTheme'
 import { createStyles } from '@src/theme'
 import clsx from 'clsx'
 import useTerminalTheme from '@src/theme/terminal'
+import { useSelector } from 'react-redux'
+import { AppStore } from '@src/store'
 
 const useStyles = createStyles(theme => ({
   terminal: {
@@ -21,6 +23,8 @@ export default function XTerminal({}: Props) {
   const refTerminal = React.useRef<HTMLDivElement | null>(null)
   const refTerm = React.useRef<Terminal>()
   const refSocket = React.useRef<MySocket>()
+  const refFit = React.useRef<FitAddon | null>(null)
+  const editor = useSelector((store: AppStore) => store.editor)
   const theme = useTheme()
   const classes = useStyles()
   useTerminalTheme()
@@ -36,9 +40,15 @@ export default function XTerminal({}: Props) {
     })
   }, [])
 
+  // 重新设置theme
   React.useEffect(() => {
     setTermTheme()
   }, [theme.name])
+
+  // fit
+  React.useEffect(() => {
+    refFit.current && refFit.current.fit()
+  }, [editor.resizeCount])
 
   const setTermTheme = () => {
     if (refTerm.current) {
@@ -69,12 +79,10 @@ export default function XTerminal({}: Props) {
       const term = new Terminal({
         fontSize: 14
       })
-      const fitAddon = new FitAddon()
-      term.loadAddon(fitAddon)
-      window.addEventListener('resize', () => {
-        fitAddon.fit()
-      })
       refTerm.current = term
+      const fitAddon = new FitAddon()
+      refFit.current = fitAddon
+      term.loadAddon(fitAddon)
       setTermTheme()
       term.open(refTerminal.current)
       fitAddon.fit()
