@@ -36,29 +36,38 @@ export default function XTerminal({}: Props) {
     })
   }, [])
 
+  React.useEffect(() => {
+    setTermTheme()
+  }, [theme.name])
+
+  const setTermTheme = () => {
+    if (refTerm.current) {
+      refTerm.current.setOption('theme', {
+        background: theme.colors['terminal.background'],
+        foreground: theme.colors['terminal.foreground'],
+        black: theme.colors['terminal.ansiBlack'],
+        blue: theme.colors['terminal.ansiBlue'],
+        brightBlue: theme.colors['terminal.ansiBrightBlue'],
+        brightCyan: theme.colors['terminal.ansiBrightCyan'],
+        brightGreen: theme.colors['terminal.ansiBrightGreen'],
+        brightMagenta: theme.colors['terminal.ansiBrightMagenta'],
+        brightRed: theme.colors['terminal.ansiBrightRed'],
+        brightYellow: theme.colors['terminal.ansiBrightYellow'],
+        cyan: theme.colors['terminal.ansiCyan'],
+        green: theme.colors['terminal.ansiGreen'],
+        magenta: theme.colors['terminal.ansiMagenta'],
+        red: theme.colors['terminal.ansiRed'],
+        yellow: theme.colors['terminal.ansiYellow'],
+        cursor: theme.colors['terminalCursor.background'],
+        selection: theme.colors['terminal.selectionBackground']
+      })
+    }
+  }
+
   const createTerminal = () => {
     if (refTerminal.current) {
       const term = new Terminal({
-        fontSize: 14,
-        theme: {
-          background: theme.colors['terminal.background'],
-          foreground: theme.colors['terminal.foreground'],
-          black: theme.colors['terminal.ansiBlack'],
-          blue: theme.colors['terminal.ansiBlue'],
-          brightBlue: theme.colors['terminal.ansiBrightBlue'],
-          brightCyan: theme.colors['terminal.ansiBrightCyan'],
-          brightGreen: theme.colors['terminal.ansiBrightGreen'],
-          brightMagenta: theme.colors['terminal.ansiBrightMagenta'],
-          brightRed: theme.colors['terminal.ansiBrightRed'],
-          brightYellow: theme.colors['terminal.ansiBrightYellow'],
-          cyan: theme.colors['terminal.ansiCyan'],
-          green: theme.colors['terminal.ansiGreen'],
-          magenta: theme.colors['terminal.ansiMagenta'],
-          red: theme.colors['terminal.ansiRed'],
-          yellow: theme.colors['terminal.ansiYellow'],
-          cursor: theme.colors['terminalCursor.background'],
-          selection: theme.colors['terminal.selectionBackground']
-        }
+        fontSize: 14
       })
       const fitAddon = new FitAddon()
       term.loadAddon(fitAddon)
@@ -66,6 +75,7 @@ export default function XTerminal({}: Props) {
         fitAddon.fit()
       })
       refTerm.current = term
+      setTermTheme()
       term.open(refTerminal.current)
       fitAddon.fit()
       term.onData(e => {
