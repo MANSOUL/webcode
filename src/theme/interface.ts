@@ -122,7 +122,9 @@ export interface Theme {
     'extensionButton.prominentBackground': string
     'extensionButton.prominentHoverBackground': string
     'pickerGroup.foreground': string
+    'terminal.background': string
     'terminal.foreground': string
+    'terminal.ansiBlack': string
     'terminal.ansiBlue': string
     'terminal.ansiBrightBlue': string
     'terminal.ansiBrightCyan': string
