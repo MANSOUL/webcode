@@ -3,8 +3,17 @@ import 'xterm/css/xterm.css'
 import React from 'react'
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
-import ansiEscapes from 'ansi-escapes'
 import MySocket from '@src/utils/MySocket'
+import useTheme from '@src/theme/useTheme'
+import { createStyles } from '@src/theme'
+import clsx from 'clsx'
+import useTerminalTheme from '@src/theme/terminal'
+
+const useStyles = createStyles(theme => ({
+  terminal: {
+    backgroundColor: theme.colors['terminal.background']
+  }
+}))
 
 export interface Props {}
 
@@ -12,6 +21,9 @@ export default function XTerminal({}: Props) {
   const refTerminal = React.useRef<HTMLDivElement | null>(null)
   const refTerm = React.useRef<Terminal>()
   const refSocket = React.useRef<MySocket>()
+  const theme = useTheme()
+  const classes = useStyles()
+  useTerminalTheme()
 
   React.useEffect(() => {
     createTerminal()
@@ -27,7 +39,26 @@ export default function XTerminal({}: Props) {
   const createTerminal = () => {
     if (refTerminal.current) {
       const term = new Terminal({
-        fontSize: 14
+        fontSize: 14,
+        theme: {
+          background: theme.colors['terminal.background'],
+          foreground: theme.colors['terminal.foreground'],
+          black: theme.colors['terminal.ansiBlack'],
+          blue: theme.colors['terminal.ansiBlue'],
+          brightBlue: theme.colors['terminal.ansiBrightBlue'],
+          brightCyan: theme.colors['terminal.ansiBrightCyan'],
+          brightGreen: theme.colors['terminal.ansiBrightGreen'],
+          brightMagenta: theme.colors['terminal.ansiBrightMagenta'],
+          brightRed: theme.colors['terminal.ansiBrightRed'],
+          brightYellow: theme.colors['terminal.ansiBrightYellow'],
+          cyan: theme.colors['terminal.ansiCyan'],
+          green: theme.colors['terminal.ansiGreen'],
+          magenta: theme.colors['terminal.ansiMagenta'],
+          red: theme.colors['terminal.ansiRed'],
+          yellow: theme.colors['terminal.ansiYellow'],
+          cursor: theme.colors['terminalCursor.background'],
+          selection: theme.colors['terminal.selectionBackground']
+        }
       })
       const fitAddon = new FitAddon()
       term.loadAddon(fitAddon)
@@ -42,28 +73,11 @@ export default function XTerminal({}: Props) {
           refSocket.current.send(JSON.stringify(e))
         }
       })
-
-      // term.onKey(({ key }) => {
-      //   const keyCode = key.charCodeAt(0)
-      //   if (keyCode === 127) {
-      //     if (term.buffer.cursorX === 3) {
-      //       return
-      //     }
-      //     term.write('\b \b')
-      //     return
-      //   }
-      //   if (keyCode == 13) {
-      //     term.write('\r\n')
-      //     term.write(' $ ')
-      //     return
-      //   }
-      //   term.write(key)
-      // })
     }
   }
 
   return (
-    <div className="webcode-terminal">
+    <div className={clsx('webcode-terminal', classes.terminal)}>
       <div ref={refTerminal} className="webcode-terminal__xterm"></div>
     </div>
   )

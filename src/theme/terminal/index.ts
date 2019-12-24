@@ -4,7 +4,7 @@ import themeCreator from './creator'
 
 const insertCss = insert()
 
-export default function useEditorTheme() {
+export default function useTerminalTheme() {
   const theme = useTheme()
   const cssText = themeCreator(theme)
   insertCss(cssText)
