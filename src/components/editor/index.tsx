@@ -1,6 +1,7 @@
 import React from 'react'
 import ace from 'ace-builds'
 import { getModeForPath } from 'ace-builds/src-noconflict/ext-modelist'
+import { themeConfig } from '@src/theme/editor'
 
 ace.config.set('basePath', 'http://ajaxorg.github.io/ace-builds/src-noconflict')
 ace.config.set('fontSize', 15)
@@ -20,7 +21,8 @@ export default class Editor extends React.Component<Props> {
   componentDidMount() {
     if (this.refEditor.current) {
       const editor = ace.edit(this.refEditor.current)
-      editor.setTheme('ace/theme/monokai')
+      // @ts-ignore
+      editor.setTheme(themeConfig)
       this.aceEditor = editor
       this.addKeyBind()
     }
