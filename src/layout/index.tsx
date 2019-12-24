@@ -14,6 +14,7 @@ import { AppStore } from '@src/store'
 import { isEqual } from 'lodash'
 import { createStyles } from '@src/theme'
 import clsx from 'clsx'
+import { getUnsavedFileCount } from '@src/store/files/util'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -42,6 +43,7 @@ export default function Layout() {
   const [terminalOpen, setTerminalOpen] = React.useState(false)
   const dispatch = useDispatch()
   const editor = useSelector((store: AppStore) => store.editor)
+  const files = useSelector((store: AppStore) => store.files)
   const classes = useStyles()
 
   if (!isEqual(editorSlection, editor.editorSlection)) {
@@ -103,7 +105,11 @@ export default function Layout() {
           className={clsx('webcode-layout__activity-bar', classes.activityBar)}
         >
           <ActivityBar>
-            <ActivityBarItem iconFont="icon-ccfile" active badge={2} />
+            <ActivityBarItem
+              iconFont="icon-ccfile"
+              active
+              badge={getUnsavedFileCount(files.fileContents)}
+            />
           </ActivityBar>
         </div>
         <div
