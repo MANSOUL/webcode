@@ -1,3 +1,12 @@
+export interface TokenColor {
+  name: string
+  scope: string | string[]
+  settings: {
+    foreground: string
+    fontStyle: string
+  }
+}
+
 export interface Theme {
   name: string
   type: string
@@ -53,6 +62,7 @@ export interface Theme {
     'tab.activeBorder': string
     'tab.inactiveBackground': string
     'editor.background': string
+    'editor.foreground': string
     'editorLineNumber.foreground': string
     'editorLineNumber.activeForeground': string
     'editorCursor.background': string
@@ -137,6 +147,7 @@ export interface Theme {
     'gitDecoration.ignoredResourceForeground': string
     'breadcrumbPicker.background': string
   }
+  tokenColors: TokenColor[]
 }
 
 export interface ThemeProviderProps {
