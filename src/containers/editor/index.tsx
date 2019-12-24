@@ -6,6 +6,7 @@ import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
 import { Ace } from 'ace-builds'
 import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
+import useEditorTheme from '@src/theme/editor'
 
 export interface Props {
   fileKey: string
@@ -16,6 +17,7 @@ export default function MyEditor({ fileKey }: Props) {
   const files = useSelector((store: AppStore) => store.files)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
+  useEditorTheme()
 
   React.useEffect(() => {
     if (refEditor.current) {
