@@ -24,6 +24,7 @@
   }
 
   &__icon {
+    position: relative;
     display: inline-block;
     width: @iconSize;
     height: @iconSize;
@@ -32,5 +33,18 @@
     .iconfont {
       font-size: inherit;
     }
+  }
+
+  &__badge {
+    position: absolute;
+    right: -5px;
+    bottom: -3px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 50%;
   }
 }

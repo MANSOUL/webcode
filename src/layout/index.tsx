@@ -2,7 +2,7 @@ import './index.less'
 import React from 'react'
 import VerticalResizer from './verticalResizer'
 import HorizontalResizer from './horizontalResizer'
-import ActivityBar from '@src/containers/activityBar'
+import ActivityBar, { ActivityBarItem } from '@src/containers/activityBar'
 import EditorPosition from '@src/components/editorPosition'
 import FootbarTerminal from '@src/components/footbarTerminal'
 import XTerminal from '@src/components/terminal'
@@ -102,7 +102,9 @@ export default function Layout() {
         <div
           className={clsx('webcode-layout__activity-bar', classes.activityBar)}
         >
-          <ActivityBar />
+          <ActivityBar>
+            <ActivityBarItem iconFont="icon-ccfile" active badge={2} />
+          </ActivityBar>
         </div>
         <div
           className={clsx('webcode-layout__sidebar', classes.sideBar)}

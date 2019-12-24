@@ -1,16 +1,14 @@
 import './index.less'
 import React from 'react'
+import { createStyles } from '@src/theme'
+export { default as ActivityBarItem } from './item'
 
-export interface Props {}
+const useStyles = createStyles(theme => ({}))
 
-export default function Extension({}: Props) {
-  return (
-    <div className="webcode-extension-bar">
-      <div className="webcode-extension-bar__item webcode-extension-bar__item--active">
-        <a className="webcode-extension-bar__icon">
-          <i className="iconfont icon-ccfile" />
-        </a>
-      </div>
-    </div>
-  )
+export interface Props {
+  children?: any
+}
+
+export default function ActivityBar({ children }: Props) {
+  return <div className="webcode-extension-bar">{children}</div>
 }
