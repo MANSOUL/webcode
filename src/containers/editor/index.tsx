@@ -1,10 +1,9 @@
 import React from 'react'
-import Editor from '@src/components/editor'
+import Editor from '@src/components/monaco'
 import { AppStore } from '@src/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
-import { Ace } from 'ace-builds'
 import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
 import useEditorTheme from '@src/theme/editor'
 
@@ -20,6 +19,15 @@ export default function MyEditor({ fileKey }: Props) {
   useEditorTheme()
 
   React.useEffect(() => {
+    projectChange()
+  }, [])
+
+  // resize editor
+  React.useEffect(() => {
+    refEditor.current && refEditor.current.resize()
+  }, [editor.resizeCount])
+
+  const bindEvent = () => {
     if (refEditor.current) {
       refEditor.current.onCursorChange(cursor =>
         dispatch(createEditorSelectionAction(cursor))
@@ -45,14 +53,7 @@ export default function MyEditor({ fileKey }: Props) {
         dispatch(fileSaveFile(fileKey))
       })
     }
-
-    projectChange()
-  }, [])
-
-  // resize editor
-  React.useEffect(() => {
-    refEditor.current && refEditor.current.resize()
-  }, [editor.resizeCount])
+  }
 
   const projectChange = () => {
     const { loading, error, errorMessage, fileContents } = files
@@ -62,6 +63,7 @@ export default function MyEditor({ fileKey }: Props) {
       refEditor.current.setMode(file.fileName)
       refEditor.current.setValue(file.content, 1)
       refEditor.current.focus()
+      bindEvent()
     }
   }
 
