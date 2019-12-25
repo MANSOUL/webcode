@@ -156,3 +156,9 @@ export interface ThemeProviderProps {
   children: any
   theme: Theme
 }
+
+export interface MonacoThemeRule {
+  foreground: string
+  fontStyle: string
+  token: string
+}
