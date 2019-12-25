@@ -64,7 +64,8 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/api': 'http://localhost:9999'
-    }
+    },
+    contentBase: path.join(__dirname, '../build')
   },
   plugins: [
     new HTMLWebpackPlugin({
