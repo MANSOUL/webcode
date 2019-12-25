@@ -8,6 +8,8 @@ import store from './store'
 import { ThemeProvider } from './theme'
 import themeHorizon from './theme/assets/horizon.json'
 
+import { loadWASM } from 'onigasm'
+
 const App = () => {
   return (
     <Provider store={store}>
@@ -18,4 +20,11 @@ const App = () => {
   )
 }
 
-render(<App />, document.getElementById('app'))
+loadWASM('/assets/onigasm.wasm').then(
+  async () => {
+    render(<App />, document.getElementById('app'))
+  },
+  error => {
+    console.log(error)
+  }
+)

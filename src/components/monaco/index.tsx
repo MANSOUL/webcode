@@ -1,7 +1,13 @@
 import React from 'react'
 import * as monaco from 'monaco-editor'
+//@ts-ignore
+import vsCodeTheme from '@src/theme/assets/monacoTheme'
+import { convertTheme } from 'monaco-vscode-textmate-theme-converter'
+import converter from '@src/theme/editor/converter'
 
 export interface Props {}
+
+monaco.editor.defineTheme('webcodeTheme', vsCodeTheme)
 
 export default class Editor extends React.Component<Props> {
   refEditor: React.RefObject<HTMLDivElement>
@@ -14,11 +20,19 @@ export default class Editor extends React.Component<Props> {
   }
 
   componentDidMount() {
+    converter(monaco)
     if (this.refEditor.current) {
-      const editor = monaco.editor.create(this.refEditor.current)
+      const editor = monaco.editor.create(this.refEditor.current, {
+        theme: 'webcodeTheme'
+      })
       this.editor = editor
       this.addKeyBind()
     }
+  }
+
+  componentWillUnmount() {
+    this.editor?.getModel()?.dispose()
+    this.editor?.dispose()
   }
 
   onCursorChange(
@@ -69,9 +83,9 @@ export default class Editor extends React.Component<Props> {
     this.onSaveEvents.push(callback)
   }
 
-  setMode(fileName: string) {
+  setMode(fileName: string, value: string) {
     const model = monaco.editor.createModel(
-      '',
+      value,
       undefined,
       monaco.Uri.file(fileName)
     )

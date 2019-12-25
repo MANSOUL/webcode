@@ -20,6 +20,11 @@ export default function MyEditor({ fileKey }: Props) {
 
   React.useEffect(() => {
     projectChange()
+
+    return () => {
+      console.log(refEditor.current)
+      refEditor.current = null
+    }
   }, [])
 
   // resize editor
@@ -60,8 +65,8 @@ export default function MyEditor({ fileKey }: Props) {
     const file = getFileById(fileContents, fileKey)
     if (refEditor.current && file) {
       console.log(file.fileName)
-      refEditor.current.setMode(file.fileName)
-      refEditor.current.setValue(file.content, 1)
+      refEditor.current.setMode(file.fileName, file.content)
+      // refEditor.current.setValue(file.content, 1)
       refEditor.current.focus()
       bindEvent()
     }
