@@ -1,5 +1,6 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 module.exports = {
   entry: './src/index.tsx',
@@ -44,6 +45,10 @@ module.exports = {
             limit: 8192
           }
         }]
+      },
+      {
+        test: /\.ttf$/,
+        use: ['file-loader']
       }
     ]
   },
@@ -64,6 +69,7 @@ module.exports = {
   plugins: [
     new HTMLWebpackPlugin({
       template: './src/index.html'
-    })
+    }),
+    new MonacoWebpackPlugin()
   ]
 }
