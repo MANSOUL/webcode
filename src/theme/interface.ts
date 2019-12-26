@@ -158,7 +158,8 @@ export interface ThemeProviderProps {
 }
 
 export interface MonacoThemeRule {
-  foreground: string
-  fontStyle: string
+  foreground?: string
+  fontStyle?: string
   token: string
+  background?: string
 }

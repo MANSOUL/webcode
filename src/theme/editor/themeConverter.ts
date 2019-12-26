@@ -22,6 +22,10 @@ export default function convertTheme(theme: Theme) {
       monacoThemeRule = [...monacoThemeRule, ...mapScope(color.scope, color)]
     }
   })
+  monacoThemeRule.push({
+    token: '',
+    background: theme.colors['editor.background']
+  })
   return {
     inherit: true,
     base: 'vs-dark',
