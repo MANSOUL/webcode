@@ -1,11 +1,11 @@
 [
   {
-    "language": "cpp",
+    "language": "mcpp",
     "path": "/assets/grammers/cpp.tmLanguage.json",
     "scopeName": "source.cpp"
   },
   {
-    "language": "javascript",
+    "language": "mjavascript",
     "path": "/assets/grammers/javascript.tmLanguage.json",
     "scopeName": "source.js"
   }

@@ -22,7 +22,10 @@ function createRegister() {
           content: await (await fetch(grammar.path)).text()
         }
       }
-      return { format: 'json', content: '' }
+      return {
+        format: 'json',
+        content: await (await fetch(grammars[1].path)).text()
+      }
     }
   })
   return registry

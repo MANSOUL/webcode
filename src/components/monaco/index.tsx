@@ -1,16 +1,20 @@
 import React from 'react'
 import * as monaco from 'monaco-editor'
 import theme from '@src/theme/assets/horizon.json'
-import converTheme from '@src/theme/editor/themeConverter'
+import convertTheme from '@src/theme/editor/themeConverter'
 import grammerAdapter from '@src/theme/editor/vscodeGrammerAdapter'
 
 export interface Props {
   fileName: string
   fileContent: string
+  context?: any
 }
-//@ts-ignore
-monaco.editor.defineTheme('webcodeTheme', converTheme(theme))
 
+//@ts-ignore
+monaco.editor.defineTheme('webcodeTheme', convertTheme(theme))
+monaco.editor.setTheme('webcodeTheme')
+monaco.languages.register({ id: 'mcpp' })
+monaco.languages.register({ id: 'mjavascript' })
 export default class Editor extends React.Component<Props> {
   refEditor: React.RefObject<HTMLDivElement>
   editor: monaco.editor.IStandaloneCodeEditor | undefined
@@ -19,11 +23,10 @@ export default class Editor extends React.Component<Props> {
   constructor(props: Props) {
     super(props)
     this.refEditor = React.createRef<HTMLDivElement>()
-    grammerAdapter(monaco)
   }
 
   componentDidMount() {
-    this.initEditor()
+    this.afterViewInit()
   }
 
   componentWillUnmount() {
@@ -31,15 +34,35 @@ export default class Editor extends React.Component<Props> {
     this.editor?.dispose()
   }
 
-  initEditor() {
+  editorWillMount = () => {}
+
+  editorDidMount = () => {
+    grammerAdapter(monaco).then(() => {})
+  }
+
+  afterViewInit = () => {
+    const context = this.props.context || window
+
+    if (context.monaco !== undefined) {
+      this.initMonaco()
+      return
+    }
+
+    this.initMonaco()
+  }
+
+  initMonaco = () => {
     if (this.refEditor.current) {
-      const editor = monaco.editor.create(this.refEditor.current, {
+      // Before initializing monaco editor
+      this.editorWillMount()
+      this.editor = monaco.editor.create(this.refEditor.current, {
         fontSize: 14,
-        theme: 'webcodeTheme'
+        value: this.props.fileContent
       })
-      this.editor = editor
       this.setMode(this.props.fileName, this.props.fileContent)
       this.addKeyBind()
+      // After initializing monaco editor
+      this.editorDidMount()
     }
   }
 
@@ -94,8 +117,8 @@ export default class Editor extends React.Component<Props> {
   setMode(fileName: string, value: string) {
     const model = monaco.editor.createModel(
       value,
-      undefined,
-      monaco.Uri.file(fileName)
+      'mjavascript'
+      // monaco.Uri.file(fileName)
     )
     this.editor && this.editor.setModel(model)
   }

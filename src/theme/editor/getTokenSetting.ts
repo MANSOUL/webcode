@@ -23,7 +23,7 @@ export default function getTokenCss(
   identityScope: string
 ) {
   const settings = getTokenSetting(tokenColors, identityScope)
-  let returnSettings: Record<string, string> = {}
+  let returnSettings: Record<string, string | undefined> = {}
   if (settings) {
     returnSettings = {
       fontStyle: settings.fontStyle,
