@@ -87,6 +87,7 @@
     "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
+    "react-svg": "^11.0.5",
     "redux": "^4.0.4",
     "redux-promise": "^0.6.0",
     "redux-thunk": "^2.3.0",
