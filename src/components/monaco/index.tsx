@@ -1,21 +1,15 @@
 import React from 'react'
 import * as monaco from 'monaco-editor'
-import theme from '@src/theme/assets/horizon.json'
-import convertTheme from '@src/theme/editor/themeConverter'
-import grammerAdapter from '@src/theme/editor/vscodeGrammerAdapter'
+import { grammerAdapter, registerLanguage } from '@src/theme/editor'
 import getLanguageId from './getLanguageId'
 
 export interface Props {
   fileName: string
   fileContent: string
-  context?: any
 }
 
-//@ts-ignore
-monaco.editor.defineTheme('webcodeTheme', convertTheme(theme))
-monaco.editor.setTheme('webcodeTheme')
-monaco.languages.register({ id: 'mcpp' })
-monaco.languages.register({ id: 'mjavascript' })
+registerLanguage(monaco)
+
 export default class Editor extends React.Component<Props> {
   refEditor: React.RefObject<HTMLDivElement>
   editor: monaco.editor.IStandaloneCodeEditor | undefined
@@ -27,7 +21,7 @@ export default class Editor extends React.Component<Props> {
   }
 
   componentDidMount() {
-    this.afterViewInit()
+    this.initMonaco()
   }
 
   componentWillUnmount() {
@@ -39,17 +33,6 @@ export default class Editor extends React.Component<Props> {
 
   editorDidMount = () => {
     grammerAdapter(monaco, this.editor).then(() => {})
-  }
-
-  afterViewInit = () => {
-    const context = this.props.context || window
-
-    if (context.monaco !== undefined) {
-      this.initMonaco()
-      return
-    }
-
-    this.initMonaco()
   }
 
   initMonaco = () => {

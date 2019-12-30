@@ -1,8 +1,3 @@
-import useTheme from '../useTheme'
-import insert from '../insertCss'
-
-const insertCss = insert()
-
-export default function useEditorTheme() {
-  const theme = useTheme()
-}
+export { default as grammerAdapter } from './vscodeGrammerAdapter'
+export { default as convertTheme } from './themeConverter'
+export { default as registerLanguage } from './registerLanguage'
