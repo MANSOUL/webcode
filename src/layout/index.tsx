@@ -11,7 +11,7 @@ import MyTab from '@src/containers/tab'
 import { useDispatch, useSelector } from 'react-redux'
 import { createEditorResizeAction } from '@src/store/editor/actions'
 import { AppStore } from '@src/store'
-import { isEqual } from 'lodash'
+import { isEqual, debounce } from 'lodash'
 import { createStyles } from '@src/theme'
 import clsx from 'clsx'
 import { getUnsavedFileCount } from '@src/store/files/util'
@@ -45,6 +45,9 @@ export default function Layout() {
   const editor = useSelector((store: AppStore) => store.editor)
   const files = useSelector((store: AppStore) => store.files)
   const classes = useStyles()
+  const resizeDebounced = React.useRef(
+    debounce(() => dispatch(createEditorResizeAction()))
+  )
 
   if (!isEqual(editorSlection, editor.editorSlection)) {
     setEditorSelection(editor.editorSlection)
@@ -63,7 +66,7 @@ export default function Layout() {
   }, [])
 
   const resizeEditor = () => {
-    dispatch(createEditorResizeAction())
+    resizeDebounced.current()
   }
 
   const handleResizerChange = (offset: number) => {
