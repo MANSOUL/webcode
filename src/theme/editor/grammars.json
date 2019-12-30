@@ -1,75 +1,75 @@
 [{
-    "language": "m-bat",
+    "language": "bat",
     "scopeName": "source.dosbatch",
     "path": "/assets/grammers/Batch File.tmLanguage"
   },
   {
-    "language": "m-clojure",
+    "language": "clojure",
     "scopeName": "source.clojure",
     "path": "/assets/grammers/Clojure.tmLanguage"
   },
   {
-    "language": "m-coffeescript",
+    "language": "coffeescript",
     "scopeName": "source.coffee",
     "path": "/assets/grammers/coffeescript.json"
   },
   {
-    "language": "m-c",
+    "language": "c",
     "scopeName": "source.c",
     "path": "/assets/grammers/c.json"
   },
   {
-    "language": "m-cpp",
+    "language": "cpp",
     "scopeName": "source.cpp",
     "path": "/assets/grammers/c++.json"
   },
   {
-    "language": "m-css",
+    "language": "css",
     "scopeName": "source.css",
     "path": "/assets/grammers/css.plist"
   },
   {
-    "language": "m-diff",
+    "language": "diff",
     "scopeName": "source.diff",
     "path": "/assets/grammers/diff.tmLanguage"
   },
   {
-    "language": "m-dockerfile",
+    "language": "dockerfile",
     "scopeName": "source.dockerfile",
     "path": "/assets/grammers/Dockerfile.tmLanguage"
   },
   {
-    "language": "m-fsharp",
+    "language": "fsharp",
     "scopeName": "source.fsharp",
     "path": "/assets/grammers/fsharp.json"
   },
   {
-    "language": "m-git-commit",
+    "language": "git-commit",
     "scopeName": "text.git-commit",
     "path": "/assets/grammers/git-commit.tmLanguage"
   },
   {
-    "language": "m-git-rebase",
+    "language": "git-rebase",
     "scopeName": "text.git-rebase",
     "path": "/assets/grammers/git-rebase.tmLanguage"
   },
   {
-    "language": "m-go",
+    "language": "go",
     "scopeName": "source.go",
     "path": "/assets/grammers/go.json"
   },
   {
-    "language": "m-groovy",
+    "language": "groovy",
     "scopeName": "source.groovy",
     "path": "/assets/grammers/Groovy.tmLanguage"
   },
   {
-    "language": "m-handlebars",
+    "language": "handlebars",
     "scopeName": "text.html.handlebars",
     "path": "/assets/grammers/Handlebars.json"
   },
   {
-    "language": "m-html",
+    "language": "html",
     "scopeName": "text.html.basic",
     "path": "/assets/grammers/html.json",
     "embeddedLanguages": {
@@ -81,77 +81,77 @@
     }
   },
   {
-    "language": "m-ini",
+    "language": "ini",
     "scopeName": "source.properties",
     "path": "/assets/grammers/properties.plist"
   },
   {
-    "language": "m-properties",
+    "language": "properties",
     "scopeName": "source.properties",
     "path": "/assets/grammers/properties.plist"
   },
   {
-    "language": "m-jade",
+    "language": "jade",
     "scopeName": "text.jade",
     "path": "/assets/grammers/Jade.json"
   },
   {
-    "language": "m-java",
+    "language": "java",
     "scopeName": "source.java",
     "path": "/assets/grammers/java.json"
   },
   {
-    "language": "m-javascriptreact",
+    "language": "javascriptreact",
     "scopeName": "source.js",
     "path": "/assets/grammers/JavaScript.tmLanguage.json"
   },
   {
-    "language": "m-javascript",
+    "language": "javascript",
     "scopeName": "source.js",
     "path": "/assets/grammers/JavaScript.tmLanguage.json"
   },
   {
-    "language": "m-json",
+    "language": "json",
     "scopeName": "source.json",
     "path": "/assets/grammers/JSON.tmLanguage"
   },
   {
-    "language": "m-less",
+    "language": "less",
     "scopeName": "source.css.less",
     "path": "/assets/grammers/less.tmLanguage.json"
   },
   {
-    "language": "m-lua",
+    "language": "lua",
     "scopeName": "source.lua",
     "path": "/assets/grammers/lua.json"
   },
   {
-    "language": "m-makefile",
+    "language": "makefile",
     "scopeName": "source.makefile",
     "path": "/assets/grammers/Makefile.json"
   },
   {
-    "language": "m-markdown",
+    "language": "markdown",
     "scopeName": "text.html.markdown",
     "path": "/assets/grammers/markdown.tmLanguage"
   },
   {
-    "language": "m-objective-c",
+    "language": "objective-c",
     "scopeName": "source.objc",
     "path": "/assets/grammers/Objective-C.tmLanguage"
   },
   {
-    "language": "m-perl",
+    "language": "perl",
     "scopeName": "source.perl",
     "path": "/assets/grammers/Perl.plist"
   },
   {
-    "language": "m-perl6",
+    "language": "perl6",
     "scopeName": "source.perl.6",
     "path": "/assets/grammers/Perl 6.tmLanguage"
   },
   {
-    "language": "m-php",
+    "language": "php",
     "scopeName": "text.html.php",
     "path": "/assets/grammers/php.json",
     "embeddedLanguages": {
@@ -165,87 +165,87 @@
     }
   },
   {
-    "language": "m-powershell",
+    "language": "powershell",
     "scopeName": "source.powershell",
     "path": "/assets/grammers/PowershellSyntax.tmLanguage"
   },
   {
-    "language": "m-python",
+    "language": "python",
     "scopeName": "source.python",
     "path": "/assets/grammers/MagicPython.tmLanguage.json"
   },
   {
-    "language": "m-r",
+    "language": "r",
     "scopeName": "source.r",
     "path": "/assets/grammers/R.plist"
   },
   {
-    "language": "m-razor",
+    "language": "razor",
     "scopeName": "text.html.cshtml",
     "path": "/assets/grammers/cshtml.json"
   },
   {
-    "language": "m-ruby",
+    "language": "ruby",
     "scopeName": "source.ruby",
     "path": "/assets/grammers/Ruby.plist"
   },
   {
-    "language": "m-rust",
+    "language": "rust",
     "path": "/assets/grammers/rust.json",
     "scopeName": "source.rust"
   },
   {
-    "language": "m-scss",
+    "language": "scss",
     "scopeName": "source.css.scss",
     "path": "/assets/grammers/scss.json"
   },
   {
-    "language": "m-shaderlab",
+    "language": "shaderlab",
     "path": "/assets/grammers/shaderlab.json",
     "scopeName": "source.shaderlab"
   },
   {
-    "language": "m-shellscript",
+    "language": "shellscript",
     "scopeName": "source.shell",
     "path": "/assets/grammers/Shell-Unix-Bash.tmLanguage.json"
   },
   {
-    "language": "m-sql",
+    "language": "sql",
     "scopeName": "source.sql",
     "path": "/assets/grammers/SQL.plist"
   },
   {
-    "language": "m-swift",
+    "language": "swift",
     "scopeName": "source.swift",
     "path": "/assets/grammers/swift.json"
   },
   {
-    "language": "m-typescript",
+    "language": "typescript",
     "scopeName": "source.ts",
     "path": "/assets/grammers/TypeScript.tmLanguage.json"
   },
   {
-    "language": "m-typescriptreact",
+    "language": "typescriptreact",
     "scopeName": "source.tsx",
     "path": "/assets/grammers/TypeScriptReact.tmLanguage.json"
   },
   {
-    "language": "m-vb",
+    "language": "vb",
     "scopeName": "source.asp.vb.net",
     "path": "/assets/grammers/ASPVBnet.plist"
   },
   {
-    "language": "m-xml",
+    "language": "xml",
     "scopeName": "text.xml",
     "path": "/assets/grammers/xml.json"
   },
   {
-    "language": "m-xsl",
+    "language": "xsl",
     "scopeName": "text.xml.xsl",
     "path": "/assets/grammers/xsl.json"
   },
   {
-    "language": "m-yaml",
+    "language": "yaml",
     "scopeName": "source.yaml",
     "path": "/assets/grammers/yaml.json"
   }

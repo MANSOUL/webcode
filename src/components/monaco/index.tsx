@@ -1,14 +1,15 @@
 import React from 'react'
 import * as monaco from 'monaco-editor'
-import { grammerAdapter, registerLanguage } from '@src/theme/editor'
+import { overrideLanguage, registerLanguage } from '@src/theme/editor'
 import getLanguageId from './getLanguageId'
+
+registerLanguage(monaco)
+overrideLanguage(monaco)
 
 export interface Props {
   fileName: string
   fileContent: string
 }
-
-registerLanguage(monaco)
 
 export default class Editor extends React.Component<Props> {
   refEditor: React.RefObject<HTMLDivElement>

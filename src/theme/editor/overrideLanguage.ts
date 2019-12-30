@@ -1,0 +1,16 @@
+import grammars from './grammars.json'
+
+const getCustomLanguages = () => {
+  return grammars.map(item => item.language)
+}
+
+export default function overrideLanguage(monaco: any) {
+  const overrideLangauges = getCustomLanguages()
+  monaco.languages.getLanguages().forEach(function(lang: any) {
+    if (overrideLangauges.includes(lang.id)) {
+      lang.loader = function() {
+        return { then: function() {} }
+      }
+    }
+  })
+}
