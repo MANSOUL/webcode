@@ -32,7 +32,7 @@ export default class Editor extends React.Component<Props> {
   editorWillMount = () => {}
 
   editorDidMount = () => {
-    grammerAdapter(monaco, this.editor).then(() => {})
+    // grammerAdapter(monaco, this.editor).then(() => {})
   }
 
   initMonaco = () => {

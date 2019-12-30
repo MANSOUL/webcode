@@ -1,6 +1,7 @@
 import { Registry } from 'monaco-textmate'
 import { wireTmGrammars } from 'monaco-editor-textmate'
 import grammars from './grammars.json'
+import getExtension from '@src/utils/getExtension'
 
 interface Grammer {
   language: string
@@ -15,16 +16,13 @@ function getGrammarByScopeName(grammars: Grammer[], scopeName: string) {
 function createRegister() {
   const registry = new Registry({
     getGrammarDefinition: async scopeName => {
-      const grammar = getGrammarByScopeName(grammars, scopeName)
-      if (grammar) {
-        return {
-          format: 'json',
-          content: await (await fetch(grammar.path)).text()
-        }
-      }
+      let grammar = getGrammarByScopeName(grammars, scopeName)
+      grammar = grammar || grammars[0]
+      const path = grammar.path
+      console.log(scopeName)
       return {
-        format: 'json',
-        content: await (await fetch(grammars[1].path)).text()
+        format: getExtension(path) === '.json' ? 'json' : 'plist',
+        content: await (await fetch(grammar.path)).text()
       }
     }
   })

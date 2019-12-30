@@ -8,6 +8,8 @@ import store from './store'
 import { ThemeProvider } from './theme'
 import themeHorizon from './theme/assets/horizon.json'
 import { loadWASM } from 'onigasm'
+import * as monaco from 'monaco-editor'
+import { grammerAdapter, registerLanguage } from '@src/theme/editor'
 
 const App = () => {
   return (
@@ -22,6 +24,7 @@ const App = () => {
 const renderApp = async () => {
   try {
     await loadWASM('/assets/onigasm.wasm')
+    await grammerAdapter(monaco)
     render(<App />, document.getElementById('app'))
   } catch (error) {
     console.log(error)
