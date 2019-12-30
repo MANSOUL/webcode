@@ -1,13 +1,15 @@
 import React from 'react'
 import * as monaco from 'monaco-editor'
+import theme from '@src/theme/assets/horizon.json'
+import converTheme from '@src/theme/editor/themeConverter'
+import grammerAdapter from '@src/theme/editor/vscodeGrammerAdapter'
+
+export interface Props {
+  fileName: string
+  fileContent: string
+}
 //@ts-ignore
-import vsCodeTheme from '@src/theme/assets/monacoTheme'
-import { convertTheme } from 'monaco-vscode-textmate-theme-converter'
-import converter from '@src/theme/editor/converter'
-
-export interface Props {}
-
-monaco.editor.defineTheme('webcodeTheme', vsCodeTheme)
+monaco.editor.defineTheme('webcodeTheme', converTheme(theme))
 
 export default class Editor extends React.Component<Props> {
   refEditor: React.RefObject<HTMLDivElement>
@@ -17,22 +19,28 @@ export default class Editor extends React.Component<Props> {
   constructor(props: Props) {
     super(props)
     this.refEditor = React.createRef<HTMLDivElement>()
+    grammerAdapter(monaco)
   }
 
   componentDidMount() {
-    converter(monaco)
-    if (this.refEditor.current) {
-      const editor = monaco.editor.create(this.refEditor.current, {
-        theme: 'webcodeTheme'
-      })
-      this.editor = editor
-      this.addKeyBind()
-    }
+    this.initEditor()
   }
 
   componentWillUnmount() {
     this.editor?.getModel()?.dispose()
     this.editor?.dispose()
+  }
+
+  initEditor() {
+    if (this.refEditor.current) {
+      const editor = monaco.editor.create(this.refEditor.current, {
+        fontSize: 14,
+        theme: 'webcodeTheme'
+      })
+      this.editor = editor
+      this.setMode(this.props.fileName, this.props.fileContent)
+      this.addKeyBind()
+    }
   }
 
   onCursorChange(

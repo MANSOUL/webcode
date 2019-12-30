@@ -9,6 +9,8 @@ import { ThemeProvider } from './theme'
 import themeHorizon from './theme/assets/horizon.json'
 
 import { loadWASM } from 'onigasm'
+// import * as monaco from 'monaco-editor'
+// import grammerAdapter from '@src/theme/editor/vscodeGrammerAdapter'
 
 const App = () => {
   return (
@@ -22,6 +24,7 @@ const App = () => {
 
 loadWASM('/assets/onigasm.wasm').then(
   async () => {
+    // await grammerAdapter(monaco)
     render(<App />, document.getElementById('app'))
   },
   error => {

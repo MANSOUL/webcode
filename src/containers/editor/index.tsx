@@ -17,9 +17,14 @@ export default function MyEditor({ fileKey }: Props) {
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
   useEditorTheme()
+  const { loading, error, errorMessage, fileContents } = files
+  const file = getFileById(fileContents, fileKey)
 
   React.useEffect(() => {
-    projectChange()
+    if (refEditor.current && file) {
+      refEditor.current.focus()
+      bindEvent()
+    }
 
     return () => {
       console.log(refEditor.current)
@@ -60,17 +65,11 @@ export default function MyEditor({ fileKey }: Props) {
     }
   }
 
-  const projectChange = () => {
-    const { loading, error, errorMessage, fileContents } = files
-    const file = getFileById(fileContents, fileKey)
-    if (refEditor.current && file) {
-      console.log(file.fileName)
-      refEditor.current.setMode(file.fileName, file.content)
-      // refEditor.current.setValue(file.content, 1)
-      refEditor.current.focus()
-      bindEvent()
-    }
-  }
-
-  return <Editor ref={refEditor} />
+  return (
+    <Editor
+      ref={refEditor}
+      fileName={file?.relative || ''}
+      fileContent={file?.content || ''}
+    />
+  )
 }
