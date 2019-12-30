@@ -1,7 +1,6 @@
 import React from 'react'
 import * as monaco from 'monaco-editor'
 import { overrideLanguage, registerLanguage } from '@src/theme/editor'
-import getLanguageId from './getLanguageId'
 
 registerLanguage(monaco)
 overrideLanguage(monaco)
@@ -41,8 +40,7 @@ export default class Editor extends React.Component<Props> {
       // Before initializing monaco editor
       this.editorWillMount()
       this.editor = monaco.editor.create(this.refEditor.current, {
-        fontSize: 14,
-        value: this.props.fileContent
+        fontSize: 14
       })
       this.setMode(this.props.fileName, this.props.fileContent)
       this.addKeyBind()
@@ -102,7 +100,8 @@ export default class Editor extends React.Component<Props> {
   setMode(fileName: string, value: string) {
     const model = monaco.editor.createModel(
       value,
-      getLanguageId(fileName, monaco.languages.getLanguages())
+      undefined,
+      monaco.Uri.parse(fileName)
     )
     this.editor && this.editor.setModel(model)
   }
