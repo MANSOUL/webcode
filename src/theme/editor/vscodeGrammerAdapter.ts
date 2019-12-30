@@ -19,7 +19,6 @@ function createRegister() {
       let grammar = getGrammarByScopeName(grammars, scopeName)
       grammar = grammar || grammars[0]
       const path = grammar.path
-      console.log(scopeName)
       return {
         format: getExtension(path) === '.json' ? 'json' : 'plist',
         content: await (await fetch(grammar.path)).text()
