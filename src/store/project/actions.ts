@@ -1,6 +1,6 @@
 import { Action, Dispatch } from 'redux'
 import mFetch from '@src/utils/mFetch'
-import { fileNewFile } from '../files/actions'
+import { fileNewFile, fileCloseFile } from '../files/actions'
 import { getProject } from '@src/config/project'
 
 export const FETCH_PROJECT_START = 'FETCH_PROJECT_START'
@@ -222,6 +222,7 @@ export const projectRemoveFile = (
         'delete'
       )
       if (res.status === 200) {
+        dispatch(fileCloseFile(id))
         dispatch({
           type: PROJECT_REMOVE_FILE,
           payload: {
