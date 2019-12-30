@@ -2,8 +2,8 @@ export interface TokenColor {
   name: string
   scope: string | string[]
   settings: {
-    foreground: string
-    fontStyle: string
+    foreground?: string
+    fontStyle?: string
   }
 }
 
@@ -124,7 +124,7 @@ export interface Theme {
     'pickerGroup.foreground': string
     'terminal.background': string
     'terminal.foreground': string
-    'terminal.ansiBlack': string
+    'terminal.ansiBlack'?: string
     'terminal.ansiBlue': string
     'terminal.ansiBrightBlue': string
     'terminal.ansiBrightCyan': string
