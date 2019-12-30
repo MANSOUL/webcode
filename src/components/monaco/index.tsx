@@ -3,6 +3,7 @@ import * as monaco from 'monaco-editor'
 import theme from '@src/theme/assets/horizon.json'
 import convertTheme from '@src/theme/editor/themeConverter'
 import grammerAdapter from '@src/theme/editor/vscodeGrammerAdapter'
+import getLanguageId from './getLanguageId'
 
 export interface Props {
   fileName: string
@@ -37,7 +38,7 @@ export default class Editor extends React.Component<Props> {
   editorWillMount = () => {}
 
   editorDidMount = () => {
-    grammerAdapter(monaco).then(() => {})
+    grammerAdapter(monaco, this.editor).then(() => {})
   }
 
   afterViewInit = () => {
@@ -117,8 +118,7 @@ export default class Editor extends React.Component<Props> {
   setMode(fileName: string, value: string) {
     const model = monaco.editor.createModel(
       value,
-      'mjavascript'
-      // monaco.Uri.file(fileName)
+      getLanguageId(fileName, monaco.languages.getLanguages())
     )
     this.editor && this.editor.setModel(model)
   }

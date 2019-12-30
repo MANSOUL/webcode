@@ -31,9 +31,9 @@ function createRegister() {
   return registry
 }
 
-export default async function wireLanguage(monaco: any) {
+export default async function wireLanguage(monaco: any, editor?: any) {
   // map of monaco "language id's" to TextMate scopeNames
   const languages = new Map()
   grammars.forEach(item => languages.set(item.language, item.scopeName))
-  await wireTmGrammars(monaco, createRegister(), languages)
+  await wireTmGrammars(monaco, createRegister(), languages, editor)
 }
