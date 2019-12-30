@@ -1,0 +1,23 @@
+@import '../../style/vars.less';
+
+.webcode-filetree-options {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex-wrap: nowrap;
+  @size: 16px;
+  &__icon {
+    width: @size;
+    height: @size;
+    fill: @fileColor;
+    cursor: pointer;
+    margin-left: 8px;
+    &:hover {
+      fill: @fileColorActive;
+    }
+  }
+
+  &__svg {
+    width: @size;
+  }
+}
