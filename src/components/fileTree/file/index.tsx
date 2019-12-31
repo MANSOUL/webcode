@@ -131,7 +131,7 @@ export default function File({
       />
     )
   }
-  console.log(type)
+
   return (
     <div
       className={clsx('webcode-filetree-file', classes.listItem, {
