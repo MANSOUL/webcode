@@ -1,6 +1,7 @@
 import React from 'react'
 import clsx from 'clsx'
 import { createStyles } from '@src/theme'
+import { ReactSVG } from 'react-svg'
 
 const useStyles = createStyles(theme => ({
   badge: {
@@ -31,7 +32,12 @@ export default function ActivityBarItem({
       onClick={onClick}
     >
       <a className="webcode-extension-bar__icon">
-        <i className={clsx('iconfont', iconFont)} />
+        <ReactSVG
+          src={iconFont}
+          beforeInjection={svg => {
+            svg.classList.add('webcode-extension-bar__svg')
+          }}
+        />
         {badge > 0 ? (
           <span className={clsx('webcode-extension-bar__badge', classes.badge)}>
             {badge}

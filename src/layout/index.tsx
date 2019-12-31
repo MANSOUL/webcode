@@ -15,6 +15,7 @@ import { isEqual, debounce } from 'lodash'
 import { createStyles } from '@src/theme'
 import clsx from 'clsx'
 import { getUnsavedFileCount } from '@src/store/files/util'
+import iconCCFile from '@src/aseets/svg/cc-file.svg'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -109,7 +110,7 @@ export default function Layout() {
         >
           <ActivityBar>
             <ActivityBarItem
-              iconFont="icon-ccfile"
+              iconFont={iconCCFile}
               active
               badge={getUnsavedFileCount(files.fileContents)}
             />
