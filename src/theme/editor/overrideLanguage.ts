@@ -1,5 +1,4 @@
 import grammars from './grammars.json'
-import { grammerAdapter } from './index'
 
 const getCustomLanguages = () => {
   return grammars.map(item => item.language)
