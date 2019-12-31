@@ -13,6 +13,10 @@ interface SvgProps {
 }
 
 function Svg({ src, onClick }: SvgProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onClick && onClick()
+  }
   return (
     <ReactSVG
       src={src}
@@ -31,7 +35,7 @@ function Svg({ src, onClick }: SvgProps) {
       renumerateIRIElements={false}
       wrapper="div"
       className="webcode-filetree-options__icon"
-      onClick={onClick}
+      onClick={handleClick}
     />
   )
 }
