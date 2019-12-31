@@ -14,6 +14,7 @@ import {
 import { AppStore } from '@src/store'
 import { fileExist } from '@src/store/project/util'
 import { createStyles } from '@src/theme'
+import Options from '../options'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
@@ -140,8 +141,18 @@ export default function File({
       onClick={handleClick}
       onContextMenu={handleContextMenu}
     >
-      <FileIcon type={type} fileName={name} />
-      <span className="webcode-filetree-file__name">{name}</span>
+      <div className="webcode-filetree-file__info">
+        <FileIcon type={type} fileName={name} />
+        <span className="webcode-filetree-file__name">{name}</span>
+      </div>
+      <Options
+        rename
+        addFile={type !== 'file'}
+        addFolder={type !== 'file'}
+        onRename={handleRenameFile}
+        onAddFile={handleCreateFile}
+        onAddFolder={handleCreateFolder}
+      />
       <Popover
         open={menuOpen}
         onClose={handleMenuClose}

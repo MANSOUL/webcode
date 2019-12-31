@@ -77,15 +77,17 @@ export default function NewFile({
       style={{ paddingLeft: level * PADDING_LEFT }}
       onContextMenu={handleContextMenu}
     >
-      <FileIcon type={type} fileName={name} />
-      <input
-        className="webcode-filetree-file__name"
-        onChange={handleNameChange}
-        onBlur={handleNameBlur}
-        onKeyDown={handleKeyDown}
-        ref={refName}
-        value={name}
-      />
+      <div className="webcode-filetree-file__info">
+        <FileIcon type={type} fileName={name} />
+        <input
+          className="webcode-filetree-file__name"
+          onChange={handleNameChange}
+          onBlur={handleNameBlur}
+          onKeyDown={handleKeyDown}
+          ref={refName}
+          value={name}
+        />
+      </div>
       {error ? (
         <div className="webcode-filetree-file__error">{errorMessage}</div>
       ) : null}
