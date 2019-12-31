@@ -27,7 +27,14 @@ const useStyles = createStyles(theme => ({
     backgroundColor: theme.colors['activityBar.background']
   },
   statusBar: {
-    backgroundColor: theme.colors['statusBar.background']
+    backgroundColor: theme.colors['statusBar.background'],
+    color: theme.colors['statusBar.foreground'],
+    fill: theme.colors['statusBar.foreground']
+  },
+  statusBarItem: {
+    '&:hover': {
+      backgroundColor: theme.colors['statusBarItem.hoverBackground']
+    }
   }
 }))
 
@@ -146,13 +153,17 @@ export default function Layout() {
       </div>
       <div className={clsx('webcode-layout__statusbar', classes.statusBar)}>
         <div>
-          <FootbarTerminal onClick={handleToggleTerminal} />
+          <FootbarTerminal
+            onClick={handleToggleTerminal}
+            className={classes.statusBarItem}
+          />
         </div>
         <div>
           <EditorPosition
             row={editorSlection.row}
             col={editorSlection.col}
             selected={editorSlection.selectedColCount}
+            className={classes.statusBarItem}
           />
         </div>
       </div>
