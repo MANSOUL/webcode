@@ -36,7 +36,7 @@ export default function MyEditor({ fileKey }: Props) {
   // resize editor
   React.useEffect(() => {
     refEditor.current && refEditor.current.resize()
-  }, [editor.resizeCount])
+  }, [editor.resizeCount, files.currentFileId])
 
   const bindEvent = () => {
     if (refEditor.current) {
