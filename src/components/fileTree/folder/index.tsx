@@ -17,13 +17,15 @@ export default function Folder({
   relative,
   files,
   name,
-  initalOpen = true,
+  initalOpen = false,
   level = 1,
-  onFileClick
+  onFileClick,
+  forbiddenFold = false,
+  initialType = 'folder'
 }: FileTreeFolderProps) {
   const [newType, setNewType] = React.useState<'file' | 'folder'>('file')
   const [newFile, setNewFileOpen] = React.useState<boolean>(false)
-  const [open, setOpen] = React.useState<boolean>(false)
+  const [open, setOpen] = React.useState<boolean>(initalOpen)
   const type = open ? 'folderOpen' : 'folder'
   const dispatch = useDispatch()
   const project = useSelector((store: AppStore) => store.project)
@@ -33,7 +35,7 @@ export default function Folder({
   })
 
   const handleFolderClick = (id: string, relative: string, type: string) => {
-    setOpen(!open)
+    if (!forbiddenFold) setOpen(!open)
     onFileClick && onFileClick(id, relative, type)
   }
 
@@ -77,7 +79,7 @@ export default function Folder({
         id={id}
         relative={relative}
         name={name}
-        type={type}
+        type={initialType === 'folder' ? type : initialType}
         level={level}
         onClick={handleFolderClick}
         onCreateFile={handleCreateFile}

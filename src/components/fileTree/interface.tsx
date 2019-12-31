@@ -14,13 +14,15 @@ export interface FileTreeFolderProps {
   level?: number
   files: FileTreeFile[]
   onFileClick?: (id: string, relative: string, type: string) => void
+  forbiddenFold?: boolean
+  initialType?: 'folder' | 'project'
 }
 
 export interface FileTreeFileProps {
   id: string
   relative: string
   name: string
-  type?: 'folder' | 'folderOpen' | 'file'
+  type?: 'folder' | 'folderOpen' | 'file' | 'project'
   level?: number
   active?: boolean
   onClick?: (id: string, relative: string, type: string) => void

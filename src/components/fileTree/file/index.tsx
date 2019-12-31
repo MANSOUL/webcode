@@ -131,7 +131,7 @@ export default function File({
       />
     )
   }
-
+  console.log(type)
   return (
     <div
       className={clsx('webcode-filetree-file', classes.listItem, {
@@ -142,11 +142,17 @@ export default function File({
       onContextMenu={handleContextMenu}
     >
       <div className="webcode-filetree-file__info">
-        <FileIcon type={type} fileName={name} />
-        <span className="webcode-filetree-file__name">{name}</span>
+        {type !== 'project' ? <FileIcon type={type} fileName={name} /> : null}
+        <span
+          className={clsx('webcode-filetree-file__name', {
+            'webcode-filetree-project__name': type === 'project'
+          })}
+        >
+          {name}
+        </span>
       </div>
       <Options
-        rename
+        rename={type !== 'project'}
         addFile={type !== 'file'}
         addFolder={type !== 'file'}
         onRename={handleRenameFile}
