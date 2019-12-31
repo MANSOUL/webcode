@@ -1,5 +1,7 @@
 import React from 'react'
 import { TabDotProps } from './interface'
+import { ReactSVG } from 'react-svg'
+import svgClose from '@src/aseets/svg/close.svg'
 
 export default function TabDot({
   modified = false,
@@ -27,8 +29,13 @@ export default function TabDot({
       (active && !modified)
     ) {
       return (
-        <i
-          className="iconfont icon-close webcode-tab-button__close"
+        <ReactSVG
+          src={svgClose}
+          beforeInjection={svg => {
+            svg.classList.add('webcode-tab-button__svg')
+          }}
+          wrapper="div"
+          className="webcode-tab-button__close"
           onClick={onClick}
         />
       )
