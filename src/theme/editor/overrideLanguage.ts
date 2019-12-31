@@ -1,4 +1,5 @@
 import grammars from './grammars.json'
+import { grammerAdapter } from './index'
 
 const getCustomLanguages = () => {
   return grammars.map(item => item.language)
@@ -13,4 +14,6 @@ export default function overrideLanguage(monaco: any) {
       }
     }
   })
+  // 关闭 json 自带的 token 解析
+  monaco.languages.json.jsonDefaults._modeConfiguration.tokens = false
 }

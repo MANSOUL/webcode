@@ -113,7 +113,7 @@
   {
     "language": "json",
     "scopeName": "source.json",
-    "path": "/assets/grammers/JSON.tmLanguage"
+    "path": "/assets/grammers/JSON.tmLanguage.json"
   },
   {
     "language": "less",
