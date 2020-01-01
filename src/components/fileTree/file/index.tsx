@@ -27,8 +27,8 @@ const useStyles = createStyles(theme => ({
     }
   },
   listItemFocus: {
-    backgroundColor: theme.colors['list.focusBackground'],
-    color: theme.colors['list.focusForeground']
+    backgroundColor: `${theme.colors['list.focusBackground']} !important`,
+    color: `${theme.colors['list.focusForeground']} !important`
     // backgroundColor: `${theme.colors['listFilterWidget.background']} !important`,
     // color: `${theme.colors['list.highlightForeground']} !important`
   }
@@ -130,6 +130,7 @@ export default function File({
         onNameChange={handleNewFileNameChange}
         error={fileError.error}
         errorMessage={fileError.errorMessage}
+        className={classes.listItem}
       />
     )
   }

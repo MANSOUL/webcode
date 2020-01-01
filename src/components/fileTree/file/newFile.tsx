@@ -15,6 +15,7 @@ export interface NewFileProps {
   onNameChange?: (name: string) => void
   error?: boolean
   errorMessage?: string
+  className?: string
 }
 
 export default function NewFile({
@@ -25,7 +26,8 @@ export default function NewFile({
   initialValue = '',
   onNameChange,
   error = false,
-  errorMessage = ''
+  errorMessage = '',
+  className
 }: NewFileProps) {
   const [name, setName] = React.useState(initialValue)
   const refName = React.useRef<HTMLInputElement | null>(null)
@@ -77,9 +79,11 @@ export default function NewFile({
 
   return (
     <div
-      className={clsx('webcode-filetree-file', {
-        'webcode-filetree-file--active': true
-      })}
+      className={clsx(
+        'webcode-filetree-file',
+        'webcode-filetree-file--active',
+        className
+      )}
       style={{ paddingLeft: level * PADDING_LEFT }}
       onContextMenu={handleContextMenu}
     >
