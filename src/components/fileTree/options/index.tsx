@@ -6,6 +6,7 @@ import svgAddFolder from '@src/aseets/svg/add-folder.svg'
 import svgRename from '@src/aseets/svg/edit-file-v2.svg'
 import svgUpdate from '@src/aseets/svg/available-updates.svg'
 import svgDownload from '@src/aseets/svg/downloads-folder.svg'
+import svgTrash from '@src/aseets/svg/trash.svg'
 
 interface SvgProps {
   src: string
@@ -33,7 +34,7 @@ function Svg({ src, onClick }: SvgProps) {
       fallback={() => <span>Error!</span>}
       loading={() => <span>Loading</span>}
       renumerateIRIElements={false}
-      wrapper="div"
+      wrapper="span"
       className="webcode-filetree-options__icon"
       onClick={handleClick}
     />
@@ -46,11 +47,13 @@ export interface Props {
   addFile?: boolean
   addFolder?: boolean
   update?: boolean
+  trash?: boolean
   onDownload?: () => void
   onRename?: () => void
   onAddFile?: () => void
   onAddFolder?: () => void
   onUpdate?: () => void
+  onTrash?: () => void
 }
 
 export default function Options({
@@ -59,11 +62,13 @@ export default function Options({
   addFile = true,
   addFolder = true,
   update = false,
+  trash = true,
   onDownload,
   onRename,
   onAddFile,
   onAddFolder,
-  onUpdate
+  onUpdate,
+  onTrash
 }: Props) {
   return (
     <div className="webcode-filetree-options">
@@ -72,6 +77,7 @@ export default function Options({
       {addFile ? <Svg src={svgAddFile} onClick={onAddFile} /> : null}
       {addFolder ? <Svg src={svgAddFolder} onClick={onAddFolder} /> : null}
       {update ? <Svg src={svgUpdate} onClick={onUpdate} /> : null}
+      {trash ? <Svg src={svgTrash} onClick={onTrash} /> : null}
     </div>
   )
 }

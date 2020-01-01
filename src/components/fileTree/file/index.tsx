@@ -153,11 +153,13 @@ export default function File({
       </div>
       <Options
         rename={type !== 'project'}
+        trash={type !== 'project'}
         addFile={type !== 'file'}
         addFolder={type !== 'file'}
         onRename={handleRenameFile}
         onAddFile={handleCreateFile}
         onAddFolder={handleCreateFolder}
+        onTrash={handleRemoveFile}
       />
       <Popover
         open={menuOpen}
