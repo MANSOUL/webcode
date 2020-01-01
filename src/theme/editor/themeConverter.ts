@@ -1,5 +1,7 @@
 import { Theme, MonacoThemeRule, TokenColor } from '../interface'
 
+const colorRegExp = /^#?([0-9A-Fa-f]{6})([0-9A-Fa-f]{2})?$/
+
 const getBase = (type: string) => {
   if (type === 'dark') {
     return 'vs-dark'
@@ -13,10 +15,19 @@ const getBase = (type: string) => {
 }
 
 const mapScope = (scopes: string[], color: TokenColor) => {
-  return scopes.map((scope: string) => ({
-    ...color.settings,
-    token: scope
-  }))
+  if (
+    !scopes ||
+    (color.settings.foreground !== undefined && !color.settings.foreground.match(colorRegExp)) || 
+    (color.settings.background !== undefined && !color.settings.background.match(colorRegExp))
+  ) {
+    return []
+  }
+  return scopes.map((scope: string) => {
+    return {
+      ...color.settings,
+      token: scope
+    }
+  })
 }
 
 export default function convertTheme(theme: Theme) {
