@@ -14,7 +14,8 @@ import { TERMINAL_SOCKET_URL } from '@src/config/project'
 
 const useStyles = createStyles(theme => ({
   terminal: {
-    backgroundColor: theme.colors['terminal.background']
+    backgroundColor:
+      theme.colors['terminal.background'] || theme.colors['panel.background']
   }
 }))
 
@@ -57,7 +58,9 @@ export default function XTerminal({}: Props) {
   const setTermTheme = () => {
     if (refTerm.current) {
       refTerm.current.setOption('theme', {
-        background: theme.colors['terminal.background'],
+        background:
+          theme.colors['terminal.background'] ||
+          theme.colors['panel.background'],
         foreground: theme.colors['terminal.foreground'],
         black: theme.colors['terminal.ansiBlack'] || '#333333',
         blue: theme.colors['terminal.ansiBlue'],
@@ -72,7 +75,7 @@ export default function XTerminal({}: Props) {
         magenta: theme.colors['terminal.ansiMagenta'],
         red: theme.colors['terminal.ansiRed'],
         yellow: theme.colors['terminal.ansiYellow'],
-        cursor: theme.colors['terminalCursor.background'],
+        cursor: theme.colors['terminalCursor.foreground'],
         selection: theme.colors['terminal.selectionBackground']
       })
     }
