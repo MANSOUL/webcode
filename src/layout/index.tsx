@@ -16,6 +16,7 @@ import { createStyles } from '@src/theme'
 import clsx from 'clsx'
 import { getUnsavedFileCount } from '@src/store/files/util'
 import iconCCFile from '@src/aseets/svg/cc-file.svg'
+import iconTheme from '@src/aseets/svg/theme.svg'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -81,12 +82,17 @@ export default function Layout() {
     resizeDebounced.current()
   }
 
+  const setSideBarWidth = (width: number) => {
+    refTreeElement.current &&
+      (refTreeElement.current.style.width = `${width}px`)
+    resizeEditor()
+  }
+
   const handleResizerChange = (offset: number) => {
     if (refTreeElement.current) {
       const nextWidth = refTreeElementWidth.current + offset
-      refTreeElement.current.style.width = `${nextWidth}px`
+      setSideBarWidth(nextWidth)
       refTreeElementWidth.current = nextWidth
-      resizeEditor()
     }
   }
 
@@ -112,14 +118,27 @@ export default function Layout() {
     resizeEditor()
   }
 
+  const toggleSideBar = (bar: number) => {
+    let nextWidth = refTreeElementPrevWidth.current
+    // 点击到别的bar,一律都是打开
+    if (activityBar === bar && refTreeElementWidth.current !== 0) {
+      nextWidth = 0
+    }
+    // prevWidth只保存大于0这一种状态
+    if(refTreeElementWidth.current > 0) {
+      refTreeElementPrevWidth.current = refTreeElementWidth.current
+    }
+    refTreeElementWidth.current = nextWidth
+    setSideBarWidth(nextWidth)
+    setActivityBar(activityBar !== bar? bar : nextWidth !== 0 ? 0 : -1)
+  }
+
   const handleFileActivityClick = () => {
-    const resizeWidth =
-      refTreeElementWidth.current === 0
-        ? refTreeElementPrevWidth.current
-        : -refTreeElementWidth.current
-    refTreeElementPrevWidth.current = Math.abs(resizeWidth)
-    setActivityBar(resizeWidth > 0 ? 0 : -1)
-    handleResizerChange(resizeWidth)
+    toggleSideBar(0)
+  }
+
+  const handleThemeActivityClick = () => {
+    toggleSideBar(1)
   }
 
   return (
@@ -136,6 +155,11 @@ export default function Layout() {
               badge={getUnsavedFileCount(files.fileContents)}
               onClick={handleFileActivityClick}
             />
+            <ActivityBarItem
+              iconFont={iconTheme}
+              active={activityBar === 1}
+              onClick={handleThemeActivityClick}
+            />
           </ActivityBar>
         </div>
         <div
@@ -149,9 +173,6 @@ export default function Layout() {
           <div className="webcode-layout__tab">
             <MyTab />
           </div>
-          {/* <div className="webcode-layout__code">
-            <MyEditor rref={refEditor} />
-          </div> */}
           {terminalOpen ? (
             <HorizontalResizer onChange={handleTerminalReisizerChange} />
           ) : null}
