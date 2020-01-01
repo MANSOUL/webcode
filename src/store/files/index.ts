@@ -98,6 +98,7 @@ const reducer: Reducer<FilesState> = (
       }
     case FILE_CLOSE_FILE:
       index = getFileIndex(state.fileContents, payload.id)
+      if (index === -1) return state
       currentFile = state.fileContents[index]
       let nextFile = null
       // 如果关闭的当前打开的文件则需要重新设置active

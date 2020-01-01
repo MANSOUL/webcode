@@ -110,7 +110,7 @@ export const fileNewFile = (
 })
 
 /**
- * 创建新文件action
+ * 关闭文件action
  * @param id
  */
 export const fileCloseFile = (id: string) => ({
