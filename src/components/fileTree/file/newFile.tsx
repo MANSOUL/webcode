@@ -56,6 +56,12 @@ export default function NewFile({
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
+    // ESC
+    if (event.keyCode === 27) {
+      onCancel()
+      return
+    }
+    // ENTER
     if (event.keyCode === 13) {
       event.preventDefault()
       if (error) return
