@@ -39,6 +39,9 @@ export default function XTerminal({}: Props) {
         refTerm.current.write(JSON.parse(msg.data))
       }
     })
+    return () => {
+      socket.close(true)
+    }
   }, [])
 
   // 重新设置theme

@@ -56,8 +56,8 @@ export default class MySocket {
 
   heartbeat() {}
 
-  close() {
-    this.ws && this.ws.close()
+  close(stopReconnect: boolean = false) {
+    this.ws && this.ws.close(stopReconnect ? 3000 : 3001)
   }
 
   send(data: any) {
@@ -70,9 +70,11 @@ export default class MySocket {
         console.log('socket opened.')
         this.reconnectTimes = this.options.reconnectTimes
       })
-      this.ws.addEventListener('close', () => {
+      this.ws.addEventListener('close', (e: CloseEvent) => {
         console.log('socket closed.')
-        this.reconnect()
+        if (e.code !== 3000) {
+          this.reconnect()
+        }
       })
       this.ws.addEventListener('error', error => {
         console.error('socket error.', error)
