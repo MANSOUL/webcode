@@ -29,6 +29,8 @@ const useStyles = createStyles(theme => ({
   listItemFocus: {
     backgroundColor: theme.colors['list.focusBackground'],
     color: theme.colors['list.focusForeground']
+    // backgroundColor: `${theme.colors['listFilterWidget.background']} !important`,
+    // color: `${theme.colors['list.highlightForeground']} !important`
   }
 }))
 

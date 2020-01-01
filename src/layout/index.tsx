@@ -125,12 +125,12 @@ export default function Layout() {
       nextWidth = 0
     }
     // prevWidth只保存大于0这一种状态
-    if(refTreeElementWidth.current > 0) {
+    if (refTreeElementWidth.current > 0) {
       refTreeElementPrevWidth.current = refTreeElementWidth.current
     }
     refTreeElementWidth.current = nextWidth
     setSideBarWidth(nextWidth)
-    setActivityBar(activityBar !== bar? bar : nextWidth !== 0 ? 0 : -1)
+    setActivityBar(activityBar !== bar ? bar : nextWidth !== 0 ? 0 : -1)
   }
 
   const handleFileActivityClick = () => {

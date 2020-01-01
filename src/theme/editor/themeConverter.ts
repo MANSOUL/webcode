@@ -17,8 +17,10 @@ const getBase = (type: string) => {
 const mapScope = (scopes: string[], color: TokenColor) => {
   if (
     !scopes ||
-    (color.settings.foreground !== undefined && !color.settings.foreground.match(colorRegExp)) || 
-    (color.settings.background !== undefined && !color.settings.background.match(colorRegExp))
+    (color.settings.foreground !== undefined &&
+      !color.settings.foreground.match(colorRegExp)) ||
+    (color.settings.background !== undefined &&
+      !color.settings.background.match(colorRegExp))
   ) {
     return []
   }
