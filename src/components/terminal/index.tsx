@@ -10,6 +10,7 @@ import clsx from 'clsx'
 import useTerminalTheme from '@src/theme/terminal'
 import { useSelector } from 'react-redux'
 import { AppStore } from '@src/store'
+import { TERMINAL_SOCKET_URL } from '@src/config/project'
 
 const useStyles = createStyles(theme => ({
   terminal: {
@@ -31,7 +32,7 @@ export default function XTerminal({}: Props) {
 
   React.useEffect(() => {
     createTerminal()
-    const socket = new MySocket(`ws://localhost:9999`)
+    const socket = new MySocket(TERMINAL_SOCKET_URL)
     refSocket.current = socket
     socket.onMessage(msg => {
       if (refTerm.current) {
@@ -55,7 +56,7 @@ export default function XTerminal({}: Props) {
       refTerm.current.setOption('theme', {
         background: theme.colors['terminal.background'],
         foreground: theme.colors['terminal.foreground'],
-        black: theme.colors['terminal.ansiBlack'],
+        black: theme.colors['terminal.ansiBlack'] || '#333333',
         blue: theme.colors['terminal.ansiBlue'],
         brightBlue: theme.colors['terminal.ansiBrightBlue'],
         brightCyan: theme.colors['terminal.ansiBrightCyan'],
