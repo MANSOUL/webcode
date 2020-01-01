@@ -40,6 +40,7 @@ const useStyles = createStyles(theme => ({
 
 export default function Layout() {
   const refTreeElementWidth = React.useRef(0)
+  const refTreeElementPrevWidth = React.useRef(0)
   const refTreeElement = React.useRef<HTMLDivElement | null>(null)
   const refTerminalElementHeight = React.useRef(INITIAL_TERMINAL_HEIGHT)
   const refTerminalElement = React.useRef<HTMLDivElement | null>(null)
@@ -49,6 +50,8 @@ export default function Layout() {
     selectedColCount: 0
   })
   const [terminalOpen, setTerminalOpen] = React.useState(false)
+  const [activityBar, setActivityBar] = React.useState(0)
+
   const dispatch = useDispatch()
   const editor = useSelector((store: AppStore) => store.editor)
   const files = useSelector((store: AppStore) => store.files)
@@ -63,7 +66,8 @@ export default function Layout() {
 
   React.useEffect(() => {
     if (refTreeElement.current) {
-      refTreeElementWidth.current = refTreeElement.current.clientWidth
+      refTreeElementPrevWidth.current = refTreeElementWidth.current =
+        refTreeElement.current.clientWidth
     }
     if (refTerminalElement.current) {
       refTerminalElementHeight.current = refTerminalElement.current.clientHeight
@@ -108,6 +112,16 @@ export default function Layout() {
     resizeEditor()
   }
 
+  const handleFileActivityClick = () => {
+    const resizeWidth =
+      refTreeElementWidth.current === 0
+        ? refTreeElementPrevWidth.current
+        : -refTreeElementWidth.current
+    refTreeElementPrevWidth.current = Math.abs(resizeWidth)
+    setActivityBar(resizeWidth > 0 ? 0 : -1)
+    handleResizerChange(resizeWidth)
+  }
+
   return (
     <div className="webcode-layout">
       {/* <div className="webcode-layout__toolbar"></div> */}
@@ -118,8 +132,9 @@ export default function Layout() {
           <ActivityBar>
             <ActivityBarItem
               iconFont={iconCCFile}
-              active
+              active={activityBar === 0}
               badge={getUnsavedFileCount(files.fileContents)}
+              onClick={handleFileActivityClick}
             />
           </ActivityBar>
         </div>
