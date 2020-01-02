@@ -48,6 +48,10 @@ export const fetchFile = (relative: string, id: string) => {
     try {
       const res = await mFetch(`/api/file/${getProject()}?relative=${relative}`)
       if (res.status === 200) {
+        // 网速慢时可能导致点击了多次
+        if (getFileById(getState().files.fileContents, id)) {
+          return
+        }
         dispatch({
           type: FETCH_FILE_DONE,
           payload: {
