@@ -4,7 +4,9 @@ import defaultTheme from '../assets/horizon.json'
 
 const themeContext = React.createContext<ThemeContextProps>({
   theme: defaultTheme,
-  setTheme: () => {}
+  setTheme: () => {},
+  themes: [],
+  current: ''
 })
 
 export default themeContext

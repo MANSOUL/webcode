@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Horizon",
+    "url": "/assets/themes/horizon.json"
+  },
+  {
+    "name": "Material Default",
+    "url": "/assets/themes/Material-Theme-Default.json"
+  }
+]

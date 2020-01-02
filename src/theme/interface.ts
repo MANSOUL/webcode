@@ -155,6 +155,7 @@ export interface Theme {
 export interface ThemeProviderProps {
   children: any
   defaultTheme: Theme
+  currentTheme?: string
 }
 
 export interface MonacoThemeRule {
@@ -166,5 +167,7 @@ export interface MonacoThemeRule {
 
 export interface ThemeContextProps {
   theme: Theme
-  setTheme: (theme: Theme) => void
+  setTheme: (themeName: string) => void
+  themes: { name: string; url: string }[]
+  current: string
 }

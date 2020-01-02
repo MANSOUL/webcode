@@ -3,6 +3,7 @@ import List, { ListItem } from '@src/components/ui/list'
 import './index.less'
 import { createStyles } from '@src/theme'
 import clsx from 'clsx'
+import useTheme from '@src/theme/useTheme'
 
 const useStyles = createStyles(theme => ({
   listItem: {
@@ -22,20 +23,21 @@ const useStyles = createStyles(theme => ({
 
 export default function ThemeList() {
   const classes = useStyles()
+  const theme = useTheme()
   return (
     <List className="webcode-themelist">
-      <ListItem
-        divider={false}
-        className={clsx('webcode-themelist-item', classes.listItem)}
-      >
-        Horizon
-      </ListItem>
-      <ListItem
-        divider={false}
-        className={clsx('webcode-themelist-item', classes.listItem)}
-      >
-        Material Default
-      </ListItem>
+      {theme.themes.map(t => (
+        <ListItem
+          key={t.name}
+          divider={false}
+          className={clsx('webcode-themelist-item', classes.listItem, {
+            [classes.listItemFocus]: theme.current === t.name
+          })}
+          onClick={() => theme.setTheme(t.name)}
+        >
+          {t.name}
+        </ListItem>
+      ))}
     </List>
   )
 }
