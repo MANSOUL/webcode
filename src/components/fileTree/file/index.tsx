@@ -15,6 +15,12 @@ import { AppStore } from '@src/store'
 import { fileExist } from '@src/store/project/util'
 import { createStyles } from '@src/theme'
 import Options from '../options'
+import Dialog, {
+  DialogTitle,
+  DialogContent,
+  DialogActions
+} from '@src/components/ui/dialog'
+import Button from '@src/components/ui/button'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
@@ -53,6 +59,11 @@ export default function File({
   const [fileError, setFileError] = React.useState({
     error: false,
     errorMessage: ''
+  })
+  const [dialog, setDialog] = React.useState({
+    open: false,
+    title: '',
+    content: ''
   })
   const classes = useStyles()
 
@@ -104,8 +115,11 @@ export default function File({
   }
 
   const handleRemoveFile = () => {
-    dispatch(projectRemoveFile(id, relativePath, name))
-    setMenuOpen(false)
+    setDialog({
+      open: true,
+      title: `确定要删除 ${name} ?`,
+      content: '文件删除后不可恢复'
+    })
   }
 
   const handleNewFileNameChange = (fname: string) => {
@@ -117,6 +131,13 @@ export default function File({
     } else {
       setFileError({ error: false, errorMessage: '' })
     }
+  }
+
+  const handleCancelRemoveFile = () => setDialog({ ...dialog, open: false })
+
+  const handleConfirmRemoveFile = () => {
+    dispatch(projectRemoveFile(id, relativePath, name))
+    setMenuOpen(false)
   }
 
   if (editable) {
@@ -181,6 +202,18 @@ export default function File({
           <MenuItem onClick={handleRemoveFile}>删除</MenuItem>
         </Menu>
       </Popover>
+      <Dialog open={dialog.open} onClose={handleCancelRemoveFile} transparent>
+        <DialogTitle>{dialog.title}</DialogTitle>
+        <DialogContent>{dialog.content}</DialogContent>
+        <DialogActions>
+          <Button size="small" onClick={handleCancelRemoveFile}>
+            取消
+          </Button>
+          <Button type="danger" size="small" onClick={handleConfirmRemoveFile}>
+            删除
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }
