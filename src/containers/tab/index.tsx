@@ -23,6 +23,9 @@ import Dialog, {
   DialogActions
 } from '@src/components/ui/dialog'
 import Button from '@src/components/ui/button'
+import * as monaco from 'monaco-editor'
+import { convertTheme } from '@src/theme/editor'
+import useTheme from '@src/theme/useTheme'
 
 const useStyles = createStyles(theme => ({
   tabSwitcher: {
@@ -51,6 +54,13 @@ export default function MyTab() {
     content: ''
   })
   const refCurrentFile = React.useRef<FileContent | null>(null)
+  const theme = useTheme()
+
+  React.useEffect(() => {
+    //@ts-ignore
+    monaco.editor.defineTheme('webcodeTheme', convertTheme(theme.theme))
+    monaco.editor.setTheme('webcodeTheme')
+  }, [theme.theme])
 
   React.useEffect(() => {
     refScroller.current && refScroller.current.resize()

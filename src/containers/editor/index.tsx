@@ -5,9 +5,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
 import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
-import * as monaco from 'monaco-editor'
-import { convertTheme } from '@src/theme/editor'
-import useTheme from '@src/theme/useTheme'
 
 export interface Props {
   fileKey: string
@@ -18,7 +15,6 @@ export default function MyEditor({ fileKey }: Props) {
   const files = useSelector((store: AppStore) => store.files)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
-  const theme = useTheme().theme
   const { loading, error, errorMessage, fileContents } = files
   const file = getFileById(fileContents, fileKey)
 
@@ -27,10 +23,6 @@ export default function MyEditor({ fileKey }: Props) {
       refEditor.current.focus()
       bindEvent()
     }
-
-    //@ts-ignore
-    monaco.editor.defineTheme('webcodeTheme', convertTheme(theme))
-    monaco.editor.setTheme('webcodeTheme')
   }, [])
 
   // resize editor
