@@ -154,7 +154,7 @@ export interface Theme {
 
 export interface ThemeProviderProps {
   children: any
-  theme: Theme
+  defaultTheme: Theme
 }
 
 export interface MonacoThemeRule {
@@ -162,4 +162,9 @@ export interface MonacoThemeRule {
   fontStyle?: string
   token: string
   background?: string
+}
+
+export interface ThemeContextProps {
+  theme: Theme
+  setTheme: (theme: Theme) => void
 }

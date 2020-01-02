@@ -14,7 +14,7 @@ import { grammerAdapter, registerLanguage } from '@src/theme/editor'
 const App = () => {
   return (
     <Provider store={store}>
-      <ThemeProvider theme={themeHorizon}>
+      <ThemeProvider defaultTheme={themeHorizon}>
         <Layout />
       </ThemeProvider>
     </Provider>

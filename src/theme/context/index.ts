@@ -1,7 +1,10 @@
 import React from 'react'
-import { Theme } from '../interface'
+import { ThemeContextProps } from '../interface'
 import defaultTheme from '../assets/horizon.json'
 
-const themeContext = React.createContext<Theme>(defaultTheme)
+const themeContext = React.createContext<ThemeContextProps>({
+  theme: defaultTheme,
+  setTheme: () => {}
+})
 
 export default themeContext

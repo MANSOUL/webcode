@@ -18,7 +18,7 @@ export default function MyEditor({ fileKey }: Props) {
   const files = useSelector((store: AppStore) => store.files)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
-  const theme = useTheme()
+  const theme = useTheme().theme
   const { loading, error, errorMessage, fileContents } = files
   const file = getFileById(fileContents, fileKey)
 

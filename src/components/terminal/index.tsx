@@ -27,7 +27,7 @@ export default function XTerminal({}: Props) {
   const refSocket = React.useRef<MySocket>()
   const refFit = React.useRef<FitAddon | null>(null)
   const editor = useSelector((store: AppStore) => store.editor)
-  const theme = useTheme()
+  const theme = useTheme().theme
   const classes = useStyles()
   useTerminalTheme()
 

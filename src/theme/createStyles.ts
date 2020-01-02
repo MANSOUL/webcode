@@ -15,7 +15,7 @@ const createStyles = (creator: (theme: Theme) => Record<string, any>) => {
   let prevStyles: Record<string, any> | null = null
   const useStyles = () => {
     const theme = useTheme()
-    const styles = creator(theme)
+    const styles = creator(theme.theme)
     // 如果当前和上一个样式的值一样，则直接返回
     if (isEqual(styles, prevStyles)) {
       return sheet?.classes || {}
