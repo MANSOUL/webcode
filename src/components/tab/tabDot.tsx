@@ -19,6 +19,12 @@ export default function TabDot({
     setHover(false)
   }
 
+  const handleClick = (e: React.MouseEvent) => {
+    onClick && onClick(e)
+    // fix: 点击之后弹出浮层，导致mouseout事件不触发
+    handleMouseOut()
+  }
+
   const renderDot = () => {
     // 移动到点上
     //或 当前不是编辑的tab但是鼠标在button上并且还是没有编辑过的tab
@@ -36,7 +42,7 @@ export default function TabDot({
           }}
           wrapper="div"
           className="webcode-tab-button__close"
-          onClick={onClick}
+          onClick={handleClick}
         />
       )
     }
