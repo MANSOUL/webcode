@@ -27,6 +27,7 @@ const PADDING_LEFT = 10
 
 const useStyles = createStyles(theme => ({
   listItem: {
+    color: theme.colors['sideBar.foreground'],
     '&:hover': {
       backgroundColor: theme.colors['list.hoverBackground'],
       color: theme.colors['list.hoverForeground']

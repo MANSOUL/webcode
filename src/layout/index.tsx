@@ -17,6 +17,7 @@ import clsx from 'clsx'
 import { getUnsavedFileCount } from '@src/store/files/util'
 import iconCCFile from '@src/aseets/svg/cc-file.svg'
 import iconTheme from '@src/aseets/svg/theme.svg'
+import ThemeList from '@src/containers/themeList'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -166,7 +167,8 @@ export default function Layout() {
           className={clsx('webcode-layout__sidebar', classes.sideBar)}
           ref={refTreeElement}
         >
-          <MyFileTree />
+          {activityBar === 0 ? <MyFileTree /> : null}
+          {activityBar === 1 ? <ThemeList /> : null}
         </div>
         <VerticalResizer onChange={handleResizerChange} />
         <div className="webcode-layout__content">
