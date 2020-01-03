@@ -108,8 +108,12 @@ export default function MyTab() {
 
   const handleSaveFile = () => {
     if (!refCurrentFile.current) return
-    dispatch(fileSaveFile(refCurrentFile.current.id))
-    dispatch(fileCloseFile(refCurrentFile.current.id))
+    const id = refCurrentFile.current.id
+    dispatch(
+      fileSaveFile(id, () => {
+        dispatch(fileCloseFile(id))
+      })
+    )
     setDialog({
       ...dialog,
       open: false

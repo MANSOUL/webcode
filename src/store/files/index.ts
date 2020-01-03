@@ -18,6 +18,7 @@ export interface FileContent {
   content: string
   modified: boolean
   fileName: string
+  loading: boolean
 }
 
 export interface FilesState {
@@ -57,21 +58,35 @@ const reducer: Reducer<FilesState> = (
   let index = -1
   let currentFile = null
   switch (action.type) {
-    case FETCH_FILE_DONE:
+    case FETCH_FILE_START:
       return {
         ...state,
-        loading: false,
-        error: false,
-        errorMessage: '',
         fileContents: [
           ...state.fileContents,
           {
             id: payload.id,
-            content: payload.fileContent,
+            content: '',
             relative: payload.relative,
             fileName: payload.fileName,
-            modified: false
+            modified: false,
+            loading: true
           }
+        ],
+        currentFileId: payload.id
+      }
+    case FETCH_FILE_DONE:
+      index = getFileIndex(state.fileContents, payload.id)
+      currentFile = state.fileContents[index]
+      return {
+        ...state,
+        fileContents: [
+          ...state.fileContents.slice(0, index),
+          {
+            ...currentFile,
+            content: payload.fileContent,
+            loading: false
+          },
+          ...state.fileContents.slice(index + 1)
         ],
         currentFileId: payload.id
       }
@@ -82,11 +97,9 @@ const reducer: Reducer<FilesState> = (
         fileContents: [
           ...state.fileContents,
           {
-            id: newFile.id,
-            content: newFile.content,
-            relative: newFile.relative,
-            fileName: newFile.fileName,
-            modified: false
+            ...newFile,
+            modified: false,
+            loading: false
           }
         ],
         currentFileId: newFile.id
@@ -124,10 +137,8 @@ const reducer: Reducer<FilesState> = (
         fileContents: [
           ...state.fileContents.slice(0, index),
           {
-            id: currentFile.id,
+            ...currentFile,
             content: payload.fileContent,
-            relative: currentFile.relative,
-            fileName: currentFile.fileName,
             modified: true
           },
           ...state.fileContents.slice(index + 1)
@@ -141,10 +152,7 @@ const reducer: Reducer<FilesState> = (
         fileContents: [
           ...state.fileContents.slice(0, index),
           {
-            id: currentFile.id,
-            content: currentFile.content,
-            relative: currentFile.relative,
-            fileName: currentFile.fileName,
+            ...currentFile,
             modified: false
           },
           ...state.fileContents.slice(index + 1)

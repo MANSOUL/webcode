@@ -37,21 +37,33 @@ const createChangeFileAction = (id: string) => ({
  */
 export const fetchFile = (relative: string, id: string) => {
   return async (dispatch: Dispatch, getState: () => any) => {
-    const state: AppStore = getState()
-    if (getFileById(state.files.fileContents, id)) {
+    let state: AppStore = getState()
+    let prevFile = getFileById(state.files.fileContents, id)
+    if (prevFile) {
       dispatch(createChangeFileAction(id))
       return
     }
     dispatch({
-      type: FETCH_FILE_START
+      type: FETCH_FILE_START,
+      payload: {
+        relative,
+        id,
+        fileName: relative
+          .split('/')
+          .slice(-1)
+          .toString()
+      }
     })
     try {
       const res = await mFetch(`/api/file/${getProject()}?relative=${relative}`)
       if (res.status === 200) {
         // 网速慢时可能导致点击了多次
-        if (getFileById(getState().files.fileContents, id)) {
+        state = getState()
+        prevFile = getFileById(state.files.fileContents, id)
+        if (prevFile && !prevFile.loading) {
           return
         }
+        console.log(res)
         dispatch({
           type: FETCH_FILE_DONE,
           payload: {
@@ -141,14 +153,18 @@ export const fileModifyFile = (id: string, fileContent: string) => ({
  * 保存文件
  * @param id
  */
-export const fileSaveFile = (id: string) => {
+export const fileSaveFile = (
+  id: string,
+  onDone?: () => void,
+  onError?: () => void
+) => {
   return async (dispatch: Dispatch, getState: () => AppStore) => {
     const state: AppStore = getState()
     const file = getFileById(state.files.fileContents, id)
     if (!file) return
-    dispatch({
-      type: FETCH_FILE_START
-    })
+    // dispatch({
+    //   type: FETCH_FILE_START
+    // })
     try {
       const res = await mFetch(
         `/api/file/${getProject()}?relative=${file.relative}`,
@@ -164,6 +180,7 @@ export const fileSaveFile = (id: string) => {
             id
           }
         })
+        onDone && onDone()
       } else {
         dispatch({
           type: FETCH_FILE_ERROR,
@@ -171,6 +188,7 @@ export const fileSaveFile = (id: string) => {
             errorMessage: res.errorMessage
           }
         })
+        onError && onError()
       }
     } catch (error) {
       dispatch({
@@ -179,6 +197,7 @@ export const fileSaveFile = (id: string) => {
           errorMessage: error.message
         }
       })
+      onError && onError()
     }
   }
 }
