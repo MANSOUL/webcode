@@ -21,11 +21,17 @@ import Dialog, {
   DialogActions
 } from '@src/components/ui/dialog'
 import Button from '@src/components/ui/button'
+import svgLoading from '@src/aseets/svg/loading.svg'
+import { ReactSVG } from 'react-svg'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
 
 const useStyles = createStyles(theme => ({
+  listColor: {
+    color: theme.colors['sideBar.foreground'],
+    fill: theme.colors['sideBar.foreground']
+  },
   listItem: {
     color: theme.colors['sideBar.foreground'],
     '&:hover': {
@@ -167,6 +173,27 @@ export default function File({
       onContextMenu={handleContextMenu}
     >
       <div className="webcode-filetree-file__info">
+        {type === 'file' ? (
+          <ReactSVG
+            src={svgLoading}
+            afterInjection={(error, svg) => {
+              if (error) {
+                console.error(error)
+                return
+              }
+            }}
+            beforeInjection={svg => {
+              svg.classList.add('webcode-filetree-file__loading-svg')
+              svg.classList.add(classes.listColor)
+            }}
+            evalScripts="always"
+            fallback={() => <span>Error!</span>}
+            loading={() => <span>Loading</span>}
+            renumerateIRIElements={false}
+            wrapper="div"
+            className="webcode-filetree-file__loading"
+          />
+        ) : null}
         {type !== 'project' ? <FileIcon type={type} fileName={name} /> : null}
         <span
           className={clsx('webcode-filetree-file__name', {

@@ -1,4 +1,5 @@
 @import '../../style/vars.less';
+@import '../../ui/style/animation.less';
 
 .webcode-filetree-file {
   position: relative;
@@ -51,5 +52,27 @@
     font-size: 14px;
     max-width: 180px;
     white-space: normal;
+  }
+
+  &__info {
+    position: relative;
+  }
+
+  &__loading {
+    width: 12px;
+    height: 12px;
+    fill: #ffffff;
+    position: absolute;
+    left: -17px;
+    top: 5px;
+  }
+  &__loading-svg {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 600ms;
+    animation-name: rotate;
   }
 }
