@@ -24,7 +24,7 @@ import Button from '@src/components/ui/button'
 import svgLoading from '@src/aseets/svg/loading.svg'
 import { ReactSVG } from 'react-svg'
 import { getFileById } from '@src/store/files/util'
-import useFileLoading from './useFileLoading'
+import useFileLoading from '@src/hooks/useFileLoading'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10

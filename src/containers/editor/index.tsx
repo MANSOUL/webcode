@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
 import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
+import { Line } from 'rc-progress'
+import './index.less'
+import useFileLoading from '@src/hooks/useFileLoading'
 
 export interface Props {
   fileKey: string
@@ -17,11 +20,31 @@ export default function MyEditor({ fileKey }: Props) {
   const dispatch = useDispatch()
   const { loading, error, errorMessage, fileContents } = files
   const file = getFileById(fileContents, fileKey)
+  const [progress, setProgress] = React.useState(0)
+  const refProgress = React.useRef(0)
+  const fileLoading = useFileLoading(fileKey)
 
   React.useEffect(() => {
     if (refEditor.current && file) {
       refEditor.current.focus()
       bindEvent()
+    }
+    let timer: number = -1
+    const run = () => {
+      timer = window.requestAnimationFrame(() => {
+        if (refProgress.current < 100) {
+          refProgress.current += 2
+          setProgress(refProgress.current)
+        } else {
+          setProgress(100)
+          window.cancelAnimationFrame(timer)
+        }
+        run()
+      })
+    }
+    run()
+    return () => {
+      window.cancelAnimationFrame(timer)
     }
   }, [])
 
@@ -69,10 +92,25 @@ export default function MyEditor({ fileKey }: Props) {
   }
 
   return (
-    <Editor
-      ref={refEditor}
-      fileName={file?.relative || ''}
-      fileContent={file?.content || ''}
-    />
+    <div className="webcode-editor-container">
+      <Editor
+        ref={refEditor}
+        fileName={file?.relative || ''}
+        fileContent={file?.content || ''}
+      />
+      {fileLoading ? (
+        <div className="webcode-editor-container__loading-box">
+          <div className="webcode-editor-container__loading">
+            <Line
+              percent={progress}
+              strokeWidth={1}
+              trailWidth={1}
+              trailColor="#D3D3D3"
+              strokeColor="#fa98ac"
+            />
+          </div>
+        </div>
+      ) : null}
+    </div>
   )
 }
