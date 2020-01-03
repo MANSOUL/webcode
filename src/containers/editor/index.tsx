@@ -25,6 +25,12 @@ export default function MyEditor({ fileKey }: Props) {
     }
   }, [])
 
+  React.useEffect(() => {
+    if (refEditor.current) {
+      refEditor.current.setMode(file?.relative || '', file?.content || '')
+    }
+  }, [file?.loading])
+
   // resize editor
   React.useEffect(() => {
     refEditor.current && refEditor.current.resize()
@@ -44,9 +50,13 @@ export default function MyEditor({ fileKey }: Props) {
       //   dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
       // })
 
-      refEditor.current.onInput(() => {
+      refEditor.current.onInput(e => {
         const file = getFileById(files.fileContents, fileKey)
-        if (file && file.content !== refEditor.current?.getValue()) {
+        if (
+          file &&
+          file.content !== refEditor.current?.getValue() &&
+          !e.isFlush // 手动输入时 isFlush 为false
+        ) {
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })

@@ -42,7 +42,7 @@ export default class Editor extends React.Component<Props> {
       this.editor = monaco.editor.create(this.refEditor.current, {
         fontSize: 14
       })
-      this.setMode(this.props.fileName, this.props.fileContent)
+      this.setMode(this.props.fileName, this.props.fileContent, true)
       this.addKeyBind()
       // After initializing monaco editor
       this.editorDidMount()
@@ -87,7 +87,7 @@ export default class Editor extends React.Component<Props> {
     this.editor.getModel()?.onDidChangeContent(callback)
   }
 
-  onInput(callback: () => void) {
+  onInput(callback: (e: monaco.editor.IModelContentChangedEvent) => void) {
     if (!this.editor) return
     this.editor.getModel()?.onDidChangeContent(callback)
   }
@@ -97,13 +97,18 @@ export default class Editor extends React.Component<Props> {
     this.onSaveEvents.push(callback)
   }
 
-  setMode(fileName: string, value: string) {
-    const model = monaco.editor.createModel(
-      value,
-      undefined,
-      monaco.Uri.parse(fileName)
-    )
-    this.editor && this.editor.setModel(model)
+  setMode(fileName: string, value: string, newModel = false) {
+    let model = this.editor?.getModel()
+    if (!newModel && model) {
+      model.setValue(value)
+    } else {
+      model = monaco.editor.createModel(
+        value,
+        undefined,
+        monaco.Uri.parse(fileName)
+      )
+      this.editor && this.editor.setModel(model)
+    }
   }
 
   getValue() {
