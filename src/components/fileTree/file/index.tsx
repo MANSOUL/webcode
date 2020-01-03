@@ -23,6 +23,8 @@ import Dialog, {
 import Button from '@src/components/ui/button'
 import svgLoading from '@src/aseets/svg/loading.svg'
 import { ReactSVG } from 'react-svg'
+import { getFileById } from '@src/store/files/util'
+import useFileLoading from './useFileLoading'
 export { default as NewFile } from './newFile'
 
 const PADDING_LEFT = 10
@@ -73,6 +75,7 @@ export default function File({
     content: ''
   })
   const classes = useStyles()
+  const loading = useFileLoading(id)
 
   const relatives = relative.split('/')
   const relativePath =
@@ -173,7 +176,7 @@ export default function File({
       onContextMenu={handleContextMenu}
     >
       <div className="webcode-filetree-file__info">
-        {type === 'file' ? (
+        {type === 'file' && loading ? (
           <ReactSVG
             src={svgLoading}
             afterInjection={(error, svg) => {
@@ -187,8 +190,8 @@ export default function File({
               svg.classList.add(classes.listColor)
             }}
             evalScripts="always"
-            fallback={() => <span>Error!</span>}
-            loading={() => <span>Loading</span>}
+            fallback={() => <span></span>}
+            loading={() => <span></span>}
             renumerateIRIElements={false}
             wrapper="div"
             className="webcode-filetree-file__loading"
