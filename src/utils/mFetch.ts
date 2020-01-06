@@ -35,3 +35,7 @@ export default function mFetch(
 export function uploadFile(fd: FormData) {
   return mFetch('/api/upload', 'post', fd, true)
 }
+
+export function mFetchFile(url: string) {
+  return fetch(url).then(res => res.blob())
+}
