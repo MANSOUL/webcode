@@ -19,6 +19,7 @@ export interface FileContent {
   modified: boolean
   fileName: string
   loading: boolean
+  type: 'text' | 'image'
 }
 
 export interface FilesState {
@@ -45,7 +46,8 @@ const getPayload = (action: FilesAction) => {
       fileContent: '',
       id: '',
       fileName: '',
-      newFile: {}
+      newFile: {},
+      type: 'text'
     }
   )
 }
@@ -65,11 +67,12 @@ const reducer: Reducer<FilesState> = (
           ...state.fileContents,
           {
             id: payload.id,
-            content: '',
+            content: payload.fileContent || '',
             relative: payload.relative,
             fileName: payload.fileName,
             modified: false,
-            loading: true
+            loading: true,
+            type: payload.type
           }
         ],
         currentFileId: payload.id

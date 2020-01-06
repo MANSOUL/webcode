@@ -8,6 +8,7 @@ import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
 import { Line } from 'rc-progress'
 import './index.less'
 import useFileLoading from '@src/hooks/useFileLoading'
+import FileContainer from '@src/components/fileContainer'
 
 export interface Props {
   fileKey: string
@@ -93,11 +94,15 @@ export default function MyEditor({ fileKey }: Props) {
 
   return (
     <div className="webcode-editor-container">
-      <Editor
-        ref={refEditor}
-        fileName={file?.relative || ''}
-        fileContent={file?.content || ''}
-      />
+      {file?.type !== 'text' ? (
+        <FileContainer type={file?.type || ''} url={file?.content || ''} />
+      ) : (
+        <Editor
+          ref={refEditor}
+          fileName={file?.relative || ''}
+          fileContent={file?.content || ''}
+        />
+      )}
       {fileLoading ? (
         <div className="webcode-editor-container__loading-box">
           <div className="webcode-editor-container__loading">

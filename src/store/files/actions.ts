@@ -1,8 +1,9 @@
 import { Action, Dispatch } from 'redux'
-import mFetch from '@src/utils/mFetch'
-import { getFileById } from './util'
+import mFetch, { mFetchFile } from '@src/utils/mFetch'
+import { getFileById, getRequestType } from './util'
 import { AppStore } from '..'
 import { getProject } from '@src/config/project'
+import { getBase } from '@src/utils/file'
 
 export const FETCH_FILE_START = 'FETCH_FILE_START'
 export const FETCH_FILE_DONE = 'FETCH_FILE_DONE'
@@ -22,6 +23,7 @@ export interface FilesAction extends Action {
     errorMessage: string
     fileName: string
     newFile: any
+    type: 'text' | 'image'
   }
 }
 
@@ -39,6 +41,7 @@ export const fetchFile = (relative: string, id: string) => {
   return async (dispatch: Dispatch, getState: () => any) => {
     let state: AppStore = getState()
     let prevFile = getFileById(state.files.fileContents, id)
+    const type = getRequestType(relative)
     if (prevFile) {
       dispatch(createChangeFileAction(id))
       return
@@ -48,41 +51,53 @@ export const fetchFile = (relative: string, id: string) => {
       payload: {
         relative,
         id,
-        fileName: relative
-          .split('/')
-          .slice(-1)
-          .toString()
+        fileName: getBase(relative),
+        type
       }
     })
     try {
-      const res = await mFetch(`/api/file/${getProject()}?relative=${relative}`)
-      if (res.status === 200) {
-        // 网速慢时可能导致点击了多次
-        state = getState()
-        prevFile = getFileById(state.files.fileContents, id)
-        if (prevFile && !prevFile.loading) {
-          return
-        }
-        console.log(res)
+      if (type === 'image') {
+        const res = await mFetchFile(
+          `/api/file/${getProject()}?relative=${relative}`
+        )
         dispatch({
           type: FETCH_FILE_DONE,
           payload: {
-            fileContent: res.data.content,
+            fileContent: URL.createObjectURL(res),
             relative,
             id,
-            fileName: relative
-              .split('/')
-              .slice(-1)
-              .toString()
+            fileName: getBase(relative)
           }
         })
       } else {
-        dispatch({
-          type: FETCH_FILE_ERROR,
-          payload: {
-            errorMessage: res.errorMessage
+        const res = await mFetch(
+          `/api/file/${getProject()}?relative=${relative}`
+        )
+        if (res.status === 200) {
+          // 网速慢时可能导致点击了多次
+          state = getState()
+          prevFile = getFileById(state.files.fileContents, id)
+          if (prevFile && !prevFile.loading) {
+            return
           }
-        })
+          console.log(res)
+          dispatch({
+            type: FETCH_FILE_DONE,
+            payload: {
+              fileContent: res.data.content,
+              relative,
+              id,
+              fileName: getBase(relative)
+            }
+          })
+        } else {
+          dispatch({
+            type: FETCH_FILE_ERROR,
+            payload: {
+              errorMessage: res.errorMessage
+            }
+          })
+        }
       }
     } catch (error) {
       dispatch({
