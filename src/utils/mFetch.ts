@@ -44,6 +44,9 @@ export function uploadFile(fd: FormData) {
   return mFetch('/api/upload', 'post', fd, true)
 }
 
-export function mFetchFile(url: string) {
+export function mFetchFile(url: string, body: Record<string, any>) {
+  if (body) {
+    url += `?${stringifyQuery(body)}`
+  }
   return fetch(url).then(res => res.blob())
 }

@@ -2,8 +2,8 @@ import { Action, Dispatch } from 'redux'
 import mFetch, { mFetchFile } from '@src/utils/mFetch'
 import { getFileById, getRequestType } from './util'
 import { AppStore } from '..'
-import { getProject } from '@src/config/project'
 import { getBase } from '@src/utils/file'
+import { GET_FILE_API } from '@src/api/file'
 
 export const FETCH_FILE_START = 'FETCH_FILE_START'
 export const FETCH_FILE_DONE = 'FETCH_FILE_DONE'
@@ -57,9 +57,9 @@ export const fetchFile = (relative: string, id: string) => {
     })
     try {
       if (type === 'image') {
-        const res = await mFetchFile(
-          `/api/file/${getProject()}?relative=${relative}`
-        )
+        const res = await mFetchFile(GET_FILE_API(), {
+          relative
+        })
         dispatch({
           type: FETCH_FILE_DONE,
           payload: {
@@ -70,9 +70,9 @@ export const fetchFile = (relative: string, id: string) => {
           }
         })
       } else {
-        const res = await mFetch(
-          `/api/file/${getProject()}?relative=${relative}`
-        )
+        const res = await mFetch(GET_FILE_API(), 'get', {
+          relative
+        })
         if (res.status === 200) {
           // 网速慢时可能导致点击了多次
           state = getState()
@@ -182,7 +182,7 @@ export const fileSaveFile = (
     // })
     try {
       const res = await mFetch(
-        `/api/file/${getProject()}?relative=${file.relative}`,
+        `${GET_FILE_API()}?relative=${file.relative}`,
         'put',
         {
           content: file.content
