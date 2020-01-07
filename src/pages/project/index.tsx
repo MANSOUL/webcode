@@ -58,14 +58,27 @@ function App() {
       console.log(error)
     }
   }
+  const createProject = async (name: string) => {
+    try {
+      const res = await mFetch(API_PROJECTS, 'post', { name })
+      if (res.status === 200) {
+        window.location.href = `./editor.html?project=${name}`
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const handleGotoEditor = (project: string) => () =>
     (window.location.href = `./editor.html?project=${project}`)
   const handleChange = (e: React.ChangeEvent) =>
     setProject((e.target as HTMLInputElement).value)
   const handleCancel = () => setOpen(false)
   const handleConfirm = () => {
-    // TODO create project
-
+    if (!/^[a-zA-Z0-9]+$/.test(project)) {
+      alert('项目名不能为空且只能为字母和数字')
+      return
+    }
+    createProject(project)
     setOpen(false)
   }
   return (
