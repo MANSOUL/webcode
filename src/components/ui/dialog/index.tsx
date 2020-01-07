@@ -9,7 +9,7 @@ export interface DialogTitleProps {
 }
 
 export function DialogTitle({ children }: DialogTitleProps) {
-  return <p className="dialog__title">{children}</p>
+  return <div className="dialog__title">{children}</div>
 }
 
 export interface DialogContentProps {
@@ -17,7 +17,7 @@ export interface DialogContentProps {
 }
 
 export function DialogContent({ children }: DialogContentProps) {
-  return <p className="dialog__content">{children}</p>
+  return <div className="dialog__content">{children}</div>
 }
 
 export interface DialogActionsProps {
@@ -25,7 +25,7 @@ export interface DialogActionsProps {
 }
 
 export function DialogActions({ children }: DialogActionsProps) {
-  return <p className="dialog__actions">{children}</p>
+  return <div className="dialog__actions">{children}</div>
 }
 
 export interface Props {
