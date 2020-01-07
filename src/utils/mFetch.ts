@@ -2,6 +2,12 @@ import storage from './storage'
 
 const KEY_STORAGE_AUTH = 'm_authorization'
 
+const stringifyQuery = (data: Record<string, any>) => {
+  return Object.keys(data)
+    .map(key => `${key}=${data[key]}`)
+    .join('&')
+}
+
 export interface RequestConfig {
   method: string
   headers: Record<string, any>
@@ -21,7 +27,9 @@ export default function mFetch(
   if (formData) {
     requestParams.body = body
   } else {
-    if (method !== 'get' && body) {
+    if (method === 'get' && body) {
+      url += `?${stringifyQuery(body)}`
+    } else if (method !== 'get' && body) {
       requestParams.body = JSON.stringify(body)
       requestParams.headers['Content-Type'] = 'application/json'
     }
