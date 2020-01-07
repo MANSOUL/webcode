@@ -1,0 +1,142 @@
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-size: 18px;
+}
+
+body {
+  overflow-x: hidden;
+  letter-spacing: 0;
+  font-weight: normal;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-feature-settings: 'liga' on;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu,
+    'Helvetica Neue', Helvetica, Arial, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei UI', 'Microsoft YaHei', 'Source Han Sans CN', sans-serif;
+}
+
+.page-project {
+  width: 100%;
+  height: 100%;
+  background-color: #1C1E26;
+  overflow: hidden;
+}
+.project-header {
+  height: 60px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  &__icon {
+    font-size: 18px;
+    color: rgba(255, 255, 255, .9);
+    margin-left: 1rem;
+    font-size: 1.125rem;
+    color: white;
+    font-weight: 300;
+  }
+}
+.project-name {
+  width: 100%;
+  border: none;
+  background: none;
+  color: #fff;
+  font-size: 15px;
+  border-bottom: 1px solid rgba(255,255,255,.6);
+  padding: 10px 5px;
+  outline: none;
+}
+.project-container {
+  margin-top: 40px;
+  width: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+  height: calc(100% - 60px);
+}
+.project-list {
+  height: calc(100% - 4.2rem);
+  overflow: auto;
+  scrollbar-color: rgba(255,255,255,.1) #1C1E26;
+  &:hover {
+    scrollbar-color: rgba(255,255,255,.3) #1C1E26;
+  }
+}
+.project {
+  width: 100%;
+  display: flex;
+  box-shadow: rgb(36, 36, 36) 0px 1px 0px;
+  cursor: pointer;
+  transition: background-color 0.3s ease 0s;
+  padding: 0.6rem;
+  margin-top: 1rem;
+  border-width: initial;
+  border-style: none;
+  border-color: initial;
+  border-image: initial;
+  background: none;
+  text-decoration: none;
+  border-radius: 2px;
+  outline: 0px;
+
+  &:hover {
+    background-color: rgb(36, 36, 36);
+  }
+
+  &__icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    border-radius: 2px;
+    span {
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 20px;
+    }
+  }
+
+  &__detail {
+    margin-left: 1rem;
+  }
+
+  &__title {
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-size: .95rem;
+    line-height: 1rem;
+    max-width: 200px;
+    text-align: left;
+    max-height: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0px;
+    margin: 0px 0px 0.175rem;
+    overflow: hidden;
+  }
+  &__date {
+    color: rgb(255, 255, 255);
+    font-size: .85px;
+    line-height: 13px;
+  }
+}
+
+::-webkit-scrollbar {
+  background-color: #1C1E26;
+}
+::-webkit-scrollbar-thumb
+{
+  background-color: rgba(255,255,255,.1);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255,255,255,.3);
+}
