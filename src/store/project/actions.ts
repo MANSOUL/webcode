@@ -1,7 +1,7 @@
 import { Action, Dispatch } from 'redux'
 import mFetch from '@src/utils/mFetch'
 import { fileNewFile, fileCloseFile } from '../files/actions'
-import { getProject } from '@src/config/project'
+import { GET_PROJECT } from '@src/api/project'
 
 export const FETCH_PROJECT_START = 'FETCH_PROJECT_START'
 export const FETCH_PROJECT_DONE = 'FETCH_PROJECT_DONE'
@@ -43,7 +43,7 @@ export const fetchProject = () => {
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/project/${getProject()}`)
+      const res = await mFetch(GET_PROJECT())
       if (res.status === 200) {
         dispatch({
           type: FETCH_PROJECT_DONE,
@@ -78,7 +78,7 @@ export const projectCreateFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/project/${getProject()}`, 'post', {
+      const res = await mFetch(GET_PROJECT(), 'post', {
         relative,
         fileName,
         type: 'file'
@@ -127,7 +127,7 @@ export const projectCreateFolder = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/project/${getProject()}`, 'post', {
+      const res = await mFetch(GET_PROJECT(), 'post', {
         relative,
         fileName,
         type: 'folder'
@@ -173,7 +173,7 @@ export const projectRenameFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(`/api/project/${getProject()}`, 'put', {
+      const res = await mFetch(GET_PROJECT(), 'put', {
         relative,
         fileName: oldName,
         newFileName: newName
@@ -217,10 +217,10 @@ export const projectRemoveFile = (
       type: FETCH_PROJECT_START
     })
     try {
-      const res = await mFetch(
-        `/api/project/${getProject()}?relative=${relative}&fileName=${fileName}`,
-        'delete'
-      )
+      const res = await mFetch(GET_PROJECT(), 'delete', {
+        relative,
+        fileName
+      })
       if (res.status === 200) {
         dispatch(fileCloseFile(id))
         dispatch({

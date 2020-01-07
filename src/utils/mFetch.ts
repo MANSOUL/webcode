@@ -27,7 +27,7 @@ export default function mFetch(
   if (formData) {
     requestParams.body = body
   } else {
-    if (method === 'get' && body) {
+    if ((method === 'get' || method === 'delete') && body) {
       url += `?${stringifyQuery(body)}`
     } else if (method !== 'get' && body) {
       requestParams.body = JSON.stringify(body)
