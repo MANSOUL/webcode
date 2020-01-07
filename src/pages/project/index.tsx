@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import './index.less'
@@ -7,6 +8,9 @@ import Dialog, {
   DialogActions
 } from '@src/components/ui/dialog'
 import Button from '@src/components/ui/button'
+import mFetch from '@src/utils/mFetch'
+import { API_PROJECTS } from '@src/api/project'
+import formatTime from '@src/utils/formatTime'
 
 const randomBetween = (below: number = 0, upper: number = 255) =>
   Math.floor(Math.random() * (upper - below)) + below
@@ -18,6 +22,11 @@ const randomColor = () =>
 
 interface IconProps {
   name: string
+}
+
+interface Project {
+  name: string
+  createdAt: number
 }
 
 function Icon({ name }: IconProps) {
@@ -32,7 +41,23 @@ function Icon({ name }: IconProps) {
 function App() {
   const [open, setOpen] = React.useState(false)
   const [project, setProject] = React.useState('')
+  const [list, setList] = React.useState<Project[]>([])
   const toggleOpen = () => setOpen(true)
+
+  React.useEffect(() => {
+    requestProjects()
+  }, [])
+
+  const requestProjects = async () => {
+    try {
+      const res = await mFetch(API_PROJECTS)
+      if (res.status === 200) {
+        setList(res.data.projects)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const handleChange = (e: React.ChangeEvent) =>
     setProject((e.target as HTMLInputElement).value)
   const handleCancel = () => setOpen(false)
@@ -55,41 +80,17 @@ function App() {
           </div>
         </button>
         <ul className="project-list">
-          <li className="project">
-            <Icon name="demo" />
-            <div className="project__detail">
-              <p className="project__title">DEMO</p>
-              <p className="project__date">创建时间：2018-06-09</p>
-            </div>
-          </li>
-          <li className="project">
-            <Icon name="demo" />
-            <div className="project__detail">
-              <p className="project__title">DEMO</p>
-              <p className="project__date">创建时间：2018-06-09</p>
-            </div>
-          </li>
-          <li className="project">
-            <Icon name="demo" />
-            <div className="project__detail">
-              <p className="project__title">DEMO</p>
-              <p className="project__date">创建时间：2018-06-09</p>
-            </div>
-          </li>
-          <li className="project">
-            <Icon name="demo" />
-            <div className="project__detail">
-              <p className="project__title">DEMO</p>
-              <p className="project__date">创建时间：2018-06-09</p>
-            </div>
-          </li>
-          <li className="project">
-            <Icon name="demo" />
-            <div className="project__detail">
-              <p className="project__title">DEMO</p>
-              <p className="project__date">创建时间：2018-06-09</p>
-            </div>
-          </li>
+          {list.map(item => (
+            <li className="project" key={item.name}>
+              <Icon name={item.name} />
+              <div className="project__detail">
+                <p className="project__title">{item.name.toUpperCase()}</p>
+                <p className="project__date">
+                  创建时间：{formatTime(item.createdAt, 'yyyy-MM-dd')}
+                </p>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
       <Dialog open={open}>
