@@ -21,8 +21,9 @@ interface IconProps {
 }
 
 function Icon({ name }: IconProps) {
+  const refColor = React.useRef({ backgroundColor: randomColor() })
   return (
-    <div className="project__icon" style={{ backgroundColor: randomColor() }}>
+    <div className="project__icon" style={refColor.current}>
       <span>{name.substring(0, 1)}</span>
     </div>
   )
