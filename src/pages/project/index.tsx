@@ -58,6 +58,8 @@ function App() {
       console.log(error)
     }
   }
+  const handleGotoEditor = (project: string) => () =>
+    (window.location.href = `./editor.html?project=${project}`)
   const handleChange = (e: React.ChangeEvent) =>
     setProject((e.target as HTMLInputElement).value)
   const handleCancel = () => setOpen(false)
@@ -81,7 +83,11 @@ function App() {
         </button>
         <ul className="project-list">
           {list.map(item => (
-            <li className="project" key={item.name}>
+            <li
+              className="project"
+              key={item.name}
+              onClick={handleGotoEditor(item.name)}
+            >
               <Icon name={item.name} />
               <div className="project__detail">
                 <p className="project__title">{item.name.toUpperCase()}</p>
