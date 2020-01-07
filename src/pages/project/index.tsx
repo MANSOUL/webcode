@@ -42,6 +42,10 @@ function App() {
   const [open, setOpen] = React.useState(false)
   const [project, setProject] = React.useState('')
   const [list, setList] = React.useState<Project[]>([])
+  const [tip, setTip] = React.useState({
+    open: false,
+    errorMessage: ''
+  })
   const toggleOpen = () => setOpen(true)
 
   React.useEffect(() => {
@@ -75,7 +79,10 @@ function App() {
   const handleCancel = () => setOpen(false)
   const handleConfirm = () => {
     if (!/^[a-zA-Z0-9]+$/.test(project)) {
-      alert('项目名不能为空且只能为字母和数字')
+      setTip({
+        open: true,
+        errorMessage: '项目名不能为空且只能为字母和数字'
+      })
       return
     }
     createProject(project)
@@ -115,11 +122,16 @@ function App() {
       <Dialog open={open}>
         <DialogTitle>请输入项目名称</DialogTitle>
         <DialogContent>
-          <input
-            className="project-name"
-            value={project}
-            onChange={handleChange}
-          />
+          <div>
+            <input
+              className="project-name"
+              value={project}
+              onChange={handleChange}
+            />
+            {tip.open ? (
+              <p className="project-tip">{tip.errorMessage}</p>
+            ) : null}
+          </div>
         </DialogContent>
         <DialogActions>
           <Button size="small" onClick={handleCancel}>
