@@ -1,9 +1,13 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+const pagePath = path.resolve(__dirname, '../src/pages')
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    project: path.resolve(pagePath, 'project/index.tsx'),
+    editor: path.resolve(pagePath, 'editor/index.tsx')
+  },
   output: {
     path: path.resolve(__dirname, '../build'),
     chunkFilename: '[id].[chunkhash:8].chunk.js',
@@ -69,7 +73,14 @@ module.exports = {
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: './src/index.html'
+      template: path.resolve(pagePath, 'project/index.html'),
+      filename: 'project.html',
+      chunks: ['project']
+    }),
+    new HTMLWebpackPlugin({
+      template: path.resolve(pagePath, 'editor/index.html'),
+      filename: 'editor.html',
+      chunks: ['editor']
     }),
     new MonacoWebpackPlugin()
   ]
