@@ -102,7 +102,8 @@ const reducer: Reducer<FilesState> = (
           {
             ...newFile,
             modified: false,
-            loading: false
+            loading: false,
+            type: 'text'
           }
         ],
         currentFileId: newFile.id
