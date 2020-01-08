@@ -1,5 +1,10 @@
 # webcode
 
+## 截图
+
+![alt 项目列表](images/projects.jpg)
+![alt 编辑器](images/editor.jpg)
+
 ## 使用
 
 ## 主要功能
