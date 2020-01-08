@@ -1,6 +1,7 @@
 const path = require('path')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const pagePath = path.resolve(__dirname, '../src/pages')
 
 module.exports = {
@@ -72,6 +73,11 @@ module.exports = {
       filename: 'editor.html',
       chunks: ['editor']
     }),
-    new MonacoWebpackPlugin()
+    new MonacoWebpackPlugin(),
+    new CopyWebpackPlugin([{
+      context: path.resolve(__dirname, '../'),
+      from: './src/static',
+      to: './assets'
+    }])
   ]
 }
