@@ -7,8 +7,7 @@ import {
 } from 'vscode-icons-js'
 import clsx from 'clsx'
 
-const ICON_BASE_PATH =
-  'https://dderevjanik.github.io/vscode-icons-js-example/icons/'
+const ICON_BASE_PATH = '/assets/fileIcons/'
 
 export interface Props {
   fileName: string
