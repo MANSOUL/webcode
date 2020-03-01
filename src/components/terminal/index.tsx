@@ -37,7 +37,19 @@ export default function XTerminal({}: Props) {
     refSocket.current = socket
     socket.onMessage(msg => {
       if (refTerm.current) {
-        refTerm.current.write(JSON.parse(msg.data))
+        const data = JSON.parse(msg.data)
+        // 宽字符删除两次
+        if (data === '\b \b') {
+          const current = refTerm.current
+          // 从光标当前位置往前获取2位，如果是宽字符
+          const charWidth = current.buffer
+            .getLine(current.buffer.cursorY)
+            ?.getCell(current.buffer.cursorX - 2)?.width
+          if (charWidth === 2) {
+            refTerm.current.write(data)
+          }
+        }
+        refTerm.current.write(data)
       }
     })
     return () => {
@@ -84,7 +96,8 @@ export default function XTerminal({}: Props) {
   const createTerminal = () => {
     if (refTerminal.current) {
       const term = new Terminal({
-        fontSize: 14
+        fontSize: 14,
+        cursorBlink: true
       })
       refTerm.current = term
       const fitAddon = new FitAddon()
