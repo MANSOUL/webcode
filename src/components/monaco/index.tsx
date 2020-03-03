@@ -80,13 +80,6 @@ export default class Editor extends React.Component<Props> {
     this.editor && this.editor.focus()
   }
 
-  onValueChange(
-    callback: (delta: monaco.editor.IModelContentChangedEvent) => void
-  ) {
-    if (!this.editor) return
-    this.editor.getModel()?.onDidChangeContent(callback)
-  }
-
   onInput(callback: (e: monaco.editor.IModelContentChangedEvent) => void) {
     if (!this.editor) return
     this.editor.getModel()?.onDidChangeContent(callback)
