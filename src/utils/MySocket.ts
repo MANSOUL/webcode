@@ -60,8 +60,16 @@ export default class MySocket {
     this.ws && this.ws.close(stopReconnect ? 3000 : 3001)
   }
 
-  send(data: any) {
-    this.ws && this.ws.send(data)
+  send(relative: string, project: string, type: 'edit' | 'save', data?: any) {
+    this.ws &&
+      this.ws.send(
+        JSON.stringify({
+          relative,
+          project,
+          change: data,
+          type
+        })
+      )
   }
 
   bindEvent() {

@@ -174,6 +174,14 @@ export const fileSaveFile = (
   onError?: () => void
 ) => {
   return async (dispatch: Dispatch, getState: () => AppStore) => {
+    dispatch({
+      type: FILE_SAVE_FILE,
+      payload: {
+        id
+      }
+    })
+    onDone && onDone()
+    return
     const state: AppStore = getState()
     const file = getFileById(state.files.fileContents, id)
     if (!file) return

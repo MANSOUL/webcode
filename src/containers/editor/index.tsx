@@ -9,6 +9,8 @@ import { Line } from 'rc-progress'
 import './index.less'
 import useFileLoading from '@src/hooks/useFileLoading'
 import FileContainer from '@src/components/fileContainer'
+import FileSocket from './fileSocket'
+import { getProject } from '@src/config/project'
 
 export interface Props {
   fileKey: string
@@ -66,28 +68,24 @@ export default function MyEditor({ fileKey }: Props) {
         dispatch(createEditorSelectionAction(cursor))
       )
 
-      // refEditor.current.onValueChange((dealt: Ace.Delta) => {
-      //   // dealt 可以实现更加细腻度的控制，可用于实时在线编程直播
-      //   console.log(dealt)
-      //   console.log(refEditor.current?.getValue())
-      //   // TODO 触发细腻度更高的编辑事件
-      //   dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
-      // })
-
       refEditor.current.onInput(e => {
-        const file = getFileById(files.fileContents, fileKey)
         if (
           file &&
           file.content !== refEditor.current?.getValue() &&
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
+          console.log(JSON.stringify(e))
+          FileSocket.getInstance().send(file.relative, getProject(), 'edit', e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })
 
       refEditor.current.onSave(() => {
         console.log('file save')
-        dispatch(fileSaveFile(fileKey))
+        if (file) {
+          FileSocket.getInstance().send(file.relative, getProject(), 'save')
+          dispatch(fileSaveFile(fileKey))
+        }
       })
     }
   }
