@@ -21,7 +21,7 @@ export default class FileSocket {
     data?: any
   ) {
     const ws = FileSocket.getInstance()
-    ws && ws.send({ relative, project, type, change: data })
+    ws && ws.send(JSON.stringify({ relative, project, type, change: data }))
   }
 }
 

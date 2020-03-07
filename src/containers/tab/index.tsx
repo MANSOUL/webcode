@@ -12,7 +12,7 @@ import { getFileIndex, getFileById } from '@src/store/files/util'
 import {
   changeCurrentFile,
   fileCloseFile,
-  fileSaveFile
+  actionFileSaveFile
 } from '@src/store/files/actions'
 import { FileContent } from '@src/store/files'
 import Scroller from '@src/components/ui/scroller'
@@ -26,6 +26,8 @@ import Button from '@src/components/ui/button'
 import * as monaco from 'monaco-editor'
 import { convertTheme } from '@src/theme/editor'
 import useTheme from '@src/theme/useTheme'
+import FileSocket from '../editor/fileSocket'
+import { getProject } from '@src/config/project'
 
 const useStyles = createStyles(theme => ({
   tabSwitcher: {
@@ -108,12 +110,10 @@ export default function MyTab() {
 
   const handleSaveFile = () => {
     if (!refCurrentFile.current) return
-    const id = refCurrentFile.current.id
-    dispatch(
-      fileSaveFile(id, () => {
-        dispatch(fileCloseFile(id))
-      })
-    )
+    const { id, relative } = refCurrentFile.current
+    FileSocket.send(relative, getProject(), 'save')
+    dispatch(actionFileSaveFile(id))
+    dispatch(fileCloseFile(id))
     setDialog({
       ...dialog,
       open: false

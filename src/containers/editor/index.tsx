@@ -77,7 +77,7 @@ export default function MyEditor({ fileKey }: Props) {
         ) {
           console.log(JSON.stringify(e))
           refVersionId.current = e.versionId
-          FileSocket.getInstance().send(file.relative, getProject(), 'edit', e)
+          FileSocket.send(file.relative, getProject(), 'edit', e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })
@@ -85,7 +85,7 @@ export default function MyEditor({ fileKey }: Props) {
       refEditor.current.onSave(() => {
         console.log('file save')
         if (file) {
-          FileSocket.getInstance().send(file.relative, getProject(), 'save', {
+          FileSocket.send(file.relative, getProject(), 'save', {
             versionId: refVersionId.current + 1
           })
           dispatch(actionFileSaveFile(fileKey))
