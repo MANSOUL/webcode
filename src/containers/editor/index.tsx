@@ -18,6 +18,7 @@ export interface Props {
 
 export default function MyEditor({ fileKey }: Props) {
   const refEditor = React.useRef<Editor | null>(null)
+  const refVersionId = React.useRef<number>(0)
   const files = useSelector((store: AppStore) => store.files)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
@@ -75,6 +76,7 @@ export default function MyEditor({ fileKey }: Props) {
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
           console.log(JSON.stringify(e))
+          refVersionId.current = e.versionId
           FileSocket.getInstance().send(file.relative, getProject(), 'edit', e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
@@ -83,7 +85,9 @@ export default function MyEditor({ fileKey }: Props) {
       refEditor.current.onSave(() => {
         console.log('file save')
         if (file) {
-          FileSocket.getInstance().send(file.relative, getProject(), 'save')
+          FileSocket.getInstance().send(file.relative, getProject(), 'save', {
+            versionId: refVersionId.current + 1
+          })
           dispatch(actionFileSaveFile(fileKey))
         }
       })

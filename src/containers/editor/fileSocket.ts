@@ -14,9 +14,15 @@ export default class FileSocket {
     return FileSocket.instance
   }
 
-  send(file: FileContent, info: {}) {}
-
-  addEvent() {}
+  public static send(
+    relative: string,
+    project: string,
+    type: 'edit' | 'save',
+    data?: any
+  ) {
+    const ws = FileSocket.getInstance()
+    ws && ws.send({ relative, project, type, change: data })
+  }
 }
 
 FileSocket.getInstance()
