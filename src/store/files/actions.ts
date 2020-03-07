@@ -168,59 +168,9 @@ export const fileModifyFile = (id: string, fileContent: string) => ({
  * 保存文件
  * @param id
  */
-export const fileSaveFile = (
-  id: string,
-  onDone?: () => void,
-  onError?: () => void
-) => {
-  return async (dispatch: Dispatch, getState: () => AppStore) => {
-    dispatch({
-      type: FILE_SAVE_FILE,
-      payload: {
-        id
-      }
-    })
-    onDone && onDone()
-    return
-    const state: AppStore = getState()
-    const file = getFileById(state.files.fileContents, id)
-    if (!file) return
-    // dispatch({
-    //   type: FETCH_FILE_START
-    // })
-    try {
-      const res = await mFetch(
-        `${GET_FILE_API()}?relative=${file.relative}`,
-        'put',
-        {
-          content: file.content
-        }
-      )
-      if (res.status === 200) {
-        dispatch({
-          type: FILE_SAVE_FILE,
-          payload: {
-            id
-          }
-        })
-        onDone && onDone()
-      } else {
-        dispatch({
-          type: FETCH_FILE_ERROR,
-          payload: {
-            errorMessage: res.errorMessage
-          }
-        })
-        onError && onError()
-      }
-    } catch (error) {
-      dispatch({
-        type: FETCH_FILE_ERROR,
-        payload: {
-          errorMessage: error.message
-        }
-      })
-      onError && onError()
-    }
+export const actionFileSaveFile = (id: string) => ({
+  type: FILE_SAVE_FILE,
+  payload: {
+    id
   }
-}
+})

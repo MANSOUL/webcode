@@ -4,7 +4,7 @@ import { AppStore } from '@src/store'
 import { useSelector, useDispatch } from 'react-redux'
 import { getFileById } from '@src/store/files/util'
 import { createEditorSelectionAction } from '@src/store/editor/actions'
-import { fileModifyFile, fileSaveFile } from '@src/store/files/actions'
+import { fileModifyFile, actionFileSaveFile } from '@src/store/files/actions'
 import { Line } from 'rc-progress'
 import './index.less'
 import useFileLoading from '@src/hooks/useFileLoading'
@@ -84,7 +84,7 @@ export default function MyEditor({ fileKey }: Props) {
         console.log('file save')
         if (file) {
           FileSocket.getInstance().send(file.relative, getProject(), 'save')
-          dispatch(fileSaveFile(fileKey))
+          dispatch(actionFileSaveFile(fileKey))
         }
       })
     }
