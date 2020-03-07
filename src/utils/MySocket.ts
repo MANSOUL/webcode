@@ -12,15 +12,15 @@ export default class MySocket {
   options: MySocketOptions
   ws: WebSocket | null = null
   url: string
-  protocol: string | undefined
+  protocol: string
   reconnectTimes: number
   retryDuration: number
   reconnectTimer: any
   messageCallback: Function[] = []
   constructor(
     url: string,
-    options: MySocketOptions = initOptions,
-    protocol?: string | undefined
+    protocol: string = '',
+    options: MySocketOptions = initOptions
   ) {
     this.url = url
     this.protocol = protocol
@@ -32,7 +32,10 @@ export default class MySocket {
 
   connect() {
     try {
-      this.ws = new WebSocket(this.url, this.protocol)
+      this.ws = new WebSocket(
+        this.url,
+        this.protocol === '' ? undefined : this.protocol
+      )
       this.bindEvent()
     } catch (error) {
       console.log('init error.', error)
@@ -56,20 +59,12 @@ export default class MySocket {
 
   heartbeat() {}
 
-  close(stopReconnect: boolean = false) {
-    this.ws && this.ws.close(stopReconnect ? 3000 : 3001)
+  close() {
+    this.ws && this.ws.close()
   }
 
-  send(relative: string, project: string, type: 'edit' | 'save', data?: any) {
-    this.ws &&
-      this.ws.send(
-        JSON.stringify({
-          relative,
-          project,
-          change: data,
-          type
-        })
-      )
+  send(data: any) {
+    this.ws && this.ws.send(data)
   }
 
   bindEvent() {
@@ -78,11 +73,9 @@ export default class MySocket {
         console.log('socket opened.')
         this.reconnectTimes = this.options.reconnectTimes
       })
-      this.ws.addEventListener('close', (e: CloseEvent) => {
+      this.ws.addEventListener('close', () => {
         console.log('socket closed.')
-        if (e.code !== 3000) {
-          this.reconnect()
-        }
+        this.reconnect()
       })
       this.ws.addEventListener('error', error => {
         console.error('socket error.', error)
