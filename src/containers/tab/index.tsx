@@ -84,7 +84,7 @@ export default function MyTab() {
     refCurrentFile.current = file
     if (file.modified) {
       setDialog({
-        title: `是否要保存对 ${'index.ts'} 的更改?`,
+        title: `是否要保存对 ${file.relative} 的更改?`,
         content: '如果不保存，更改将丢失。',
         open: true
       })
