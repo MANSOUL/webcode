@@ -11,6 +11,7 @@ import useFileLoading from '@src/hooks/useFileLoading'
 import FileContainer from '@src/components/fileContainer'
 import FileSocket from './fileSocket'
 import { getProject } from '@src/config/project'
+import useProgress from './useProgress'
 
 export interface Props {
   fileKey: string
@@ -24,31 +25,13 @@ export default function MyEditor({ fileKey }: Props) {
   const dispatch = useDispatch()
   const { loading, error, errorMessage, fileContents } = files
   const file = getFileById(fileContents, fileKey)
-  const [progress, setProgress] = React.useState(0)
-  const refProgress = React.useRef(0)
+  const progress = useProgress()
   const fileLoading = useFileLoading(fileKey)
 
   React.useEffect(() => {
     if (refEditor.current && file) {
       refEditor.current.focus()
       bindEvent()
-    }
-    let timer: number = -1
-    const run = () => {
-      timer = window.requestAnimationFrame(() => {
-        if (refProgress.current < 100) {
-          refProgress.current += 2
-          setProgress(refProgress.current)
-        } else {
-          setProgress(100)
-          window.cancelAnimationFrame(timer)
-        }
-        run()
-      })
-    }
-    run()
-    return () => {
-      window.cancelAnimationFrame(timer)
     }
   }, [])
 
