@@ -75,7 +75,6 @@ export default function MyEditor({ fileKey }: Props) {
           file.content !== refEditor.current?.getValue() &&
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
-          console.log(JSON.stringify(e))
           refVersionId.current = e.versionId
           FileSocket.send(file.relative, getProject(), 'edit', e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
@@ -83,7 +82,6 @@ export default function MyEditor({ fileKey }: Props) {
       })
 
       refEditor.current.onSave(() => {
-        console.log('file save')
         if (file) {
           FileSocket.send(file.relative, getProject(), 'save', {
             versionId: refVersionId.current + 1
