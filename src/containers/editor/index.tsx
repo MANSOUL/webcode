@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import Editor from '@src/components/monaco'
 import { AppStore } from '@src/store'
 import { useSelector, useDispatch } from 'react-redux'
@@ -23,6 +23,7 @@ import Dialog, {
 } from '@src/components/ui/dialog'
 import Button from '@src/components/ui/button'
 import { getBase } from '@src/utils/file'
+import { FileContent } from '@src/store/files'
 
 export interface Props {
   fileKey: string
@@ -35,8 +36,8 @@ export default function MyEditor({ fileKey, status }: Props) {
   const files = useSelector((store: AppStore) => store.files)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
-  const { loading, error, errorMessage, fileContents } = files
-  const file = getFileById(fileContents, fileKey)
+  const file = getFileById(files.fileContents, fileKey)
+  const refFile = React.useRef<FileContent | undefined>(file)
   const progress = useProgress()
   const fileLoading = useFileLoading(fileKey)
   const [dialog, setDialog] = React.useState({
@@ -45,15 +46,19 @@ export default function MyEditor({ fileKey, status }: Props) {
     content: ''
   })
   React.useEffect(() => {
-    if (refEditor.current && file) {
+    if (refEditor.current && refFile.current) {
       refEditor.current.focus()
       bindEvent()
     }
   }, [])
 
   React.useEffect(() => {
+    refFile.current = file
     if (refEditor.current) {
-      refEditor.current.setMode(file?.relative || '', file?.content || '')
+      refEditor.current.setMode(
+        refFile.current?.relative || '',
+        refFile.current?.content || ''
+      )
     }
   }, [file?.loading])
 
@@ -77,19 +82,19 @@ export default function MyEditor({ fileKey, status }: Props) {
 
       refEditor.current.onInput(e => {
         if (
-          file &&
-          file.content !== refEditor.current?.getValue() &&
+          refFile.current &&
+          refFile.current.content !== refEditor.current?.getValue() &&
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
           refVersionId.current = e.versionId
-          FileSocket.send(file.relative, getProject(), 'edit', e)
+          FileSocket.send(refFile.current.relative, getProject(), 'edit', e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })
 
       refEditor.current.onSave(() => {
-        if (file) {
-          FileSocket.send(file.relative, getProject(), 'save', {
+        if (refFile.current) {
+          FileSocket.send(refFile.current.relative, getProject(), 'save', {
             versionId: refVersionId.current + 1
           })
           dispatch(actionFileSaveFile(fileKey))
@@ -100,16 +105,16 @@ export default function MyEditor({ fileKey, status }: Props) {
 
   // k
   const handleClose = () => {
-    if (!file) return
+    if (!refFile.current) return
     setDialog({
-      title: `是否要保存对 ${getBase(file.relative)} 的更改?`,
+      title: `是否要保存对 ${getBase(refFile.current.relative)} 的更改?`,
       content: '如果不保存，更改将丢失。',
       open: true
     })
   }
 
   const handleUnsaveFile = () => {
-    file && dispatch(fileCloseFile(file.id))
+    refFile.current && dispatch(fileCloseFile(refFile.current.id))
     setDialog({
       ...dialog,
       open: false
@@ -124,8 +129,8 @@ export default function MyEditor({ fileKey, status }: Props) {
   }
 
   const handleSaveFile = () => {
-    if (!file) return
-    FileSocket.send(file.relative, getProject(), 'save', {
+    if (!refFile.current) return
+    FileSocket.send(refFile.current.relative, getProject(), 'save', {
       versionId: refVersionId.current + 1
     })
     dispatch(actionFileSaveFile(fileKey))
@@ -138,13 +143,16 @@ export default function MyEditor({ fileKey, status }: Props) {
 
   return (
     <div className="webcode-editor-container">
-      {file?.type !== 'text' ? (
-        <FileContainer type={file?.type || ''} url={file?.content || ''} />
+      {refFile.current?.type !== 'text' ? (
+        <FileContainer
+          type={refFile.current?.type || ''}
+          url={refFile.current?.content || ''}
+        />
       ) : (
         <Editor
           ref={refEditor}
-          fileName={file?.relative || ''}
-          fileContent={file?.content || ''}
+          fileName={refFile.current?.relative || ''}
+          fileContent={refFile.current?.content || ''}
         />
       )}
       {fileLoading ? (
