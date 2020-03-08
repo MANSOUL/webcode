@@ -56,7 +56,7 @@ export const fetchFile = (relative: string, id: string) => {
       }
     })
     try {
-      if (type === 'image') {
+      if (type !== 'text') {
         const res = await mFetchFile(GET_FILE_API(), {
           relative
         })

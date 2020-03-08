@@ -46,7 +46,7 @@ export function uploadFile(fd: FormData) {
 
 export function mFetchFile(url: string, body: Record<string, any>) {
   if (body) {
-    url += `?${stringifyQuery(body)}`
+    url += `?${stringifyQuery(body)}&base64=1`
   }
   return fetch(url).then(res => res.blob())
 }
