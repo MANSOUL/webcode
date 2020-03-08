@@ -28,6 +28,7 @@ import { convertTheme } from '@src/theme/editor'
 import useTheme from '@src/theme/useTheme'
 import FileSocket from '../editor/fileSocket'
 import { getProject } from '@src/config/project'
+import { getBase } from '@src/utils/file'
 
 const useStyles = createStyles(theme => ({
   tabSwitcher: {
@@ -84,7 +85,7 @@ export default function MyTab() {
     refCurrentFile.current = file
     if (file.modified) {
       setDialog({
-        title: `是否要保存对 ${file.relative} 的更改?`,
+        title: `是否要保存对 ${getBase(file.relative)} 的更改?`,
         content: '如果不保存，更改将丢失。',
         open: true
       })
