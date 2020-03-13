@@ -23,6 +23,13 @@ export default class FileSocket {
     const ws = FileSocket.getInstance()
     ws && ws.send(JSON.stringify({ relative, project, type, change: data }))
   }
+
+  public static on(listener: (msg: MessageEvent) => void) {
+    const ws = FileSocket.getInstance()
+    if (ws) {
+      ws.onMessage(listener)
+    }
+  }
 }
 
 FileSocket.getInstance()
