@@ -105,16 +105,16 @@ export default function MyEditor({ fileKey, status }: Props) {
 
   // k
   const handleClose = () => {
-    if (!refFile.current) return
+    if (!refFile) return
     setDialog({
-      title: `是否要保存对 ${getBase(refFile.current.relative)} 的更改?`,
+      title: `是否要保存对 ${getBase(refFile.relative)} 的更改?`,
       content: '如果不保存，更改将丢失。',
       open: true
     })
   }
 
   const handleUnsaveFile = () => {
-    refFile.current && dispatch(fileCloseFile(refFile.current.id))
+    refFile && dispatch(fileCloseFile(refFile.id))
     setDialog({
       ...dialog,
       open: false
