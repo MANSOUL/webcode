@@ -12,8 +12,6 @@ import { Line } from 'rc-progress'
 import './index.less'
 import useFileLoading from '@src/hooks/useFileLoading'
 import FileContainer from '@src/components/fileContainer'
-import FileSocket from './fileSocket'
-import { getProject } from '@src/config/project'
 import useProgress from './useProgress'
 import Dialog, {
   DialogTitle,
@@ -24,6 +22,7 @@ import Button from '@src/components/ui/button'
 import { getBase } from '@src/utils/file'
 import useFileChange from './useFileChange'
 import useFiles from './useFiles'
+import MessageQueue from './messageQueue'
 
 export interface Props {
   fileKey: string
@@ -44,10 +43,15 @@ export default function MyEditor({ fileKey, status }: Props) {
     title: '',
     content: ''
   })
+  const refMessage = React.useRef<MessageQueue>()
   React.useEffect(() => {
     if (refEditor.current && refFile) {
       refEditor.current.focus()
       bindEvent()
+    }
+
+    if (refFile) {
+      refMessage.current = new MessageQueue(refFile.relative)
     }
   }, [])
 
@@ -82,7 +86,7 @@ export default function MyEditor({ fileKey, status }: Props) {
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
           refVersionId.current = e.versionId
-          FileSocket.send(refFile.relative, getProject(), 'edit', e)
+          refMessage.current && refMessage.current.edit(e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })
@@ -97,9 +101,7 @@ export default function MyEditor({ fileKey, status }: Props) {
 
   const sendSave = () => {
     if (!refFile) return
-    FileSocket.send(refFile.relative, getProject(), 'save', {
-      versionId: refVersionId.current + 1
-    })
+    refMessage.current && refMessage.current.save()
     dispatch(actionFileSaveFile(fileKey))
   }
 
