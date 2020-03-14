@@ -85,6 +85,12 @@ export default class Editor extends React.Component<Props> {
     this.editor.getModel()?.onDidChangeContent(callback)
   }
 
+  onCursorPositionChange(
+    callback: (e: monaco.editor.ICursorPositionChangedEvent) => void
+  ) {
+    this.editor?.onDidChangeCursorPosition(callback)
+  }
+
   onSave(callback: () => void) {
     if (!this.editor) return
     this.onSaveEvents.push(callback)

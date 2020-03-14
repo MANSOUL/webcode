@@ -31,7 +31,6 @@ export interface Props {
 
 export default function MyEditor({ fileKey, status }: Props) {
   const refEditor = React.useRef<Editor | null>(null)
-  const refVersionId = React.useRef<number>(0)
   const editor = useSelector((store: AppStore) => store.editor)
   const dispatch = useDispatch()
   const refFile = useFileChange(fileKey)
@@ -82,13 +81,17 @@ export default function MyEditor({ fileKey, status }: Props) {
       refEditor.current.onInput(e => {
         if (
           refFile &&
+          refMessage.current &&
           refFile.content !== refEditor.current?.getValue() &&
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
-          refVersionId.current = e.versionId
-          refMessage.current && refMessage.current.edit(e)
+          refMessage.current.edit(e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
+      })
+
+      refEditor.current.onCursorPositionChange(e => {
+        // console.log(e)
       })
 
       refEditor.current.onSave(() => {

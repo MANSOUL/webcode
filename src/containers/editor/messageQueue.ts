@@ -49,7 +49,6 @@ export default class MessageQueue {
     if (this.flagSend) return
     // 取出第一个发送
     const e = this.messageQueue.shift()
-    console.log(e)
     if (e) {
       this.flagSend = true
       FileSocket.send(this.relative, this.project, 'edit', e)
