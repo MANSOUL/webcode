@@ -3,7 +3,7 @@
 ## 截图
 
 ![alt 项目列表](images/projects.jpg)
-![alt 编辑器](images/editor.jpg)
+![alt 编辑器](images/editor.png)
 
 ## 使用方法
 
