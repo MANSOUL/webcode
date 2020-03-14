@@ -9,6 +9,7 @@ export default class MessageQueue {
   private project: string
   private flagSend: boolean = false
   private shouldSave: boolean = false
+  private saveCallback: null | Function = null
 
   constructor(relative: string) {
     this.relative = relative
@@ -22,13 +23,14 @@ export default class MessageQueue {
     this.send()
   }
 
-  save() {
+  save(cb: Function | null) {
     const last = this.last()
     if (!last || this.flagSend) {
       this.shouldSave = true
       return
     }
     this.shouldSave = false
+    this.saveCallback = cb
     FileSocket.send(this.relative, this.project, 'save', {
       versionId: last.versionId + 1,
       startVersionId: this.queue[0].versionId,
@@ -43,6 +45,7 @@ export default class MessageQueue {
   clear() {
     this.queue = []
     this.messageQueue = []
+    this.saveCallback = null
   }
 
   send() {
@@ -54,7 +57,7 @@ export default class MessageQueue {
       FileSocket.send(this.relative, this.project, 'edit', e)
     } else if (this.shouldSave) {
       // 队列已空并且需要保存
-      this.save()
+      this.save(this.saveCallback)
     }
   }
 
@@ -66,6 +69,7 @@ export default class MessageQueue {
       this.flagSend = false
       this.send()
     } else {
+      this.saveCallback && this.saveCallback()
       this.clear()
     }
   }

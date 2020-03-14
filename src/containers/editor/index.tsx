@@ -77,7 +77,6 @@ export default function MyEditor({ fileKey, status }: Props) {
       refEditor.current.onCursorChange(cursor =>
         dispatch(createEditorSelectionAction(cursor))
       )
-
       refEditor.current.onInput(e => {
         if (
           refFile &&
@@ -89,26 +88,19 @@ export default function MyEditor({ fileKey, status }: Props) {
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })
-
-      refEditor.current.onCursorPositionChange(e => {
-        // console.log(e)
-      })
-
-      refEditor.current.onSave(() => {
-        if (refFile) {
-          sendSave()
-        }
-      })
+      refEditor.current.onSave(() => sendSave())
     }
   }
 
-  const sendSave = () => {
+  const sendSave = (cb?: () => void) => {
     if (!refFile) return
-    refMessage.current && refMessage.current.save()
-    dispatch(actionFileSaveFile(fileKey))
+    refMessage.current &&
+      refMessage.current.save(() => {
+        dispatch(actionFileSaveFile(fileKey))
+        cb && cb()
+      })
   }
 
-  // k
   const handleClose = () => {
     if (!refFile) return
     setDialog({
@@ -135,11 +127,12 @@ export default function MyEditor({ fileKey, status }: Props) {
 
   const handleSaveFile = () => {
     if (!refFile) return
-    sendSave()
-    dispatch(fileCloseFile(fileKey))
-    setDialog({
-      ...dialog,
-      open: false
+    sendSave(() => {
+      dispatch(fileCloseFile(fileKey))
+      setDialog({
+        ...dialog,
+        open: false
+      })
     })
   }
 
