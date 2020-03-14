@@ -5,7 +5,17 @@
 ![alt 项目列表](images/projects.jpg)
 ![alt 编辑器](images/editor.jpg)
 
-## 使用
+## 使用方法
+
+### 安装服务端
+
+[详情参照此项目](https://github.com/MANSOUL/webcode-dev/blob/master/README.md)
+
+### 运行本项目
+
+1. `$ npm install`
+2. `$ npm start`
+3. 浏览器打开 `http://0.0.0.0:7080/project.html`
 
 ## 主要功能
 
