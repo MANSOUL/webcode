@@ -49,7 +49,21 @@
   &__terminal {
     flex-shrink: 0;
     height: 300px;
-    background: #272822;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__terminal-bar {
+    height: 26px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 10px;
+  }
+
+  &__terminal-content {
+    flex-grow: 1;
   }
 
   // footbar

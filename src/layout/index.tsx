@@ -18,6 +18,8 @@ import { getUnsavedFileCount } from '@src/store/files/util'
 import iconCCFile from '@src/aseets/svg/cc-file.svg'
 import iconTheme from '@src/aseets/svg/theme.svg'
 import ThemeList from '@src/containers/themeList'
+import iconClose from '@src/aseets/svg/close.svg'
+import SvgButton from '@src/components/svgButton'
 
 const INITIAL_TERMINAL_HEIGHT = 300
 
@@ -37,6 +39,10 @@ const useStyles = createStyles(theme => ({
     '&:hover': {
       backgroundColor: theme.colors['statusBarItem.hoverBackground']
     }
+  },
+  panel: {
+    backgroundColor:
+      theme.colors['panel.background'] || theme.colors['terminal.background']
   }
 }))
 
@@ -182,9 +188,14 @@ export default function Layout() {
             <div
               style={{ height: INITIAL_TERMINAL_HEIGHT }}
               ref={refTerminalElement}
-              className="webcode-layout__terminal"
+              className={clsx('webcode-layout__terminal', classes.panel)}
             >
-              <XTerminal />
+              <div className="webcode-layout__terminal-bar">
+                <SvgButton svg={iconClose} onClick={handleToggleTerminal} />
+              </div>
+              <div className="webcode-layout__terminal-content">
+                <XTerminal />
+              </div>
             </div>
           ) : null}
         </div>
