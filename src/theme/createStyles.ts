@@ -6,14 +6,20 @@ import { isEqual } from 'lodash'
 
 jss.setup(preset())
 
+type StylesCallback<ClassKey extends string> = (
+  theme: Theme
+) => Record<ClassKey, any>
+
 /**
  *
  * @param creator
  */
-const createStyles = (creator: (theme: Theme) => Record<string, any>) => {
+const createStyles = <ClassKey extends string>(
+  creator: StylesCallback<ClassKey>
+) => {
   let sheet: StyleSheet | null = null
   let prevStyles: Record<string, any> | null = null
-  const useStyles = () => {
+  const useStyles = (): Record<ClassKey, string> => {
     const theme = useTheme()
     const styles = creator(theme.theme)
     // 如果当前和上一个样式的值一样，则直接返回
