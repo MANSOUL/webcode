@@ -22,7 +22,7 @@ import Button from '@src/components/ui/button'
 import { getBase } from '@src/utils/file'
 import useFileChange from './useFileChange'
 import useFiles from './useFiles'
-import MessageQueue from './messageQueue'
+import fileSaver from './fileSaver'
 
 export interface Props {
   fileKey: string
@@ -42,15 +42,10 @@ export default function MyEditor({ fileKey, status }: Props) {
     title: '',
     content: ''
   })
-  const refMessage = React.useRef<MessageQueue>()
   React.useEffect(() => {
     if (refEditor.current && refFile) {
       refEditor.current.focus()
       bindEvent()
-    }
-
-    if (refFile) {
-      refMessage.current = new MessageQueue(refFile.relative)
     }
   }, [])
 
@@ -80,25 +75,40 @@ export default function MyEditor({ fileKey, status }: Props) {
       refEditor.current.onInput(e => {
         if (
           refFile &&
-          refMessage.current &&
           refFile.content !== refEditor.current?.getValue() &&
           !e.isFlush // 手动输入时 isFlush 为false
         ) {
-          refMessage.current.edit(e)
           dispatch(fileModifyFile(fileKey, refEditor.current?.getValue() || ''))
         }
       })
-      refEditor.current.onSave(() => sendSave())
+      refEditor.current.onSave(() => sendSave(
+        refEditor.current?.getValue()
+      ))
     }
   }
 
-  const sendSave = (cb?: () => void) => {
-    if (!refFile) return
-    refMessage.current &&
-      refMessage.current.save(() => {
+  const sendSave = async (content: string | undefined, cb?: () => void) => {
+    if (!refFile || !content) return
+    try {
+      const res = await fileSaver(refFile.relative, content)
+      if (res.status === 200) {
         dispatch(actionFileSaveFile(fileKey))
         cb && cb()
+      } else {
+        setDialog({
+          title: `保存失败，请重试`,
+          content: '',
+          open: true
+        })
+      }
+    } catch (error) {
+      console.log(error)
+      setDialog({
+        title: `网络异常，请稍后重试`,
+        content: '',
+        open: true
       })
+    }
   }
 
   const handleClose = () => {
@@ -126,8 +136,7 @@ export default function MyEditor({ fileKey, status }: Props) {
   }
 
   const handleSaveFile = () => {
-    if (!refFile) return
-    sendSave(() => {
+    sendSave(refEditor.current?.getValue(), () => {
       dispatch(fileCloseFile(fileKey))
       setDialog({
         ...dialog,

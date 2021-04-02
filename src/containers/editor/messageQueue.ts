@@ -23,6 +23,15 @@ export default class MessageQueue {
     this.send()
   }
 
+  getVersion() {
+    const last = this.last()
+    return {
+      versionId: last.versionId + 1,
+      startVersionId: this.queue[0].versionId,
+      endVersionId: last.versionId
+    }
+  }
+
   save(cb: Function | null) {
     const last = this.last()
     if (!last || this.flagSend) {
@@ -32,9 +41,7 @@ export default class MessageQueue {
     this.shouldSave = false
     this.saveCallback = cb
     FileSocket.send(this.relative, this.project, 'save', {
-      versionId: last.versionId + 1,
-      startVersionId: this.queue[0].versionId,
-      endVersionId: last.versionId
+      ...this.getVersion()
     })
   }
 
@@ -63,14 +70,25 @@ export default class MessageQueue {
 
   receipt = (msg: MessageEvent) => {
     const data = JSON.parse(msg.data)
-    const { relative, versionId, type } = data
+    const { ok, receipt } = data
+    const { relative, versionId, type } = receipt
     if (relative !== this.relative) return
-    if (type === 'edit') {
-      this.flagSend = false
-      this.send()
+    if (ok) {
+      if (type === 'edit') {
+        this.flagSend = false
+        this.send()
+      } else if (type === 'save' || type === 'postall') {
+        this.saveCallback && this.saveCallback()
+        this.clear()
+      }
     } else {
-      this.saveCallback && this.saveCallback()
-      this.clear()
+      if (type === 'save') {
+        // 一次性重发所有
+        FileSocket.send(this.relative, this.project, 'postall', {
+          ...this.getVersion(),
+          changes: this.queue
+        })
+      }
     }
   }
 }

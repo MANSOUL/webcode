@@ -17,7 +17,7 @@ export default class FileSocket {
   public static send(
     relative: string,
     project: string,
-    type: 'edit' | 'save',
+    type: 'edit' | 'save' | 'postall',
     data?: any
   ) {
     const ws = FileSocket.getInstance()
